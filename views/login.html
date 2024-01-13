@@ -4,25 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login page</title>
+    <title>Вход</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../css/style.css">
+
 </head>
 
 <body>
-    <div id="navigation">
+    <div id="navbar" class="nav-menu">
         <!-- Add navigation -->
-        <a href="home.html">Начало</a>
+        <a class="icon" href="home.html"><i class="fa-solid fa-house"></i> Начало</a>
         <a href=""></a>
     </div>
 
     <div id="mainContainer">
         <div id="container">
-            <div id="loginContainer">
+            <div id="loginContainer" class="card">
                 <h2>Влезте в профила си</h2>
                 <form>
-                    <input type="text" id="username" name="usernameInput" placeholder="Потребителско име">
-                    <input type="password" id="password" name="passwordInput" placeholder="Парола">
-                    <input id="loginBtn" name="loginBtn" type="submit" value="Вход">
+                    <input class="cardInputField" type="text" id="username" name="usernameInput"
+                        placeholder="Потребителско име">
+                    <input class="cardInputField" type="password" id="password" name="passwordInput"
+                        placeholder="Парола">
+                    <!-- TODO: Add href for register button -->
+                    <p>Нямате профил? <a href="register.html">Регистрация</a></p>
+                    <input id="loginBtn" class="cardBtn" name="loginBtn" type="submit" value="Вход">
                 </form>
             </div>
         </div>
