@@ -1,34 +1,23 @@
-const button =  document.getElementById("registerBtn");
-
-function login() {
+function register() {
     event.preventDefault();
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-    //console.log("username: ", username, " password: ", password);
     const formData = new FormData(document.getElementById("loginForm"));
 
     fetch("../src/register.php",
         {
             method: 'POST',
-            //body: JSON.stringify({ username: username, password: password }),
-            body: formData, 
-            //headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8' }
+            body: formData
         }
     )
-    .then(response => {
-        return response.json();
-    })
-    .then((data) => {
-        console.log("Fetch response:", data.result);
-        
-        if (data.result) {
-            window.location.href = "../views/myProfile.html";
-        } 
+    .then(resp => resp.json())
+    .then(resp => {
+        console.log("Fetch response:", resp);
+
+        if (resp.result) {
+            //location.replace("../views/myProfile.html");
+            window.location.href = '../views/myProfile.html';
+        }
         else {
-            window.alert('Error with registration!');
+            window.alert('Error!');
         }
     });
-
 }
-
-button.addEventListener("submit", login);
