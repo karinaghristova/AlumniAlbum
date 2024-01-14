@@ -1,6 +1,7 @@
 <?php 
 
 require_once "bootstrap.php";
+require_once "database.php";
 require_once "SessionRequestHandler.php";
 
 $result = null;
@@ -11,7 +12,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
     case 'POST':
         echo "post";
-        $result = (new SessionRequestHandler())->register($_POST['username'], $_POST['password']. $_POST['email']);
+        $result = (new SessionRequestHandler())->register($_POST['username'], $_POST['password'], $_POST['email']);
         break;
     case 'DELETE':
         echo "delete";

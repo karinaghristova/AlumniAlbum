@@ -1,7 +1,4 @@
 <?php
-namespace models;
-
-use PDO;
 
 class Database
 {
@@ -16,23 +13,23 @@ class Database
         $this->connection = new PDO("mysql:host={$dbhost};dbname={$dbname}", $username, $pass);
     }
 
-    public function registerUser($username, $password)
-    //public function registerUser($data)
-    {
-        $sql = "INSERT INTO users(username, password) VALUES ( ? , ? )";
-        $stmnt = $this->connection->prepare($sql);
-        $stmnt->execute([$username, $password]);
-        //$stmnt->execute($data);
-    }
+    // public function registerUser($username, $password)
+    // //public function registerUser($data)
+    // {
+    //     $sql = "INSERT INTO users(username, password) VALUES ( ? , ? )";
+    //     $stmnt = $this->connection->prepare($sql);
+    //     $stmnt->execute([$username, $password]);
+    //     //$stmnt->execute($data);
+    // }
 
-    public function selectUser($data)
-    {
-        $sql = "SELECT * FROM users WHERE username=:username AND password=:password";
-        $stmnt = $this->connection->prepare($sql);
-        $stmnt->execute($data);
-    }
+    // public function selectUser($data)
+    // {
+    //     $sql = "SELECT * FROM users WHERE username=:username AND password=:password";
+    //     $stmnt = $this->connection->prepare($sql);
+    //     $stmnt->execute($data);
+    // }
 
-    public function getConnction()
+    public function getConnection()
     {
         return $this->connection; 
     }
