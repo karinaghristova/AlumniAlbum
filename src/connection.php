@@ -38,13 +38,9 @@ try {
             username VARCHAR(30) NOT NULL,
             password VARCHAR(30) NOT NULL,
             email VARCHAR(30) NOT NULL,
-            -- admin TINYINT(1) NOT NULL,
-            -- firstName VARCHAR(255) NOT NULL,
-            -- familyName VARCHAR(255) NOT NULL,
-            -- major VARCHAR(8) NOT NULL,
-            -- class int NOT NULL,
-            -- groupNumber int NOT NULL,
-            PRIMARY KEY (username)
+            role int NOT NULL,
+            PRIMARY KEY (username),
+            UNIQUE (username)
         )";
     $connection->exec($sql);
 
