@@ -28,16 +28,13 @@
                     <input class="cardInputField" type="email" id="email" name="email" placeholder="Имейл">
                     <input class="cardInputField" type="password" id="password" name="password" placeholder="Парола">
                     <input class="cardInputField" type="text" id="class" name="class" placeholder="Випуск">
-                    <select name="major" id="major" placeholder="Специалност">
-                        <option value="info">Информатика</option>
-                        <option value="kn">Компютърни науки</option>
-                        <option value="si">Софтуерно инжинерство</option>
-                        <option value="is">Информационни системи</option>
+                    <select name="user" id="user" placeholder="Потребител">
+                        <option value="student">Студент</option>
+                        <option value="photographer">Фотограф</option>
                     </select>
-                    <input class="cardInputField" type="text" id="groupNumber" name="groupNumber" placeholder="Група">
                    
                     <p>Имате профил? <a href="login.html">Вход</a></p>
-                    <input id="loginBtn" class="cardBtn" name="registerBtn" type="submit" value="Регистрирай се">
+                    <button id="loginBtn" onclick="register()"  class="cardBtn" name="loginBtn">Регистрирай се</button>
                 </form>
             </div>
         </div>
