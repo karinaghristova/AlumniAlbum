@@ -21,20 +21,20 @@
 
     <div id="mainContainer">
         <div id="container">
-            <div id="loginContainer" class="card">
+            <div id="registerContainer" class="card">
                 <h2>Регистрация</h2>
                 <form id="loginForm">
-                    <input class="cardInputField" type="text" id="username" name="username" placeholder="Потребителско име">
+                    <input class="cardInputField" type="text" id="username" name="username"
+                        placeholder="Потребителско име">
                     <input class="cardInputField" type="email" id="email" name="email" placeholder="Имейл">
                     <input class="cardInputField" type="password" id="password" name="password" placeholder="Парола">
-                    <input class="cardInputField" type="text" id="class" name="class" placeholder="Випуск">
-                    <select name="user" id="user" placeholder="Потребител">
-                        <option value="student">Студент</option>
-                        <option value="photographer">Фотограф</option>
+                    <select id="role" class="cardInputField" name="role">
+                        <option value="1">Студент</option>
+                        <option value="2">Фотограф</option>
                     </select>
-                   
                     <p>Имате профил? <a href="login.html">Вход</a></p>
-                    <button id="loginBtn" onclick="register()"  class="cardBtn" name="loginBtn">Регистрирай се</button>
+                    <button id="registerBtn" onclick="register()" class="cardBtn" name="registerBtn">Регистрирай
+                        се</button>
                 </form>
             </div>
         </div>
