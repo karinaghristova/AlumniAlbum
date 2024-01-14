@@ -1,4 +1,4 @@
-function login() {
+function login(event) {
     event.preventDefault();
     const formData = new FormData(document.getElementById("loginForm"));
 

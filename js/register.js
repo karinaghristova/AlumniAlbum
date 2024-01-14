@@ -1,6 +1,8 @@
-function register() {
+function register(event) {
     event.preventDefault();
-    const formData = new FormData(document.getElementById("loginForm"));
+    const formData = new FormData(document.getElementById("registerForm"));
+    
+    // console.log("Form Data:", formData);
 
     fetch("../src/register.php",
         {
@@ -13,7 +15,6 @@ function register() {
         console.log("Fetch response:", resp);
 
         if (resp.result) {
-            //location.replace("../views/myProfile.html");
             window.location.href = '../views/myProfile.html';
         }
         else {
