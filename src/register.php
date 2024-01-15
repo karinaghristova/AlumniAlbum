@@ -15,8 +15,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
             $_POST['username'],
             $_POST['firstName'],
             $_POST['lastName'],
-            $_POST['email'],
             $_POST['password'],
+            $_POST['email'],
             $_POST['role']
         );
         break;

@@ -52,19 +52,11 @@ class SessionRequestHandler
             $insertStatement = $conn->prepare("INSERT INTO users(username, firstName, lastName, password, email, role) VALUES (?, ?, ?, ?, ?, ?)");
             $insertStatement->execute([$username, $firstName, $lastName, $password, $email, $role]);
 
-            //Decomment when tables are created successfully
-
-            // //insert into students table
-            // if($role == 1){
-            //     $insertStatement = $conn->prepare("INSERT INTO students(username) VALUES (?)");
-            //     $insertStatement->execute([$username]);
-            // }
-
-            // //insert into photographers table
-            // if($role == 2){
-            //     $insertStatement = $conn->prepare("INSERT INTO photographers(username) VALUES (?)");
-            //     $insertStatement->execute([$username]);
-            // }
+            //insert into students table
+            if($role == 1){
+                $insertStatement = $conn->prepare("INSERT INTO students(username) VALUES (?)");
+                $insertStatement->execute([$username]);
+            }
 
             return true;
         } else {

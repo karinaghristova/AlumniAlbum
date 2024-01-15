@@ -46,24 +46,17 @@ try {
         )";
     $connection->exec($sql);
     
-    // // Create students table
-    // $sql = "CREATE TABLE students(
-    //         username VARCHAR(30) NOT NULL,
-    //         major VARCHAR(30),
-    //         class VARCHAR(30),
-    //         stream VARCHAR(30),
-    //         group VARCHAR(30),
-    //         FOREIGN KEY (username) REFERENCES users(username)
-    //     )";
-    // $connection->exec($sql);
+    // Create students table
+    $sql = "CREATE TABLE students(
+            username VARCHAR(30) NOT NULL,
+            major VARCHAR(30),
+            class VARCHAR(30),
+            stream VARCHAR(30),
+            administrativeGroup VARCHAR(30),
+            FOREIGN KEY (username) REFERENCES users(username)
+        )";
+    $connection->exec($sql);
 
-    //Tbh photographers table may not be needed if he doesn't have any additional info
-    // // Create photographers table
-    // $sql = "CREATE TABLE photographers(
-    //         username VARCHAR(30) NOT NULL,
-    //         FOREIGN KEY (username) REFERENCES users(username)
-    //     )";
-    // $connection->exec($sql);
 
     // //Create photosession table
     // $sql = "CREATE TABLE photosessions(
