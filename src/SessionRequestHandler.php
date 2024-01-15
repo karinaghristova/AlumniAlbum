@@ -41,8 +41,6 @@ class SessionRequestHandler
             session_start();
         }
     
-        $role = (int)$role;
-    
         $conn = (new Database())->getConnection();
     
         $selectStatement = $conn->prepare('SELECT * FROM users WHERE username = ?');
@@ -59,7 +57,6 @@ class SessionRequestHandler
         }
     }
     
-
     public function logout()
     {
         if (!isset($_SESSION)) {
