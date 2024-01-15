@@ -1,5 +1,5 @@
 function register(event) {
-    event.preventDefault();
+    // event.preventDefault();
     const formData = new FormData(document.getElementById("registerForm"));
     
     // console.log("Form Data:", formData);
@@ -18,7 +18,10 @@ function register(event) {
             window.location.href = '../views/myProfile.html';
         }
         else {
-            window.alert('Error!');
+            window.alert('Error! Something went wrong');
         }
+    })
+    .catch(error => {
+        console.error("Fetch error:", error);
     });
 }
