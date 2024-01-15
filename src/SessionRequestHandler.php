@@ -35,7 +35,7 @@ class SessionRequestHandler
         return $loginSuccessful;
     }
 
-    public function register(string $username, string $password, string $email, $role): bool
+    public function register(string $username, string $firstName, string $lastName, string $password, string $email, $role): bool
     {
         if (!isset($_SESSION)) {
             session_start();
@@ -49,8 +49,23 @@ class SessionRequestHandler
         $user = $selectStatement->fetch();
     
         if (!$user) {
-            $insertStatement = $conn->prepare("INSERT INTO users(username, password, email, role) VALUES (?, ?, ?, ?)");
-            $insertStatement->execute([$username, $password, $email, $role]);
+            $insertStatement = $conn->prepare("INSERT INTO users(username, firstName, lastName, password, email, role) VALUES (?, ?, ?, ?, ?, ?)");
+            $insertStatement->execute([$username, $firstName, $lastName, $password, $email, $role]);
+
+            //Decomment when tables are created successfully
+
+            // //insert into students table
+            // if($role == 1){
+            //     $insertStatement = $conn->prepare("INSERT INTO students(username) VALUES (?)");
+            //     $insertStatement->execute([$username]);
+            // }
+
+            // //insert into photographers table
+            // if($role == 2){
+            //     $insertStatement = $conn->prepare("INSERT INTO photographers(username) VALUES (?)");
+            //     $insertStatement->execute([$username]);
+            // }
+
             return true;
         } else {
             return false;

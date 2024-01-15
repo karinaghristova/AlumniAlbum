@@ -13,8 +13,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
         $result = (new SessionRequestHandler())->register(
             $_POST['username'],
-            $_POST['password'],
+            $_POST['firstName'],
+            $_POST['lastName'],
             $_POST['email'],
+            $_POST['password'],
             $_POST['role']
         );
         break;

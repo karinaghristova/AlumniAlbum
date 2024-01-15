@@ -36,13 +36,45 @@ try {
     // Create users table
     $sql = "CREATE TABLE users(
             username VARCHAR(30) NOT NULL,
+            firstName VARCHAR(30) NOT NULL,
+            lastName VARCHAR(30) NOT NULL, 
             password VARCHAR(30) NOT NULL,
             email VARCHAR(30) NOT NULL,
-            role int NOT NULL,
+            role INT NOT NULL,
             PRIMARY KEY (username),
             UNIQUE (username)
         )";
     $connection->exec($sql);
+    
+    // // Create students table
+    // $sql = "CREATE TABLE students(
+    //         username VARCHAR(30) NOT NULL,
+    //         major VARCHAR(30),
+    //         class VARCHAR(30),
+    //         stream VARCHAR(30),
+    //         group VARCHAR(30),
+    //         FOREIGN KEY (username) REFERENCES users(username)
+    //     )";
+    // $connection->exec($sql);
+
+    //Tbh photographers table may not be needed if he doesn't have any additional info
+    // // Create photographers table
+    // $sql = "CREATE TABLE photographers(
+    //         username VARCHAR(30) NOT NULL,
+    //         FOREIGN KEY (username) REFERENCES users(username)
+    //     )";
+    // $connection->exec($sql);
+
+    // //Create photosession table
+    // $sql = "CREATE TABLE photosessions(
+    //     studentUsername VARCHAR(30) NOT NULL,
+    //     photographerUsername VARCHAR(30) NOT NULL,
+    //     date DATETIME NOT NULL,
+    //     status VARCHAR(30) NOT NULL,
+    //     FOREIGN KEY (studentUsername) REFERENCES students(username) ON DELETE CASCADE,
+    //     FOREIGN KEY (photographerUsername) REFERENCES photographers(username) ON DELETE CASCADE
+    // )";
+    // $connection->exec($sql);
 
     // Create photos table
     // $sql = "CREATE TABLE photos(
@@ -89,8 +121,8 @@ try {
     // $sql = "INSERT INTO users(username, password, email, admin, firstName, familyName, major, class, groupNumber) VALUES 
     //     ('admin', 'admin', 'non-existent@gmail.com', 1, 'Admin', 'Adminov', 'ad', 1992, 1)";
     // $connection->exec($sql);
-    $sql = "INSERT INTO users(username, password, email) VALUES 
-        ('admin', 'admin', 'admin@gmail.com')";
+    $sql = "INSERT INTO users(username, firstName, lastName, password, email) VALUES 
+        ('admin', 'Admin', 'Adminov', 'admin', 'admin@gmail.com')";
     $connection->exec($sql);
 } 
 catch (PDOException $error) {
