@@ -53,7 +53,7 @@ try {
             class VARCHAR(30),
             stream VARCHAR(30),
             administrativeGroup VARCHAR(30),
-            FOREIGN KEY (username) REFERENCES users(username)
+            FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
         )";
     $connection->exec($sql);
 

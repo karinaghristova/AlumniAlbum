@@ -1,5 +1,5 @@
 function register(event) {
-    // event.preventDefault();
+    event.preventDefault();
     const formData = new FormData(document.getElementById("registerForm"));
     
     // console.log("Form Data:", formData);

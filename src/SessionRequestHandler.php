@@ -25,15 +25,16 @@ class SessionRequestHandler
             return false; // User not found
         }
     
-        // Compare plain text password
         $loginSuccessful = ($password === $user["password"]);
     
         if ($loginSuccessful) {
             $_SESSION['username'] = $username;
+            $_SESSION['role'] = (int)$user['role'];
         }
     
         return $loginSuccessful;
     }
+    
     
 
     public function register(string $username, string $firstName, string $lastName, string $password, string $email, $role): bool
@@ -88,14 +89,14 @@ class SessionRequestHandler
     }
 
     public function getUserRole(string $username): ?int
-{
-    $conn = (new Database())->getConnection();
+    {
+        $conn = (new Database())->getConnection();
 
-    $selectStatement = $conn->prepare('SELECT role FROM users WHERE username = ?');
-    $selectStatement->execute([$username]);
+        $selectStatement = $conn->prepare('SELECT role FROM users WHERE username = ?');
+        $selectStatement->execute([$username]);
 
-    $user = $selectStatement->fetch();
+        $user = $selectStatement->fetch();
 
-    return $user ? (int)$user['role'] : null;
-}
+        return $user ? (int)$user['role'] : null;
+    }
 }
