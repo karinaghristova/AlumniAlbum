@@ -59,7 +59,7 @@ body {
     font-size: 16px;
 }
 
-.cardBtn {
+.cardBtn{
     border: none;
     outline: 0;
     display: inline-block;
@@ -71,3 +71,91 @@ body {
     width: 100%;
     font-size: 18px;
 }
+
+.profileInfoCard{
+    box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    margin: auto;
+    margin-top: 100px;
+    text-align: center;
+    border-radius: 10%;
+    padding-bottom: 20px;
+}
+
+.profileInfoCard h2{
+    background-color: #482673;
+    color: white;
+    padding-top: 0px;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.cardField{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 80%;
+    font-size: 16px;
+    text-align: start;
+    padding-left: 30px;
+    padding-bottom: 5px;
+}
+
+.cardSmallBtn{
+    margin-top: 10px;
+    border: none;
+    display: inline-block;
+    padding: 10px;
+    color: white;
+    background-color: #482673;
+    text-align: center;
+    font-size: 18px;
+    border-radius: 12px;
+}
+
+.cardSmallBtn:hover{
+    background-color: #4CBFA6;
+    color: #023B59;
+}
+
+.bolded{
+    font-weight: bold;
+    font-size: 17px;
+    color: #023B59;
+}
+
+.cardPhoto{
+    width:150px;
+}
+
+.flip-container {
+    perspective: 1000px;
+    height: 150px;
+    position: relative;
+}
+
+.flip-container:hover .flipper {
+    transform: rotateY(180deg);
+}
+
+.flipper {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.front,
+.back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+}
+
+.front {
+    z-index: 2;
+}
+
+.back {
+    transform: rotateY(180deg);
+}
+
