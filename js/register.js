@@ -15,7 +15,8 @@ function register(event) {
         console.log("Fetch response:", resp);
 
         if (resp.result) {
-            window.location.href = '../views/myProfile.html';
+            //TODO: fix redirect according to user role
+            window.location.href = '../views/studentProfileBasic.html';
         }
         else {
             window.alert('Error! Something went wrong');

@@ -13,7 +13,8 @@ function login(event) {
             console.log("Fetch response:", resp);
 
             if (resp.result) {
-                location.replace("../views/myProfile.html");
+                //TODO: fix redirect
+                location.replace("../views/ProfileBasic.html");
             }
             else {
                 window.alert('Error!');
