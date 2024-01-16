@@ -36,7 +36,6 @@ class SessionRequestHandler
     }
     
     
-
     public function register(string $username, string $firstName, string $lastName, string $password, string $email, $role): bool
     {
         if (!isset($_SESSION)) {

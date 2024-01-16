@@ -20,9 +20,9 @@ function login(event) {
 
                     // Redirect based on user role
                     if (roleResp.role === 1) {
-                        window.location.href = '../views/studentProfileBasic.html';
+                        window.location.href = '../views/homePageStudent.html';
                     } else if (roleResp.role === 2) {
-                        window.location.href = '../views/photographerProfileBasic.html';
+                        window.location.href = '../views/homePagePhotographer.html';
                     } else {
                         // Default redirection or error handling
                         window.location.href = '../views/defaultProfile.html';
