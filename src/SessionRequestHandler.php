@@ -13,27 +13,28 @@ class SessionRequestHandler
         if (!isset($_SESSION)) {
             session_start();
         }
-
+    
         $conn = (new Database())->getConnection();
-
+    
         $selectStatement = $conn->prepare('SELECT * FROM users WHERE username = ?');
         $selectStatement->execute([$username]);
-
+    
         $user = $selectStatement->fetch();
-        //echo json_encode($user["password"]);
+    
         if (!$user) {
-            return false; // user does not exist
+            return false; // User not found
         }
-
-        $loginSuccessful = password_verify($password, $user["password"]);
-        //echo password_verify($password, $user["password"]);
-
+    
+        // Compare plain text password
+        $loginSuccessful = ($password === $user["password"]);
+    
         if ($loginSuccessful) {
             $_SESSION['username'] = $username;
         }
-
+    
         return $loginSuccessful;
     }
+    
 
     public function register(string $username, string $firstName, string $lastName, string $password, string $email, $role): bool
     {
@@ -70,5 +71,31 @@ class SessionRequestHandler
             session_start();
         }
         session_destroy();
+
+        // if (!isset($_SESSION)) {
+        //     session_start();
+        // }
+
+        // // Destroy the session
+        // session_destroy();
+
+        // // Unset session variables
+        // $_SESSION = [];
+
+        // // Redirect user to login page
+        // header('Location: ../views/login.html');
+        // exit();
     }
+
+    public function getUserRole(string $username): ?int
+{
+    $conn = (new Database())->getConnection();
+
+    $selectStatement = $conn->prepare('SELECT role FROM users WHERE username = ?');
+    $selectStatement->execute([$username]);
+
+    $user = $selectStatement->fetch();
+
+    return $user ? (int)$user['role'] : null;
+}
 }

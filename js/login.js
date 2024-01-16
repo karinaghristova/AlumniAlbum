@@ -1,6 +1,8 @@
 function login(event) {
-    event.preventDefault();
+    // event.preventDefault();
     const formData = new FormData(document.getElementById("loginForm"));
+
+    console.log(formData);
 
     fetch("../src/login.php",
         {
@@ -14,10 +16,12 @@ function login(event) {
 
             if (resp.result) {
                 //TODO: fix redirect
-                location.replace("../views/ProfileBasic.html");
+                location.replace("../views/studentProfileBasic.html");
             }
             else {
+                console.error('Login failed:', resp.error); 
                 window.alert('Error!');
             }
-        });
+        }).catch(error => console.error('Fetch error:', error));
 }; 
+
