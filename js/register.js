@@ -16,7 +16,7 @@ function register(event) {
 
         if (resp.result) {
             //TODO: fix redirect according to user role
-            window.location.href = '../views/studentProfileBasic.html';
+            window.location.href = '../views/login.html';
         }
         else {
             window.alert('Error! Something went wrong');
