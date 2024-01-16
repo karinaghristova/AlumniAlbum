@@ -20,7 +20,7 @@ function login(event) {
 
                     // Redirect based on user role
                     if (roleResp.role === 1) {
-                        window.location.href = '../views/studentProfileBasic.html';
+                        window.location.href = '../views/studentProfileBasic.php';
                     } else if (roleResp.role === 2) {
                         window.location.href = '../views/photographerProfileBasic.html';
                     } else {
