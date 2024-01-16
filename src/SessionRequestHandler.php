@@ -88,4 +88,15 @@ class SessionRequestHandler
 
         return $user ? (int)$user['role'] : null;
     }
+
+    public function editProfileFirstName(string $firstName, string $username)
+    {
+        $conn = (new Database())->getConnection();
+
+        $selectStatement = $conn->prepare("UPDATE users SET firstName = '$firstName' WHERE username = '$username'");
+        $selectStatement->execute();
+    
+        $user = $selectStatement->fetch();
+        return true; 
+    }
 }
