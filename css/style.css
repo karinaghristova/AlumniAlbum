@@ -15,16 +15,23 @@ body {
     flex-direction: column;
 }
 
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .nav-menu {
     overflow: hidden;
     position: fixed;
     width: 100%;
     background-color: #ED0B70;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
 }
 
 .nav-menu a {
-    float: left;
-    display: block;
     color: white;
     text-align: center;
     text-decoration: none;
@@ -32,6 +39,13 @@ body {
     padding: 10px 10px;
 }
 
+.logoutIcon {
+    margin-left: auto; /* Push the logout button to the right */
+}
+
+.logoutIcon:hover {
+    color: #482673;
+}
 .card {
     box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.2);
     max-width: 300px;

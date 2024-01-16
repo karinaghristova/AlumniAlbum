@@ -71,21 +71,10 @@ class SessionRequestHandler
         if (!isset($_SESSION)) {
             session_start();
         }
+
         session_destroy();
 
-        // if (!isset($_SESSION)) {
-        //     session_start();
-        // }
-
-        // // Destroy the session
-        // session_destroy();
-
-        // // Unset session variables
-        // $_SESSION = [];
-
-        // // Redirect user to login page
-        // header('Location: ../views/login.html');
-        // exit();
+        $_SESSION = [];
     }
 
     public function getUserRole(string $username): ?int

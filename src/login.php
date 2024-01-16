@@ -16,7 +16,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
     case 'DELETE':
         // echo "delete";
-        (new SessionRequestHandler())->Logout();
+        (new SessionRequestHandler())->logout();
         $result = true;
         break;
     default:
