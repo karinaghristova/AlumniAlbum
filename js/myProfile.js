@@ -9,38 +9,32 @@ function fetchProfileData() {
             if (data.userData) {
                 const userData = data.userData;
 
-                // Clear existing content
                 clearProfileContent();
-
-                // Update user information in the profile container
                 updateProfileContent(userData);
             } else {
                 console.error("Error fetching profile data:", data.error);
-                // Handle the case where there's an error fetching the profile data
             }
         })
         .catch(error => {
             console.error("Error fetching profile data:", error);
-            // Handle fetch errors
         });
 }
 
+// Clear existing content
 function clearProfileContent() {
-    // Clear existing content in the baseInfoContainer
     const baseInfoContainer = document.getElementById("baseInfoContainer");
     baseInfoContainer.innerHTML = "";
 }
 
+// Create new elements for the container
 function updateProfileContent(userData) {
-    // Create new elements and append them to the baseInfoContainer
     const baseInfoContainer = document.getElementById("baseInfoContainer");
 
-    // Create a heading
     const heading = document.createElement("h2");
     heading.textContent = "Основна информация";
     baseInfoContainer.appendChild(heading);
 
-    // Create an image container with flip functionality
+    // Flipping image start
     const imageContainer = document.createElement("div");
     imageContainer.className = "flip-container";
 
@@ -81,53 +75,157 @@ function updateProfileContent(userData) {
     imageContainer.appendChild(flipper);
 
     baseInfoContainer.appendChild(imageContainer);
+    // Flipping image end
 
-    // Create <p> elements for each user data field
-    createProfileField("Потребителско име:", userData.username, 'username', baseInfoContainer);
-    createProfileField("Собствено име:", userData.firstName, 'firstName', baseInfoContainer);
-    createProfileField("Фамилно име:", userData.lastName, 'lastName', baseInfoContainer);
-    createProfileField("Имейл:", userData.email, 'email', baseInfoContainer);
+    // Create user data fields
+    createProfileFieldParagraphs("Потребителско име:", userData.username, 'username', baseInfoContainer);
+    createProfileFieldParagraphs("Собствено име:", userData.firstName, 'firstName', baseInfoContainer);
+    createProfileFieldParagraphs("Фамилно име:", userData.lastName, 'lastName', baseInfoContainer);
+    createProfileFieldParagraphs("Имейл:", userData.email, 'email', baseInfoContainer);
 
-    if (userData.role === 1) {
-        createProfileField("Специалност:", userData.major, 'major', baseInfoContainer);
-        createProfileField("Випуск:", userData.class, 'class', baseInfoContainer);
-        createProfileField("Поток:", userData.stream, 'stream', baseInfoContainer);
-        createProfileField("Група:", userData.administrativeGroup, 'administrativeGroup', baseInfoContainer);
-    }
-
-    // Create an "Edit" button
+    // Edit button
     const editBtn = document.createElement("button");
     editBtn.id = "editBtn";
     editBtn.className = "cardSmallBtn";
     editBtn.name = "editBtn";
-    editBtn.textContent = "Редактирай информация";
+    editBtn.textContent = "Редактирай основна информация";
     baseInfoContainer.appendChild(editBtn);
+
+    // Create student academical information fields
+    if (userData.role === 1) {
+        createProfileFieldParagraphs("Специалност: ", userData.major, 'major', baseInfoContainer);
+        createProfileFieldParagraphs("Випуск: ", userData.class, 'class', baseInfoContainer);
+        createProfileFieldParagraphs("Поток: ", userData.stream, 'stream', baseInfoContainer);
+        createProfileFieldParagraphs("Група: ", userData.administrativeGroup, 'administrativeGroup', baseInfoContainer);
+    }
+
+    // Edit button
+    const editAcademicBtn = document.createElement("button");
+    editAcademicBtn.id = "editAcademicBtn";
+    editAcademicBtn.className = "cardSmallBtn";
+    editAcademicBtn.name = "editAcademicBtn";
+    editAcademicBtn.textContent = "Редактирай академична информация";
+    baseInfoContainer.appendChild(editAcademicBtn);
+
+    //Add event listeners for editing basic profile information
+    const editBttn = document.getElementById("editBtn");
+    editBttn.addEventListener("click", () => handleEditBasicInformation(userData));
+
+    //Add event listeners for editing academic profile information
+    if (userData.role === 1) {
+        const editAcademicBtn = document.getElementById("editAcademicBtn");
+        editAcademicBtn.addEventListener("click", () => handleEditAcademicInformation(userData));
+    }
 }
 
-function createProfileField(label, value, valueNameLatin, container) {
-    // Create a <p> element for a user data field
+function createProfileFieldParagraphs(infoType, infoValue, valueIdAndName, parentContainer) {
+    // Create  user data field
     const fieldParagraph = document.createElement("p");
     fieldParagraph.className = "cardField";
 
-    // Create a <span> element for the bold and colored label
+    // Info type
     const labelSpan = document.createElement("span");
     labelSpan.className = "bolded";
-    labelSpan.textContent = label;
+    labelSpan.textContent = infoType;
 
-    // Create a <span> element for the value
+    // Info value
     const valueSpan = document.createElement("span");
-    valueSpan.id = valueNameLatin;
-    valueSpan.name = valueNameLatin;
-    valueSpan.textContent = value;
+    valueSpan.id = valueIdAndName;
+    valueSpan.name = valueIdAndName;
+    valueSpan.textContent = infoValue;
 
-    // Append the label and value spans to the field paragraph
+    // Magic happens here :)
     fieldParagraph.appendChild(labelSpan);
     fieldParagraph.appendChild(valueSpan);
-
-    // Append the field paragraph to the specified container
-    container.appendChild(fieldParagraph);
+    parentContainer.appendChild(fieldParagraph);
 }
 
+function isString(value) {
+    return typeof value === 'string' || value instanceof String;
+}
+
+// whole and positive
+function isValidNumber(value) {
+    return /^\d+$/.test(value) && parseInt(value, 10) > 0;
+}
+
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function handleEditBasicInformation(userData) {
+    // Show form or modal
+    const newFirstName = prompt("Въведете ново собствено име:", userData.firstName);
+    const newLastName = prompt("Въведете ново фамилно:", userData.lastName);
+    const newEmail = prompt("Въведете нов имейл:", userData.email);
+
+    // Validate input
+    if (newFirstName.trim() === "" || !isString(newFirstName)
+    || newLastName.trim() === "" || !isString(newLastName)
+    || newEmail.trim() === "" || !isValidEmail(newEmail)) {
+        alert("Моля попълнете всички полета!");
+        return;
+    }
+
+    // Actual code that edits basic information
+    fetch("../src/myProfile.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `editBasicInfo=true&newFirstName=${newFirstName}&newLastName=${newLastName}&newEmail=${newEmail}`,
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Edit basic information response:", data);
+        if (data.success) {
+            location.reload();
+        } else {
+            alert("Грешка при опит за редактиране на информацията. Опитайте отново.");
+        }
+    })
+    .catch(error => {
+        console.error("Грешка при опит за редактиране на информацията:", error);
+    });
+
+    location.reload();
+}
+
+function handleEditAcademicInformation(userData) {
+    // Show form or modal 
+    const newMajor = prompt("Въведете нова специалност:", userData.major);
+    const newClass = prompt("Въведете нов випуск (година):", userData.class);
+    const newStream = prompt("Въведете нов поток (цяло положително число):", userData.stream);
+    const newAdministrativeGroup = prompt("Въведете нова група (цяло положително число):", userData.administrativeGroup);
+
+    if (newMajor.trim() === "" || !isString(newMajor)
+    || newClass.trim() === "" || !isValidNumber(newClass)
+    || newStream.trim() === "" || isValidNumber(newStream)
+    || newAdministrativeGroup.trim() === "" || isValidNumber(newAdministrativeGroup)) {
+        alert("Моля попълнете всички полета!");
+        return; // Stop further execution
+    }
+
+    // Actual code that edits academic information
+    fetch("../src/myProfile.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `editAcademicInfo=true&newMajor=${newMajor}&newClass=${newClass}&newStream=${newStream}&newAdministrativeGroup=${newAdministrativeGroup}`,
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Edit academic information response:", data);
+        fetchProfileData();
+    })
+    .catch(error => {
+        console.error("Грешка при опит за редактиране на академичната информация:", error);
+    });
+
+    location.reload();
+}
 
 // Call the fetchProfileData function when the page loads
 document.addEventListener("DOMContentLoaded", fetchProfileData);

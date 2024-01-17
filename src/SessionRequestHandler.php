@@ -127,5 +127,34 @@ class SessionRequestHandler
 
         return $userData;
     }
+
+    public function editBasicInformation($username, $newFirstName, $newLastName, $newEmail) {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        $conn = (new Database())->getConnection();
+
+        // Update the basic information in the 'users' table
+        $updateStatement = $conn->prepare('UPDATE users SET firstName = ?, lastName = ?, email = ? WHERE username = ?');
+        $updateStatement->execute([$newFirstName, $newLastName, $newEmail, $username]);
+
+        // If you have additional logic or validation, add it here
+
+        return true; // Success
+    }
     
+    public function editAcademicInformation($username, $newMajor, $newClass, $newStream, $newAdministrativeGroup) {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        $conn = (new Database())->getConnection();
+
+        // Update the academic information in the 'students' table
+        $updateStatement = $conn->prepare('UPDATE students SET major = ?, class = ?, stream = ?, administrativeGroup = ? WHERE username = ?');
+        $updateStatement->execute([$newMajor, $newClass, $newStream, $newAdministrativeGroup, $username]);
+
+        // If you have additional logic or validation, add it here
+
+        return true; // Success
+    }
 }
