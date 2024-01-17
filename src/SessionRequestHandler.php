@@ -3,11 +3,32 @@
 class SessionRequestHandler
 {
 
+    
     public function checkLoginStatus(): bool
     {
         return isset($_SESSION["username"]);
     }
 
+    public function getUserRole(string $username): ?int
+    {
+        $conn = (new Database())->getConnection();
+
+        $selectStatement = $conn->prepare('SELECT role FROM users WHERE username = ?');
+        $selectStatement->execute([$username]);
+
+        $user = $selectStatement->fetch();
+
+        return $user ? (int)$user['role'] : null;
+    }
+
+     public function getUserDataByUsername(string $username): array
+    {
+        $conn = (new Database())->getConnection();
+        $selectStatement = $conn->prepare('SELECT username, firstName, lastName, email, role FROM users WHERE username = ?');
+        $selectStatement->execute([$username]);
+
+        return $selectStatement->fetch(PDO::FETCH_ASSOC);
+    }
     public function login(string $username, string $password): bool
     {
         if (!isset($_SESSION)) {
@@ -76,15 +97,35 @@ class SessionRequestHandler
         $_SESSION = [];
     }
 
-    public function getUserRole(string $username): ?int
+    public function getProfileData(string $username): ?array
     {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $conn = (new Database())->getConnection();
-
-        $selectStatement = $conn->prepare('SELECT role FROM users WHERE username = ?');
+        $selectStatement = $conn->prepare('SELECT username, firstName, lastName, email, role FROM users WHERE username = ?');
         $selectStatement->execute([$username]);
 
-        $user = $selectStatement->fetch();
+        $user = $selectStatement->fetch(PDO::FETCH_ASSOC);
 
-        return $user ? (int)$user['role'] : null;
+        if (!$user) {
+            return null; // User not found
+        }
+
+        // Additional data based on user role
+        if ($user['role'] == 1) {
+            // Student profile data
+            $selectStatement = $conn->prepare('SELECT major, class, stream, administrativeGroup FROM students WHERE username = ?');
+            $selectStatement->execute([$username]);
+            $additionalData = $selectStatement->fetch(PDO::FETCH_ASSOC);
+        } else {
+            $additionalData = []; // Add other roles as needed
+        }
+
+        // Merge user data and additional data
+        $userData = array_merge($user, $additionalData);
+
+        return $userData;
     }
+    
 }
