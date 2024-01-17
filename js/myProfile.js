@@ -48,7 +48,7 @@ function updateProfileContent(userData) {
         frontImage.src = "../img/femaleAlumni.png";
     } else if (userData.role === 2) {
         frontImage.src = "../img/femalePhotographer.png";
-    }  else {
+    } else {
         frontImage.src = "../img/femaleAdmin.jpg";
     }
     frontImage.alt = "avatar front image";
@@ -62,7 +62,7 @@ function updateProfileContent(userData) {
         backImage.src = "../img/maleAlumni.png"; // Student role
     } else if (userData.role === 2) {
         backImage.src = "../img/malePhotographer.png";
-    }  else {
+    } else {
         // Set a default image or handle other roles as needed
         backImage.src = "../img/maleAdmin.jpg";
     }
@@ -91,30 +91,30 @@ function updateProfileContent(userData) {
     editBtn.textContent = "Редактирай основна информация";
     baseInfoContainer.appendChild(editBtn);
 
+    //Add event listener for editing basic profile information
+    const editBttn = document.getElementById("editBtn");
+    editBttn.addEventListener("click", () => handleEditBasicInformation(userData));
+
     // Create student academical information fields
     if (userData.role === 1) {
         createProfileFieldParagraphs("Специалност: ", userData.major, 'major', baseInfoContainer);
         createProfileFieldParagraphs("Випуск: ", userData.class, 'class', baseInfoContainer);
         createProfileFieldParagraphs("Поток: ", userData.stream, 'stream', baseInfoContainer);
         createProfileFieldParagraphs("Група: ", userData.administrativeGroup, 'administrativeGroup', baseInfoContainer);
-    }
 
-    // Edit button
-    const editAcademicBtn = document.createElement("button");
-    editAcademicBtn.id = "editAcademicBtn";
-    editAcademicBtn.className = "cardSmallBtn";
-    editAcademicBtn.name = "editAcademicBtn";
-    editAcademicBtn.textContent = "Редактирай академична информация";
-    baseInfoContainer.appendChild(editAcademicBtn);
+        // Edit button
+        const editAcademicBtn = document.createElement("button");
+        editAcademicBtn.id = "editAcademicBtn";
+        editAcademicBtn.className = "cardSmallBtn";
+        editAcademicBtn.name = "editAcademicBtn";
+        editAcademicBtn.textContent = "Редактирай академична информация";
+        baseInfoContainer.appendChild(editAcademicBtn);
 
-    //Add event listeners for editing basic profile information
-    const editBttn = document.getElementById("editBtn");
-    editBttn.addEventListener("click", () => handleEditBasicInformation(userData));
-
-    //Add event listeners for editing academic profile information
-    if (userData.role === 1) {
-        const editAcademicBtn = document.getElementById("editAcademicBtn");
-        editAcademicBtn.addEventListener("click", () => handleEditAcademicInformation(userData));
+        //Add event listener for editing academic profile information
+        if (userData.role === 1) {
+            const editAcademicBtn = document.getElementById("editAcademicBtn");
+            editAcademicBtn.addEventListener("click", () => handleEditAcademicInformation(userData));
+        }
     }
 }
 
@@ -162,8 +162,8 @@ function handleEditBasicInformation(userData) {
 
     // Validate input
     if (newFirstName.trim() === "" || !isString(newFirstName)
-    || newLastName.trim() === "" || !isString(newLastName)
-    || newEmail.trim() === "" || !isValidEmail(newEmail)) {
+        || newLastName.trim() === "" || !isString(newLastName)
+        || newEmail.trim() === "" || !isValidEmail(newEmail)) {
         alert("Моля попълнете всички полета!");
         return;
     }
@@ -176,18 +176,18 @@ function handleEditBasicInformation(userData) {
         },
         body: `editBasicInfo=true&newFirstName=${newFirstName}&newLastName=${newLastName}&newEmail=${newEmail}`,
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Edit basic information response:", data);
-        if (data.success) {
-            location.reload();
-        } else {
-            alert("Грешка при опит за редактиране на информацията. Опитайте отново.");
-        }
-    })
-    .catch(error => {
-        console.error("Грешка при опит за редактиране на информацията:", error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            console.log("Edit basic information response:", data);
+            if (data.success) {
+                location.reload();
+            } else {
+                alert("Грешка при опит за редактиране на информацията. Опитайте отново.");
+            }
+        })
+        .catch(error => {
+            console.error("Грешка при опит за редактиране на информацията:", error);
+        });
 
     location.reload();
 }
@@ -200,9 +200,9 @@ function handleEditAcademicInformation(userData) {
     const newAdministrativeGroup = prompt("Въведете нова група (цяло положително число):", userData.administrativeGroup);
 
     if (newMajor.trim() === "" || !isString(newMajor)
-    || newClass.trim() === "" || !isValidNumber(newClass)
-    || newStream.trim() === "" || isValidNumber(newStream)
-    || newAdministrativeGroup.trim() === "" || isValidNumber(newAdministrativeGroup)) {
+        || newClass.trim() === "" || !isValidNumber(newClass)
+        || newStream.trim() === "" || isValidNumber(newStream)
+        || newAdministrativeGroup.trim() === "" || isValidNumber(newAdministrativeGroup)) {
         alert("Моля попълнете всички полета!");
         return; // Stop further execution
     }
@@ -215,14 +215,14 @@ function handleEditAcademicInformation(userData) {
         },
         body: `editAcademicInfo=true&newMajor=${newMajor}&newClass=${newClass}&newStream=${newStream}&newAdministrativeGroup=${newAdministrativeGroup}`,
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Edit academic information response:", data);
-        fetchProfileData();
-    })
-    .catch(error => {
-        console.error("Грешка при опит за редактиране на академичната информация:", error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            console.log("Edit academic information response:", data);
+            fetchProfileData();
+        })
+        .catch(error => {
+            console.error("Грешка при опит за редактиране на академичната информация:", error);
+        });
 
     location.reload();
 }
