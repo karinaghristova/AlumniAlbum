@@ -26,9 +26,9 @@ body {
     position: fixed;
     width: 100%;
     background-color: #ED0B70;
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .nav-menu a {
@@ -40,12 +40,13 @@ body {
 }
 
 .logoutIcon {
-    margin-left: auto; /* Push the logout button to the right */
+    margin-left: auto;
 }
 
 .logoutIcon:hover {
     color: #482673;
 }
+
 .card {
     box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.2);
     max-width: 300px;
@@ -56,24 +57,24 @@ body {
     border-radius: 10%;
 }
 
-.card h2{
+.card h2 {
     color: #482673;
 }
 
-.cardInputField{
+.cardInputField {
     margin-top: 10px;
     margin-bottom: 10px;
     width: 80%;
     font-size: 16px;
-} 
+}
 
-.card a{
+.card a {
     color: #4CBFA6;
     text-decoration: none;
     font-size: 16px;
 }
 
-.cardBtn{
+.cardBtn {
     border: none;
     outline: 0;
     display: inline-block;
@@ -86,7 +87,7 @@ body {
     font-size: 18px;
 }
 
-.profileInfoCard{
+.profileInfoCard {
     box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.2);
     max-width: 400px;
     margin: auto;
@@ -96,7 +97,7 @@ body {
     padding-bottom: 20px;
 }
 
-.profileInfoCard h2{
+.profileInfoCard h2 {
     background-color: #482673;
     color: white;
     padding-top: 0px;
@@ -104,7 +105,7 @@ body {
     margin-bottom: 5px;
 }
 
-.cardField{
+.cardField {
     margin-top: 10px;
     margin-bottom: 10px;
     width: 80%;
@@ -114,7 +115,7 @@ body {
     padding-bottom: 5px;
 }
 
-.cardSmallBtn{
+.cardSmallBtn {
     margin-top: 10px;
     border: none;
     display: inline-block;
@@ -126,19 +127,19 @@ body {
     border-radius: 12px;
 }
 
-.cardSmallBtn:hover{
+.cardSmallBtn:hover {
     background-color: #4CBFA6;
     color: #023B59;
 }
 
-.bolded{
+.bolded {
     font-weight: bold;
     font-size: 17px;
     color: #023B59;
 }
 
-.cardPhoto{
-    width:150px;
+.cardPhoto {
+    width: 150px;
 }
 
 .flip-container {
@@ -172,4 +173,3 @@ body {
 .back {
     transform: rotateY(180deg);
 }
-
