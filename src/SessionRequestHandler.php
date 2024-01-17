@@ -122,13 +122,19 @@ class SessionRequestHandler
             $additionalData = []; // Add other roles as needed
         }
 
+        $selectStatement = $conn->prepare('SELECT title FROM albums WHERE ownerUsername = ?');
+        $selectStatement->execute([$username]);
+        $albumData = [];
+        $albumData = $selectStatement->fetch(PDO::FETCH_ASSOC);
+
         // Merge user data and additional data
-        $userData = array_merge($user, $additionalData);
+        $userData = array_merge($user, $additionalData, $albumData);
 
         return $userData;
     }
 
-    public function editBasicInformation($username, $newFirstName, $newLastName, $newEmail) {
+    public function editBasicInformation($username, $newFirstName, $newLastName, $newEmail) 
+    {
         if (!isset($_SESSION)) {
             session_start();
         }
@@ -143,7 +149,8 @@ class SessionRequestHandler
         return true; // Success
     }
     
-    public function editAcademicInformation($username, $newMajor, $newClass, $newStream, $newAdministrativeGroup) {
+    public function editAcademicInformation($username, $newMajor, $newClass, $newStream, $newAdministrativeGroup) 
+    {
         if (!isset($_SESSION)) {
             session_start();
         }
@@ -156,5 +163,32 @@ class SessionRequestHandler
         // If you have additional logic or validation, add it here
 
         return true; // Success
+    }
+
+    public function uploadImage($albumId, $name, $data)
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        $conn = (new Database())->getConnection();
+
+        $insertStatement = $conn->prepare("INSERT INTO photos(albumId, name, data) VALUES (?, ?, ?)");
+        $insertStatement->execute([$albumId, $name, $data]);
+        $user = $insertStatement->fetch();
+
+        return true; 
+    }
+
+    public function displayImage($id)
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        $conn = (new Database())->getConnection();
+
+        $selectStatement = $conn->prepare("SELECT name, data FROM photos WHERE id=?");
+        $selectStatement->execute([$id]);
+
+        $user = $selectStatement->fetch(PDO::FETCH_ASSOC);
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-$dbhost = "127.0.0.1";
-$username = "root";
-$pass = "";
-$dbname = "alumni_album";
+// $dbhost = "127.0.0.1";
+// $username = "root";
+// $pass = "";
+// $dbname = "alumni_album";
 
 // $connection = mysqli_connect($dbhost,$username,$pass,$dbname);
 // $sql = "CREATE DATABASE IF NOT EXISTS $dbname";
@@ -57,7 +57,6 @@ try {
         )";
     $connection->exec($sql);
 
-
     // //Create photosession table
     // $sql = "CREATE TABLE photosessions(
     //     studentUsername VARCHAR(30) NOT NULL,
@@ -70,25 +69,26 @@ try {
     // $connection->exec($sql);
 
     // // Create albums table
-    // $sql = "CREATE TABLE albums(
-    //     id INT NOT NULL AUTO_INCREMENT,
-    //     title VARCHAR(100) NOT NULL,
-    //     ownerUsername VARCHAR(30) NOT NULL,
-    //      //should probably have some reference to a photosession, so that everyone from the photosession can see it
-    //     PRIMARY KEY (id),
-    //     FOREIGN KEY (ownerUsername) REFERENCES users(username) ON DELETE CASCADE,
-    // )";
-    // $connection->exec($sql);
+    $sql = "CREATE TABLE albums(
+        id INT NOT NULL AUTO_INCREMENT,
+        title VARCHAR(100) NOT NULL,
+        ownerUsername VARCHAR(30) NOT NULL,
+        --  //should probably have some reference to a photosession, so that everyone from the photosession can see it
+        PRIMARY KEY (id),
+        FOREIGN KEY (ownerUsername) REFERENCES users(username) ON DELETE CASCADE
+    )";
+    $connection->exec($sql);
 
-    // // Create photos table
-    // $sql = "CREATE TABLE photos(
-    //     id INT NOT NULL AUTO_INCREMENT,
-    //     albumId INT NOT NULL,
-    //     name VARCHAR(255) NOT NULL,
-    //     PRIMARY KEY (id),
-    //     FOREIGN KEY (albumId) REFERENCES albums(id) ON DELETE CASCADE,
-    // )";
-    // $connection->exec($sql);
+    // Create photos table
+    $sql = "CREATE TABLE photos(
+        id INT NOT NULL AUTO_INCREMENT,
+        albumId INT NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        data LONGBLOB NOT NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY (albumId) REFERENCES albums(id) ON DELETE CASCADE
+    )";
+    $connection->exec($sql);
 
 
     // // // Add admin
@@ -97,6 +97,12 @@ try {
     // $connection->exec($sql);
     $sql = "INSERT INTO users(username, firstName, lastName, password, email) VALUES 
         ('admin', 'Admin', 'Adminov', 'admin', 'admin@gmail.com')";
+    $connection->exec($sql);
+    $sql = "INSERT INTO users(username, firstName, lastName, password, email, role) VALUES 
+        ('pesho', 'Petar', 'Petrov', '1234', 'pesho@gmail.com', 1)";
+    $connection->exec($sql);
+    $sql = "INSERT INTO albums(id, title, ownerUsername) VALUES 
+        ('1', 'proba', 'pesho')";
     $connection->exec($sql);
 } 
 catch (PDOException $error) {
