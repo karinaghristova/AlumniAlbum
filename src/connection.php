@@ -69,46 +69,27 @@ try {
     // )";
     // $connection->exec($sql);
 
-    // Create photos table
+    // // Create albums table
+    // $sql = "CREATE TABLE albums(
+    //     id INT NOT NULL AUTO_INCREMENT,
+    //     title VARCHAR(100) NOT NULL,
+    //     ownerUsername VARCHAR(30) NOT NULL,
+    //      //should probably have some reference to a photosession, so that everyone from the photosession can see it
+    //     PRIMARY KEY (id),
+    //     FOREIGN KEY (ownerUsername) REFERENCES users(username) ON DELETE CASCADE,
+    // )";
+    // $connection->exec($sql);
+
+    // // Create photos table
     // $sql = "CREATE TABLE photos(
-    //     id int NOT NULL AUTO_INCREMENT,
+    //     id INT NOT NULL AUTO_INCREMENT,
+    //     albumId INT NOT NULL,
     //     name VARCHAR(255) NOT NULL,
-    //     major VARCHAR(64),
-    //     class int,
-    //     groupNumber int,
-    //     occasion VARCHAR(255),
-    //     date DATETIME,
-    //     user VARCHAR(30),
-    //     PRIMARY KEY (id)
+    //     PRIMARY KEY (id),
+    //     FOREIGN KEY (albumId) REFERENCES albums(id) ON DELETE CASCADE,
     // )";
     // $connection->exec($sql);
 
-    // // Create photo_tag table
-    // $sql = "CREATE TABLE photo_tag(
-    //     photoId int NOT NULL,
-    //     tagId int NOT NULL,
-    //     PRIMARY KEY (photoId, tagId)
-    // )";
-    // $connection->exec($sql);
-
-    // // Create tags table
-    // $sql = "CREATE TABLE tags(
-    //     id int NOT NULL AUTO_INCREMENT,
-    //     text VARCHAR(255) NOT NULL,
-    //     PRIMARY KEY (id)
-    // )";
-    // $connection->exec($sql);
-
-    // // Create badges table
-    // $sql = "CREATE TABLE badges(
-	// 	assignedUser VARCHAR(30) NOT NULL,
-	// 	assigningUser VARCHAR(30) NOT NULL,
-	// 	title VARCHAR(30) NOT NULL,
-	// 	description VARCHAR(255),
-	// 	iconId int NOT NULL,
-	// 	PRIMARY KEY (assignedUser, assigningUser, title)
-	// )";
-    // $connection->exec($sql);
 
     // // // Add admin
     // $sql = "INSERT INTO users(username, password, email, admin, firstName, familyName, major, class, groupNumber) VALUES 
