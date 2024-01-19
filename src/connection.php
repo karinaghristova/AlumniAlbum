@@ -91,7 +91,9 @@ try {
     $connection->exec($sql);
 
 
+    // Some initial data
 
+    // Users
     $sql = "INSERT INTO users(username, firstName, lastName, password, email) VALUES 
         ('admin', 'Admin', 'Adminov', 'admin', 'admin@gmail.com')";
     $connection->exec($sql);
@@ -99,10 +101,28 @@ try {
         ('pesho', 'Petar', 'Petrov', '1234', 'pesho@gmail.com', 1)";
     $connection->exec($sql);
     $sql = "INSERT INTO users(username, firstName, lastName, password, email, role) VALUES 
-    ('gosho', 'Georgi', 'Georgiev', '1234', 'gosho@gmail.com', 2)";
+    ('kaloyan', 'Kaloyan', 'Kaloyanov', '123456', 'kaloyan@email.com', 1)";
     $connection->exec($sql);
+
+    // Students
+    $sql = "INSERT INTO students(username, major, class, stream, administrativeGroup) VALUES 
+    ('pesho', 'Информатика', 2024, 1, 1)";
+    $connection->exec($sql);
+    $sql = "INSERT INTO students(username, major, class, stream, administrativeGroup) VALUES 
+    ('kaloyan', 'Компютърни науки', 2023, 2, 1)";
+    $connection->exec($sql);
+
+    // Photographers
+    $sql = "INSERT INTO users(username, firstName, lastName, password, email, role) VALUES 
+    ('anton', 'Anton', 'Antonov', '123456', 'anton@email.com', 2)";
+    $connection->exec($sql);
+
+    // Albums
     $sql = "INSERT INTO albums(id, title, ownerUsername) VALUES 
         ('1', 'proba', 'pesho')";
+    $connection->exec($sql);
+    $sql = "INSERT INTO albums(id, title, ownerUsername) VALUES 
+    ('2', 'TestAlbum', 'anton')";
     $connection->exec($sql);
 } 
 catch (PDOException $error) {
