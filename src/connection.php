@@ -91,15 +91,15 @@ try {
     $connection->exec($sql);
 
 
-    // // // Add admin
-    // $sql = "INSERT INTO users(username, password, email, admin, firstName, familyName, major, class, groupNumber) VALUES 
-    //     ('admin', 'admin', 'non-existent@gmail.com', 1, 'Admin', 'Adminov', 'ad', 1992, 1)";
-    // $connection->exec($sql);
+
     $sql = "INSERT INTO users(username, firstName, lastName, password, email) VALUES 
         ('admin', 'Admin', 'Adminov', 'admin', 'admin@gmail.com')";
     $connection->exec($sql);
     $sql = "INSERT INTO users(username, firstName, lastName, password, email, role) VALUES 
         ('pesho', 'Petar', 'Petrov', '1234', 'pesho@gmail.com', 1)";
+    $connection->exec($sql);
+    $sql = "INSERT INTO users(username, firstName, lastName, password, email, role) VALUES 
+    ('gosho', 'Georgi', 'Georgiev', '1234', 'gosho@gmail.com', 2)";
     $connection->exec($sql);
     $sql = "INSERT INTO albums(id, title, ownerUsername) VALUES 
         ('1', 'proba', 'pesho')";
