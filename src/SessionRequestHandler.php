@@ -122,13 +122,8 @@ class SessionRequestHandler
             $additionalData = []; // Add other roles as needed
         }
 
-        $selectStatement = $conn->prepare('SELECT title FROM albums WHERE ownerUsername = ?');
-        $selectStatement->execute([$username]);
-        $albumData = [];
-        $albumData = $selectStatement->fetch(PDO::FETCH_ASSOC);
-
         // Merge user data and additional data
-        $userData = array_merge($user, $additionalData, $albumData);
+        $userData = array_merge($user, $additionalData);
 
         return $userData;
     }
