@@ -201,8 +201,8 @@ function handleEditAcademicInformation(userData) {
 
     if (newMajor.trim() === "" || !isString(newMajor)
         || newClass.trim() === "" || !isValidNumber(newClass)
-        || newStream.trim() === "" || isValidNumber(newStream)
-        || newAdministrativeGroup.trim() === "" || isValidNumber(newAdministrativeGroup)) {
+        || newStream.trim() === "" || !isValidNumber(newStream)
+        || newAdministrativeGroup.trim() === "" || !isValidNumber(newAdministrativeGroup)) {
         alert("Моля попълнете всички полета!");
         return; // Stop further execution
     }
