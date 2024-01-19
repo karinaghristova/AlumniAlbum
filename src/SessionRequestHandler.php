@@ -173,12 +173,32 @@ class SessionRequestHandler
         $albums = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
     
         if (!$albums) {
-            return null; // No albums found
+            return null; // No albums
         }
     
         return $albums;
     }
-    
+
+    public function getPhotosInAlbum(int $albumId): ?array
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+
+        $conn = (new Database())->getConnection();
+
+        $selectStatement = $conn->prepare('SELECT id, name FROM photos WHERE albumId = ?');
+        $selectStatement->execute([$albumId]);
+
+        $photos = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!$photos) {
+            return null; // No photos
+        }
+
+        return $photos;
+    }
+
     
     public function uploadImage($albumId, $name, $data)
     {
