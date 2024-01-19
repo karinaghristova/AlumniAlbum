@@ -159,7 +159,27 @@ class SessionRequestHandler
 
         return true; // Success
     }
-
+    public function getAllAlbums(): ?array
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    
+        $conn = (new Database())->getConnection();
+    
+        $selectStatement = $conn->prepare('SELECT id, title, ownerUsername FROM albums');
+        $selectStatement->execute();
+    
+        $albums = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+    
+        if (!$albums) {
+            return null; // No albums found
+        }
+    
+        return $albums;
+    }
+    
+    
     public function uploadImage($albumId, $name, $data)
     {
         if (!isset($_SESSION)) {
