@@ -54,19 +54,30 @@ try {
             stream VARCHAR(30),
             administrativeGroup VARCHAR(30),
             FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
-        )";
+    )";
     $connection->exec($sql);
 
-    // //Create photosession table
-    // $sql = "CREATE TABLE photosessions(
-    //     studentUsername VARCHAR(30) NOT NULL,
-    //     photographerUsername VARCHAR(30) NOT NULL,
-    //     date DATETIME NOT NULL,
-    //     status VARCHAR(30) NOT NULL,
-    //     FOREIGN KEY (studentUsername) REFERENCES students(username) ON DELETE CASCADE,
-    //     FOREIGN KEY (photographerUsername) REFERENCES photographers(username) ON DELETE CASCADE
+    // $sql = "CREATE TABLE photographers(
+    //     username VARCHAR(30) NOT NULL,
+        
+    //     FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
     // )";
     // $connection->exec($sql);
+
+    // //Create photosession table
+    $sql = "CREATE TABLE photosessions(
+        id INT NOT NULL AUTO_INCREMENT, 
+        title VARCHAR(100) NOT NULL,
+        studentUsername VARCHAR(30) NOT NULL,
+        photographerUsername VARCHAR(30) NOT NULL,
+        date DATE NOT NULL,
+        time TIME NOT NULL, 
+        status INT NOT NULL,
+        FOREIGN KEY (studentUsername) REFERENCES students(username) ON DELETE CASCADE,
+        FOREIGN KEY (photographerUsername) REFERENCES users(username) ON DELETE CASCADE, 
+        PRIMARY KEY (id)
+    )";
+    $connection->exec($sql);
 
     // // Create albums table
     $sql = "CREATE TABLE albums(
@@ -98,32 +109,47 @@ try {
         ('admin', 'Admin', 'Adminov', 'admin', 'admin@gmail.com')";
     $connection->exec($sql);
     $sql = "INSERT INTO users(username, firstName, lastName, password, email, role) VALUES 
-        ('pesho', 'Petar', 'Petrov', '1234', 'pesho@gmail.com', 1)";
+        ('pesho', 'Petar', 'Petrov', '123456', 'pesho@gmail.com', 1)";
     $connection->exec($sql);
     $sql = "INSERT INTO users(username, firstName, lastName, password, email, role) VALUES 
-    ('kaloyan', 'Kaloyan', 'Kaloyanov', '123456', 'kaloyan@email.com', 1)";
+        ('kaloyan', 'Kaloyan', 'Kaloyanov', '123456', 'kaloyan@email.com', 1)";
+    $connection->exec($sql);
+    $sql = "INSERT INTO users(username, firstName, lastName, password, email, role) VALUES 
+        ('anton', 'Anton', 'Antonov', '123456', 'anton@email.com', 2)";
+    $connection->exec($sql);
+    $sql = "INSERT INTO users(username, firstName, lastName, password, email, role) VALUES 
+        ('sasho', 'Aleksandar', 'Aleksandrov', '123456', 'sasho@email.com', 2)";
     $connection->exec($sql);
 
     // Students
     $sql = "INSERT INTO students(username, major, class, stream, administrativeGroup) VALUES 
-    ('pesho', 'Информатика', 2024, 1, 1)";
+        ('pesho', 'Информатика', 2024, 1, 1)";
     $connection->exec($sql);
     $sql = "INSERT INTO students(username, major, class, stream, administrativeGroup) VALUES 
-    ('kaloyan', 'Компютърни науки', 2023, 2, 1)";
+        ('kaloyan', 'Компютърни науки', 2023, 2, 1)";
     $connection->exec($sql);
 
     // Photographers
-    $sql = "INSERT INTO users(username, firstName, lastName, password, email, role) VALUES 
-    ('anton', 'Anton', 'Antonov', '123456', 'anton@email.com', 2)";
-    $connection->exec($sql);
+    // $sql = "INSERT INTO photographers(username) VALUES 
+    //     ('anton')";
+    // $connection->exec($sql);
+    // $sql = "INSERT INTO photographers(username) VALUES 
+    //     ('sasho')";
+    // $connection->exec($sql);
 
     // Albums
     $sql = "INSERT INTO albums(id, title, ownerUsername) VALUES 
-        ('1', 'proba', 'pesho')";
+        ('1', 'probaAlbum', 'pesho')";
     $connection->exec($sql);
     $sql = "INSERT INTO albums(id, title, ownerUsername) VALUES 
-    ('2', 'TestAlbum', 'anton')";
+        ('2', 'TestAlbum', 'anton')";
     $connection->exec($sql);
+
+    // Photosessions
+    $sql = "INSERT INTO photosessions(title, studentUsername, photographerUsername, date, time, status) VALUES 
+        ('TestPhotosession', 'pesho', 'anton', '2024-01-25', '12-12', 0)";
+    $connection->exec($sql);
+
 } 
 catch (PDOException $error) {
     echo $error->getMessage();

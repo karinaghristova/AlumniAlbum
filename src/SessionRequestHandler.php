@@ -79,7 +79,7 @@ class SessionRequestHandler
                 $insertStatement = $conn->prepare("INSERT INTO students(username) VALUES (?)");
                 $insertStatement->execute([$username]);
             }
-
+            
             return true;
         } else {
             return false;
@@ -159,6 +159,7 @@ class SessionRequestHandler
 
         return true; // Success
     }
+
     public function getAllAlbums(): ?array
     {
         if (!isset($_SESSION)) {
@@ -199,6 +200,105 @@ class SessionRequestHandler
         return $photos;
     }
 
+    public function getAllPhotographers(): ?array
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    
+        $conn = (new Database())->getConnection();
+    
+        $selectStatement = $conn->prepare('SELECT username, firstName, lastName FROM users WHERE role = 2');
+        $selectStatement->execute();
+    
+        $photographers = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+    
+        if (!$photographers) {
+            return null; // No photographers
+        }
+    
+        return $photographers;
+    }
+
+    public function getPhotographer($photographerUsername) 
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    
+        $conn = (new Database())->getConnection();
+    
+        $selectStatement = $conn->prepare('SELECT firstName, lastName FROM users WHERE role = 2 and username = ?');
+        $selectStatement->execute([$photographerUsername]);
+    
+        $photographer = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+    
+        if (!$photographer) {
+            return null; // No photographers
+        }
+    
+        return $photographer;
+    }
+
+    public function getStudent($studentUsername) 
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    
+        $conn = (new Database())->getConnection();
+    
+        $selectStatement = $conn->prepare('SELECT firstName, lastName FROM users WHERE role = 1 and username = ?');
+        $selectStatement->execute([$studentUsername]);
+    
+        $student = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+    
+        if (!$student) {
+            return null; // No student
+        }
+    
+        return $student;
+    }
+
+    public function getAllPhotosessions($studentUsername): ?array
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    
+        $conn = (new Database())->getConnection();
+    
+        $selectStatement = $conn->prepare('SELECT title, photographerUsername, date, time, status FROM photosessions WHERE studentUsername = ?');
+        $selectStatement->execute([$studentUsername]);
+    
+        $photosessions = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+    
+        if (!$photosessions) {
+            return null; // No photosessions
+        }
+    
+        return $photosessions;
+    }
+
+    public function getAllPhotosessionsPhotographer($photographerUsername): ?array
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    
+        $conn = (new Database())->getConnection();
+    
+        $selectStatement = $conn->prepare('SELECT title, studentUsername, date, time, status FROM photosessions WHERE photographerUsername = ?');
+        $selectStatement->execute([$photographerUsername]);
+    
+        $photosessions = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+    
+        if (!$photosessions) {
+            return null; // No photosessions
+        }
+    
+        return $photosessions;
+    }
     
     public function uploadImage($albumId, $name, $data)
     {
@@ -223,7 +323,22 @@ class SessionRequestHandler
 
         $selectStatement = $conn->prepare("SELECT name, data FROM photos WHERE id=?");
         $selectStatement->execute([$id]);
-
         $user = $selectStatement->fetch(PDO::FETCH_ASSOC);
+
+        return true; 
+    }
+
+    public function requestPhotosession($title, $studentUsername, $photographerUsername, $date, $time, $status)
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        $conn = (new Database())->getConnection();
+
+        $insertStatement = $conn->prepare("INSERT INTO photosessions(title, studentUsername, photographerUsername, date, time, status) VALUES (?, ?, ?, ?, ?, ?)");
+        $insertStatement->execute([$title, $studentUsername, $photographerUsername, $date, $time, $status]);
+        $photosession = $insertStatement->fetch();
+
+        return true; 
     }
 }
