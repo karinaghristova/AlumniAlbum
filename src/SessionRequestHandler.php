@@ -268,7 +268,7 @@ class SessionRequestHandler
     
         $conn = (new Database())->getConnection();
     
-        $selectStatement = $conn->prepare('SELECT title, photographerUsername, date, time, status FROM photosessions WHERE studentUsername = ?');
+        $selectStatement = $conn->prepare('SELECT id, title, photographerUsername, date, time, status FROM photosessions WHERE studentUsername = ?');
         $selectStatement->execute([$studentUsername]);
     
         $photosessions = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
@@ -288,7 +288,7 @@ class SessionRequestHandler
     
         $conn = (new Database())->getConnection();
     
-        $selectStatement = $conn->prepare('SELECT title, studentUsername, date, time, status FROM photosessions WHERE photographerUsername = ?');
+        $selectStatement = $conn->prepare('SELECT id, title, studentUsername, date, time, status FROM photosessions WHERE photographerUsername = ?');
         $selectStatement->execute([$photographerUsername]);
     
         $photosessions = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
@@ -338,6 +338,20 @@ class SessionRequestHandler
         $insertStatement = $conn->prepare("INSERT INTO photosessions(title, studentUsername, photographerUsername, date, time, status) VALUES (?, ?, ?, ?, ?, ?)");
         $insertStatement->execute([$title, $studentUsername, $photographerUsername, $date, $time, $status]);
         $photosession = $insertStatement->fetch();
+
+        return true; 
+    }
+
+    public function editPhotosession($status, $id)
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        $conn = (new Database())->getConnection();
+
+        $updateStatement = $conn->prepare('UPDATE photosessions SET status = ? WHERE id = ?');
+        $updateStatement->execute([$status, $id]);
+        $approval = $updateStatement->fetch();
 
         return true; 
     }

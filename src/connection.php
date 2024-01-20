@@ -149,6 +149,9 @@ try {
     $sql = "INSERT INTO photosessions(title, studentUsername, photographerUsername, date, time, status) VALUES 
         ('TestPhotosession', 'pesho', 'anton', '2024-01-25', '12-12', 0)";
     $connection->exec($sql);
+    $sql = "INSERT INTO photosessions(title, studentUsername, photographerUsername, date, time, status) VALUES 
+        ('ApprovedPhotosession', 'pesho', 'anton', '2024-01-20', '12-12', 2)";
+    $connection->exec($sql);
 
 } 
 catch (PDOException $error) {
