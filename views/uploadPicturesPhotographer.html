@@ -17,21 +17,21 @@
 
 <body>
     <div id="navbar" class="nav-menu">
-        <a class="icon" href="homePageStudent.html"><i class="fa-solid fa-house"></i> Начало</a>
-        <a class="icon" href="studentProfileBasic.html"><i class="fa-solid fa-user"></i> Моят профил</a>
-        <a class="icon" href="uploadPicturesStudent.html"><i class="fa-solid fa-camera"></i> Качи снимки</a>
-        <a class="icon" href="requestPhotosessionStudent.html"><i class="fa-solid fa-file-pen"></i>Резервирай фотосесия</a>
-        <a class="icon" href="myReservationsStudent.html"><i class="fa-solid fa-clock"></i>Моите резервации</a>
+        <a class="icon" href="homePagePhotographer.html"><i class="fa-solid fa-house"></i> Начало</a>
+        <a class="icon" href="photographerProfileBasic.html"><i class="fa-solid fa-user"></i> Моят профил</a>
+        <a class="icon" href="uploadPicturesPhotographer.html"><i class="fa-solid fa-camera"></i> Качи снимки</a>
+        <a class="icon" href="approvePhotosessionPhotographer.html"><i class="fa-solid fa-thumbs-up"></i> Одобри фотосесия</a>
+        <a class="icon" href="galleryPhotographer.html"><i class="fa-solid fa-image"></i> Галерия</a>
         <a class="icon logoutIcon" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i>Изход</a>
     </div>
 
     <div id="mainContainer">
         <div id="container">
             <div id="uploadImageContainer" class="profileInfoCard">
-                <form method="post" action="../src/uploadImage.php" enctype="multipart/form-data">
-                    <h2>Добави снимка</h2>
-                    <br><label for="image">Избери 1 снимка:</label><br>
-                    <input id="image" class="cardInputField" type="file" name="image">
+                <form method="post" action="../src/uploadImages.php" enctype="multipart/form-data">
+                    <h2>Добави снимки</h2>
+                    <br><label for="image[]">Избери 2-3 снимки:</label><br>
+                    <input id="image[]" class="cardInputField" type="file" name="image[]" multiple>
                     <br><label for="albumName">Избери албум:</label><br>
                     <select id="albumName" class="cardInputField" name="albumName"></select>
                     <button id="requestBtn" class="cardBtn" name="requestBtn">Качи</button>
