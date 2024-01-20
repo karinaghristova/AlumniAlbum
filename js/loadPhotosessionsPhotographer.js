@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
 function loadPhotosessions() {
     const photosessionsSelect = document.getElementById("photosessions");
     const photosessionsSelect2 = document.getElementById("photosessions2");
-    var k = 0;
             
     getAllPhotosessions()
         .then(photosessions => {
@@ -177,4 +176,3 @@ function getStudent($studentUsername) {
         throw error; 
     });
 }
-
