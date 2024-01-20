@@ -10,8 +10,6 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../css/style.css">
     <script src="../js/logout.js"></script>
-    <script src="../js/myProfile.js"></script>
-    <!-- <script src="../js/approvePhotosession.js"></script> -->
     <script src="../js/loadPhotosessionsPhotographer.js"></script>
 </head>
 
@@ -25,7 +23,22 @@
 
     <div id="mainContainer">
         <div id="container">
+            <h2> Предстоящи фотосесии </h2>
             <table id="photosessions">
+                <tr>
+                    <th>Заглавие</th>
+                    <th>Дата</th>
+                    <th>Час</th>
+                    <th>Заявил</th>
+                    <th>Статус</th>
+                </tr>
+                
+            </table>
+            <button id="approveBtn" onclick="approve(event)" class="tableBtn" name="approveBtn">Одобри</button>
+        </div>
+        <div id="container">
+            <h2> Минали фотосесии </h2>
+            <table id="photosessions2">
                 <tr>
                     <th>Заглавие</th>
                     <th>Дата</th>
