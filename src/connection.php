@@ -57,13 +57,6 @@ try {
     )";
     $connection->exec($sql);
 
-    // $sql = "CREATE TABLE photographers(
-    //     username VARCHAR(30) NOT NULL,
-        
-    //     FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
-    // )";
-    // $connection->exec($sql);
-
     // //Create photosession table
     $sql = "CREATE TABLE photosessions(
         id INT NOT NULL AUTO_INCREMENT, 
@@ -84,7 +77,7 @@ try {
         id INT NOT NULL AUTO_INCREMENT,
         title VARCHAR(100) NOT NULL,
         ownerUsername VARCHAR(30) NOT NULL,
-        --  //should probably have some reference to a photosession, so that everyone from the photosession can see it
+        privacy TINYINT(1) NOT NULL,
         PRIMARY KEY (id),
         FOREIGN KEY (ownerUsername) REFERENCES users(username) ON DELETE CASCADE
     )";
@@ -129,20 +122,15 @@ try {
         ('kaloyan', 'Компютърни науки', 2023, 2, 1)";
     $connection->exec($sql);
 
-    // Photographers
-    // $sql = "INSERT INTO photographers(username) VALUES 
-    //     ('anton')";
-    // $connection->exec($sql);
-    // $sql = "INSERT INTO photographers(username) VALUES 
-    //     ('sasho')";
-    // $connection->exec($sql);
-
     // Albums
-    $sql = "INSERT INTO albums(id, title, ownerUsername) VALUES 
-        ('1', 'probaAlbum', 'pesho')";
+    $sql = "INSERT INTO albums(id, title, ownerUsername, privacy) VALUES 
+        ('1', 'TestAlbumPublic', 'pesho', 1)";
     $connection->exec($sql);
-    $sql = "INSERT INTO albums(id, title, ownerUsername) VALUES 
-        ('2', 'TestAlbum', 'anton')";
+    $sql = "INSERT INTO albums(id, title, ownerUsername, privacy) VALUES 
+        ('2', 'TestAlbumPrivate', 'anton', 0)";
+    $connection->exec($sql);
+    $sql = "INSERT INTO albums(id, title, ownerUsername, privacy) VALUES 
+        ('3', 'TestAlbumPrivate2', 'pesho', 0)";
     $connection->exec($sql);
 
     // Photosessions
@@ -151,6 +139,15 @@ try {
     $connection->exec($sql);
     $sql = "INSERT INTO photosessions(title, studentUsername, photographerUsername, date, time, status) VALUES 
         ('ApprovedPhotosession', 'pesho', 'anton', '2024-01-20', '12-12', 2)";
+    $connection->exec($sql);
+    $sql = "INSERT INTO photosessions(title, studentUsername, photographerUsername, date, time, status) VALUES 
+        ('DeclinedPhotosession', 'kaloyan', 'anton', '2024-02-10', '13-15', 1)";
+    $connection->exec($sql);
+    $sql = "INSERT INTO photosessions(title, studentUsername, photographerUsername, date, time, status) VALUES 
+        ('ApprovedPhotosession2', 'kaloyan', 'sasho', '2024-02-10', '13-15', 2)";
+    $connection->exec($sql);
+    $sql = "INSERT INTO photosessions(title, studentUsername, photographerUsername, date, time, status) VALUES 
+        ('TestPhotosession2', 'pesho', 'sasho', '2024-02-15', '14-08', 0)";
     $connection->exec($sql);
 
 } 

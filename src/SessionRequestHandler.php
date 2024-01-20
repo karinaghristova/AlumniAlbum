@@ -168,8 +168,28 @@ class SessionRequestHandler
     
         $conn = (new Database())->getConnection();
     
-        $selectStatement = $conn->prepare('SELECT id, title, ownerUsername FROM albums');
+        $selectStatement = $conn->prepare('SELECT id, title, ownerUsername, privacy FROM albums');
         $selectStatement->execute();
+    
+        $albums = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+    
+        if (!$albums) {
+            return null; // No albums
+        }
+    
+        return $albums;
+    }
+
+    public function getOwnerAlbums($ownerUsername): ?array
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    
+        $conn = (new Database())->getConnection();
+    
+        $selectStatement = $conn->prepare('SELECT id, title, ownerUsername, privacy FROM albums where ownerUsername = ?');
+        $selectStatement->execute([$ownerUsername]);
     
         $albums = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
     
@@ -190,6 +210,26 @@ class SessionRequestHandler
 
         $selectStatement = $conn->prepare('SELECT id, name FROM photos WHERE albumId = ?');
         $selectStatement->execute([$albumId]);
+
+        $photos = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!$photos) {
+            return null; // No photos
+        }
+
+        return $photos;
+    }
+
+    public function getAllImages(): ?array
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+
+        $conn = (new Database())->getConnection();
+
+        $selectStatement = $conn->prepare('SELECT id, name FROM photos');
+        $selectStatement->execute();
 
         $photos = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -352,6 +392,20 @@ class SessionRequestHandler
         $updateStatement = $conn->prepare('UPDATE photosessions SET status = ? WHERE id = ?');
         $updateStatement->execute([$status, $id]);
         $approval = $updateStatement->fetch();
+
+        return true; 
+    }
+
+    public function createAlbum($title, $ownerUsername, $privacy)
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        $conn = (new Database())->getConnection();
+
+        $insertStatement = $conn->prepare("INSERT INTO albums(title, ownerUsername, privacy) VALUES (?, ?, ?)");
+        $insertStatement->execute([$title, $ownerUsername, $privacy]);
+        $user = $insertStatement->fetch();
 
         return true; 
     }
