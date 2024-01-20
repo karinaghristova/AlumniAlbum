@@ -178,7 +178,6 @@ table {
     box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.2);
     width: 1000px;
     margin: auto;
-    margin-top: 100px;
     text-align: center;
     border-radius: 10%;
     padding-bottom: 20px;
@@ -194,4 +193,23 @@ td, tr {
     border: 2px solid #fbfbfb;
     padding: 15px;
     margin-bottom: 5px;
+}
+
+h2 {
+    text-align: center;
+    padding-top: 50px; 
+}
+
+.tableBtn {
+    border: none;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #482673;
+    text-align: center;
+    cursor: pointer;
+    font-size: 18px;
+    position: absolute;
+    left: 47%;
+    margin: 0;
 }
