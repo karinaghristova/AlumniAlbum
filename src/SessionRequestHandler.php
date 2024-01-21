@@ -112,7 +112,11 @@ class SessionRequestHandler
 
         // Additional data for students
         if ($user['role'] == 1) {
-            $selectStatement = $conn->prepare('SELECT major, class, stream, administrativeGroup FROM students WHERE username = ?');
+            $selectStatement = $conn->prepare('SELECT u.username, u.firstName, u.lastName, u.email, u.role, s.majorId, s.class, s.stream, s.administrativeGroup, m.majorName
+            FROM users u
+            LEFT JOIN students s ON u.username = s.username
+            LEFT JOIN majors m ON s.majorId = m.id
+            WHERE u.username = ?');
             $selectStatement->execute([$username]);
             $additionalData = $selectStatement->fetch(PDO::FETCH_ASSOC);
         } else {
@@ -138,17 +142,38 @@ class SessionRequestHandler
         return true;
     }
     
-    public function editAcademicInformation($username, $newMajor, $newClass, $newStream, $newAdministrativeGroup) 
+    public function editAcademicInformation($username, $newMajorId, $newClass, $newStream, $newAdministrativeGroup) 
     {
         if (!isset($_SESSION)) {
             session_start();
         }
         $conn = (new Database())->getConnection();
 
-        $updateStatement = $conn->prepare('UPDATE students SET major = ?, class = ?, stream = ?, administrativeGroup = ? WHERE username = ?');
-        $updateStatement->execute([$newMajor, $newClass, $newStream, $newAdministrativeGroup, $username]);
+        $updateStatement = $conn->prepare('UPDATE students SET majorId = ?, class = ?, stream = ?, administrativeGroup = ? WHERE username = ?');
+        $updateStatement->execute([$newMajorId, $newClass, $newStream, $newAdministrativeGroup, $username]);
 
         return true;
+    }
+
+
+    public function getAllMajors(): ?array
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    
+        $conn = (new Database())->getConnection();
+    
+        $selectStatement = $conn->prepare('SELECT id, majorName FROM majors');
+        $selectStatement->execute();
+    
+        $majors = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+    
+        if (!$majors) {
+            return null; // No majors
+        }
+    
+        return $majors;
     }
 
     public function getAllAlbums(): ?array

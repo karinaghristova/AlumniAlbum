@@ -97,7 +97,7 @@ function updateProfileContent(userData) {
 
     // Create student academical information fields
     if (userData.role === 1) {
-        createProfileFieldParagraphs("Специалност: ", userData.major, 'major', baseInfoContainer);
+        createProfileFieldParagraphs("Специалност: ", userData.majorName, 'majorName', baseInfoContainer);
         createProfileFieldParagraphs("Випуск: ", userData.class, 'class', baseInfoContainer);
         createProfileFieldParagraphs("Поток: ", userData.stream, 'stream', baseInfoContainer);
         createProfileFieldParagraphs("Група: ", userData.administrativeGroup, 'administrativeGroup', baseInfoContainer);

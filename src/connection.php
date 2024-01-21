@@ -35,25 +35,34 @@ try {
 
     // Create users table
     $sql = "CREATE TABLE users(
-            username VARCHAR(30) NOT NULL,
-            firstName VARCHAR(30) NOT NULL,
-            lastName VARCHAR(30) NOT NULL, 
-            password VARCHAR(30) NOT NULL,
-            email VARCHAR(30) NOT NULL,
-            role INT NOT NULL,
-            PRIMARY KEY (username),
-            UNIQUE (username)
-        )";
+        username VARCHAR(30) NOT NULL,
+        firstName VARCHAR(30) NOT NULL,
+        lastName VARCHAR(30) NOT NULL, 
+        password VARCHAR(30) NOT NULL,
+        email VARCHAR(30) NOT NULL,
+        role INT NOT NULL,
+        PRIMARY KEY (username),
+        UNIQUE (username)
+    )";
+    $connection->exec($sql);
+
+    // Create majors table
+    $sql = "CREATE TABLE majors(
+        id INT,
+        majorName VARCHAR(30),
+        PRIMARY KEY (id)
+    )";
     $connection->exec($sql);
     
-    // Create students table
-    $sql = "CREATE TABLE students(
-            username VARCHAR(30) NOT NULL,
-            major VARCHAR(30),
-            class VARCHAR(30),
-            stream VARCHAR(30),
-            administrativeGroup VARCHAR(30),
-            FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
+     // Create students table
+     $sql = "CREATE TABLE students(
+        username VARCHAR(30) NOT NULL,
+        majorId INT,
+        class VARCHAR(30),
+        stream VARCHAR(30),
+        administrativeGroup VARCHAR(30),
+        FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE,
+        FOREIGN KEY (majorId) REFERENCES majors(id) ON DELETE SET NULL
     )";
     $connection->exec($sql);
 
@@ -114,12 +123,24 @@ try {
         ('sasho', 'Aleksandar', 'Aleksandrov', '123456', 'sasho@email.com', 2)";
     $connection->exec($sql);
 
-    // Students
-    $sql = "INSERT INTO students(username, major, class, stream, administrativeGroup) VALUES 
-        ('pesho', 'Информатика', 2024, 1, 1)";
+    // Majors
+    $sql = "INSERT INTO majors(id, majorName) VALUES (1, 'Информатика')";
     $connection->exec($sql);
-    $sql = "INSERT INTO students(username, major, class, stream, administrativeGroup) VALUES 
-        ('kaloyan', 'Компютърни науки', 2023, 2, 1)";
+    $sql = "INSERT INTO majors(id, majorName) VALUES (2, 'Компютърни науки')";
+    $connection->exec($sql);
+    $sql = "INSERT INTO majors(id, majorName) VALUES (3, 'Софтуерно инженерство')";
+    $connection->exec($sql);
+    $sql = "INSERT INTO majors(id, majorName) VALUES (4, 'Математика')";
+    $connection->exec($sql);
+    $sql = "INSERT INTO majors(id, majorName) VALUES (5, 'Приложна математика')";
+    $connection->exec($sql);
+
+    // Students
+    $sql = "INSERT INTO students(username, majorId, class, stream, administrativeGroup) VALUES 
+        ('pesho', 1, 2024, 1, 1)";
+    $connection->exec($sql);
+    $sql = "INSERT INTO students(username, majorId, class, stream, administrativeGroup) VALUES 
+        ('kaloyan', 2, 2023, 2, 1)";
     $connection->exec($sql);
 
     // Albums
