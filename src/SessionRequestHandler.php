@@ -244,13 +244,17 @@ class SessionRequestHandler
 
         $conn = (new Database())->getConnection();
 
-        $selectStatement = $conn->prepare('SELECT id, name FROM photos');
+        $selectStatement = $conn->prepare('SELECT id, albumId, name, data FROM photos');
         $selectStatement->execute();
 
         $photos = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
 
         if (!$photos) {
             return null; // No photos
+        }
+
+        foreach ($photos as &$photo) {
+            $photo['data'] = base64_encode($photo['data']);
         }
 
         return $photos;
