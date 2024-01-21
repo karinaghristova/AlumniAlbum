@@ -138,6 +138,12 @@ body {
     color: #023B59;
 }
 
+.boldedHeading {
+    font-weight: bold;
+    color: #023B59;
+}
+
+
 .cardPhoto {
     width: 150px;
 }
@@ -179,7 +185,6 @@ table {
     width: 1000px;
     margin: auto;
     text-align: center;
-    border-radius: 10%;
     padding-bottom: 20px;
 }
 
@@ -187,6 +192,7 @@ th {
     background-color: #482673;
     color: white;
     font-size: 18px; 
+    padding: 10px;
 }
 
 td, tr {
@@ -197,7 +203,6 @@ td, tr {
 
 h2 {
     text-align: center;
-    padding-top: 50px; 
 }
 
 .tableBtn {
@@ -212,6 +217,7 @@ h2 {
     position: absolute;
     left: 47%;
     margin: 0;
+    border-radius: 12px;
 }
 
 .albumInfoCard {
@@ -223,3 +229,11 @@ h2 {
     padding-bottom: 20px;
 }
 
+#photosessionsStatusContainer
+{
+  display: flex;
+}
+
+.tableContainer{
+   padding: 30px;
+}
