@@ -25,7 +25,7 @@ function login(event) {
                         window.location.href = '../views/homePagePhotographer.html';
                     } else {
                         // Default redirection or error handling
-                        window.location.href = '../views/defaultProfile.html';
+                        window.location.href = '../views/homePageAdmin.html';
                     }
                 })
                 .catch(error => {
