@@ -29,25 +29,29 @@
         <div id="container">
             <div id="uploadImageContainer" class="profileInfoCard">
                 <form method="post" action="../src/uploadImages.php" enctype="multipart/form-data">
+                   <div>
                     <h2>Добави снимки</h2>
-                    <br><label for="image[]">Избери 2-3 снимки:</label><br>
-                    <input id="image[]" class="cardInputField" type="file" name="image[]" multiple>
-                    <br><label for="albumName">Избери албум:</label><br>
-                    <select id="albumName" class="cardInputField" name="albumName"></select>
-                    <button id="requestBtn" class="cardBtn" name="requestBtn">Качи</button>
+                        <label class="cardField" for="image[]">Избери 2-3 снимки:</label>
+                        <input id="image[]" class="cardInputField" type="file" name="image[]" multiple>
+                        <label class="cardField" for="albumName">Избери албум:</label>
+                        <select id="albumName" class="cardInputField" name="albumName"></select>
+                   </div>
+                    <button id="requestBtn" class="cardSmallBtn" name="requestBtn">Качи</button>
                 </form>
             </div>
             <div id="createAlbumContainer" class="profileInfoCard">
                 <form id="createForm" method="post">
-                    <h2>Създай албум</h2>
-                    <br><label for="title">Избери име:</label><br>
-                    <input class="cardInputField" type="text" id="title" name="title" required>
-                    <br><label for="albumName">Избери достъп:</label><br>
-                    <select id="privacy" class="cardInputField" name="privacy">
-                        <option value="0">Частен</option>
-                        <option value="1">Публичен</option>
-                    </select>
-                    <button id="createBtn" onclick="create(event)" class="cardBtn" name="createBtn">Създай</button>
+                    <div>
+                        <h2>Създай албум</h2>
+                        <label class="cardField" for="title">Избери име:</label>
+                        <input class="cardInputField" type="text" id="title" name="title" required>
+                        <label class="cardField" for="albumName">Избери достъп:</label>
+                        <select id="privacy" class="cardInputField" name="privacy">
+                            <option value="0">Частен</option>
+                            <option value="1">Публичен</option>
+                        </select>
+                    </div>
+                    <button id="createBtn" onclick="create(event)" class="cardSmallBtn" name="createBtn">Създай</button>
                 </form>
             </div>
         </div>
