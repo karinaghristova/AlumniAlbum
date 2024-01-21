@@ -19,14 +19,16 @@
         <a class="icon" href="homePageStudent.html"><i class="fa-solid fa-house"></i> Начало</a>
         <a class="icon" href="studentProfileBasic.html"><i class="fa-solid fa-user"></i> Моят профил</a>
         <a class="icon" href="uploadPicturesStudent.html"><i class="fa-solid fa-image"></i> Качи снимки</a>
-        <a class="icon" href="requestPhotosessionStudent.html"><i class="fa-solid fa-file-pen"></i> Резервирай фотосесия</a>
+        <a class="icon" href="requestPhotosessionStudent.html"><i class="fa-solid fa-file-pen"></i> Резервирай
+            фотосесия</a>
         <a class="icon" href="myReservationsStudent.html"><i class="fa-solid fa-clock"></i> Моите резервации</a>
         <a class="icon logoutIcon" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i>Изход</a>
     </div>
 
     <div id="mainContainer">
         <div id="container">
-            <h2> Моите фотосесии </h2>
+            <div id="myPhotosessions" class="tableContainer">
+                <h2> Моите фотосесии </h2>
                 <table id="photosessions">
                     <tr>
                         <th>Заглавие</th>
@@ -36,6 +38,7 @@
                         <th>Статус</th>
                     </tr>
                 </table>
+            </div>
         </div>
     </div>
 </body>
