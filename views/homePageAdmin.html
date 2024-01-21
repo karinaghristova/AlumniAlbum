@@ -16,6 +16,7 @@
 <body>
     <div id="navbar" class="nav-menu">
         <a class="icon" href="homePageAdmin.html"><i class="fa-solid fa-house"></i> Начало</a>
+        <a class="icon" href="allUsersAdmin.html"><i class="fa-solid fa-users"></i> Потребители</a>
         <a class="icon logoutIcon" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i>Изход</a>
     </div>
 
@@ -25,8 +26,21 @@
                 <div id="profileInformationContainer" class="profileInfoCard">
                     <div id="baseInfoContainer">
                         <h2>Добре дошли в алумни албума! Вие сте админ. </h2>
-                        <img class="cardPhoto" src="../img/femaleAdmin.png">
-                        <img class="cardPhoto" src="../img/maleAdmin.png">
+                        <!-- <img class="cardPhoto" src="../img/femaleAdmin.png">
+                        <img class="cardPhoto" src="../img/maleAdmin.png"> -->
+
+                        <div class="flip-container">
+                            <div class="flipper">
+                                <div class="front">
+                                    <!-- Front image goes here -->
+                                    <img class="cardPhoto" src="../img/femaleAdmin.png" alt="Front Image">
+                                </div>
+                                <div class="back">
+                                    <!-- Back image goes here -->
+                                    <img class="cardPhoto" src="../img/maleAdmin.png" alt="Back Image">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -35,3 +49,4 @@
 </body>
 
 </html>
+

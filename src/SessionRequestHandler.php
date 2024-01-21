@@ -2,8 +2,6 @@
 
 class SessionRequestHandler
 {
-
-    
     public function checkLoginStatus(): bool
     {
         return isset($_SESSION["username"]);
@@ -109,20 +107,19 @@ class SessionRequestHandler
         $user = $selectStatement->fetch(PDO::FETCH_ASSOC);
 
         if (!$user) {
-            return null; // User not found
+            return null; // No user
         }
 
-        // Additional data based on user role
+        // Additional data for students
         if ($user['role'] == 1) {
-            // Student profile data
             $selectStatement = $conn->prepare('SELECT major, class, stream, administrativeGroup FROM students WHERE username = ?');
             $selectStatement->execute([$username]);
             $additionalData = $selectStatement->fetch(PDO::FETCH_ASSOC);
         } else {
-            $additionalData = []; // Add other roles as needed
+            $additionalData = [];
         }
 
-        // Merge user data and additional data
+        // Combine basic info data and additional info data
         $userData = array_merge($user, $additionalData);
 
         return $userData;
@@ -135,13 +132,10 @@ class SessionRequestHandler
         }
         $conn = (new Database())->getConnection();
 
-        // Update the basic information in the 'users' table
         $updateStatement = $conn->prepare('UPDATE users SET firstName = ?, lastName = ?, email = ? WHERE username = ?');
         $updateStatement->execute([$newFirstName, $newLastName, $newEmail, $username]);
 
-        // If you have additional logic or validation, add it here
-
-        return true; // Success
+        return true;
     }
     
     public function editAcademicInformation($username, $newMajor, $newClass, $newStream, $newAdministrativeGroup) 
@@ -151,13 +145,10 @@ class SessionRequestHandler
         }
         $conn = (new Database())->getConnection();
 
-        // Update the academic information in the 'students' table
         $updateStatement = $conn->prepare('UPDATE students SET major = ?, class = ?, stream = ?, administrativeGroup = ? WHERE username = ?');
         $updateStatement->execute([$newMajor, $newClass, $newStream, $newAdministrativeGroup, $username]);
 
-        // If you have additional logic or validation, add it here
-
-        return true; // Success
+        return true;
     }
 
     public function getAllAlbums(): ?array
@@ -340,7 +331,7 @@ class SessionRequestHandler
         return $photosessions;
     }
     
-    public function uploadImage($albumId, $name, $data)
+    public function uploadImage($albumId, $name, $data): bool
     {
         if (!isset($_SESSION)) {
             session_start();
@@ -354,7 +345,7 @@ class SessionRequestHandler
         return true; 
     }
 
-    public function displayImage($id)
+    public function displayImage($id): bool
     {
         if (!isset($_SESSION)) {
             session_start();
@@ -368,7 +359,7 @@ class SessionRequestHandler
         return true; 
     }
 
-    public function requestPhotosession($title, $studentUsername, $photographerUsername, $date, $time, $status)
+    public function requestPhotosession($title, $studentUsername, $photographerUsername, $date, $time, $status): bool
     {
         if (!isset($_SESSION)) {
             session_start();
@@ -382,7 +373,7 @@ class SessionRequestHandler
         return true; 
     }
 
-    public function editPhotosession($status, $id)
+    public function editPhotosession($status, $id): bool
     {
         if (!isset($_SESSION)) {
             session_start();
@@ -396,7 +387,7 @@ class SessionRequestHandler
         return true; 
     }
 
-    public function createAlbum($title, $ownerUsername, $privacy)
+    public function createAlbum($title, $ownerUsername, $privacy): bool
     {
         if (!isset($_SESSION)) {
             session_start();
@@ -409,4 +400,25 @@ class SessionRequestHandler
 
         return true; 
     }
+
+    public function getAllRegularUsers(): ?array
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    
+        $conn = (new Database())->getConnection();
+    
+        $selectStatement = $conn->prepare('SELECT username, firstName, lastName, password, email, role FROM users WHERE role != 0');
+        $selectStatement->execute();
+    
+        $regularUsers = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+    
+        if (!$regularUsers) {
+            return null; // No regular users
+        }
+    
+        return $regularUsers;
+    }
+
 }
