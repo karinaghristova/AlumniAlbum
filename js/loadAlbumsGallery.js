@@ -11,54 +11,73 @@ function loadAlbums() {
         .catch(error => {
             console.error("Error loading images:", error);
         });
-    
-    
+
+
     getOwnerAlbums()
         .then(albums => {
-            
+            const table = document.createElement("table");
+            const tableHeadRow = document.createElement("tr");
+            const tableHead = document.createElement("th");
+            tableHead.textContent = "Заглавие на албум";
+
+            tableHeadRow.appendChild(tableHead);
+            table.appendChild(tableHeadRow);
+
             albums.forEach(album => {
 
-                if (album.privacy == 0)
-                {
-                    const table = document.createElement("table");
-                    const option = document.createElement("th");
-                    option.value = album.id; 
-                    option.textContent = album.title; 
+                if (album.privacy == 0) {
+                    const tableRow = document.createElement("tr");
+                    const albumRow = document.createElement("td");
+                    albumRow.value = album.id;
+                    albumRow.textContent = album.title;
 
-                    albumSelect.appendChild(table);
-                    table.appendChild(option);    
+                    tableRow.appendChild(albumRow);
+                    table.appendChild(tableRow);
                 }
-            
+
             });
+
+            albumSelect.appendChild(table);
+
         })
         .catch(error => {
             console.error("Error loading albums:", error);
         });
-    
+
     const albumSelect2 = document.getElementById("galleryContainer2");
     getAllAlbums()
         .then(albums => {
-            
+
+            const table = document.createElement("table");
+            const tableHeadRow = document.createElement("tr");
+            const tableHead = document.createElement("th");
+            tableHead.textContent = "Заглавие на албум";
+
+            tableHeadRow.appendChild(tableHead);
+            table.appendChild(tableHeadRow);
+
             albums.forEach(album => {
 
-                if (album.privacy == 1)
-                {
-                    const table = document.createElement("table");
-                    const option = document.createElement("th");
-                    option.value = album.id; 
-                    option.textContent = album.title; 
+                if (album.privacy == 1) {
+                    const tableRow = document.createElement("tr");
+                    const albumRow = document.createElement("td");
+                    albumRow.value = album.id;
+                    albumRow.textContent = album.title;
 
-                    albumSelect2.appendChild(table);
-                    table.appendChild(option); 
+                    tableRow.appendChild(albumRow);
+                    table.appendChild(tableRow);
                 }
-                
+
             });
+
+            albumSelect2.appendChild(table);
+
         })
         .catch(error => {
             console.error("Error loading albums:", error);
         });
-    
-    
+
+
 }
 
 function getAllAlbums() {
@@ -72,7 +91,7 @@ function getAllAlbums() {
         .then(data => data.albums)
         .catch(error => {
             console.error("Error fetching albums:", error);
-            throw error; 
+            throw error;
         });
 }
 
@@ -87,7 +106,7 @@ function getOwnerAlbums() {
         .then(data => data.albums)
         .catch(error => {
             console.error("Error fetching albums:", error);
-            throw error; 
+            throw error;
         });
 }
 
@@ -102,6 +121,6 @@ function getAllImages() {
         .then(data => data.images)
         .catch(error => {
             console.error("Error fetching images:", error);
-            throw error; 
+            throw error;
         });
 }
