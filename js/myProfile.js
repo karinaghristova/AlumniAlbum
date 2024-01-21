@@ -155,77 +155,150 @@ function isValidEmail(email) {
 }
 
 function handleEditBasicInformation(userData) {
-    // Show form or modal
-    const newFirstName = prompt("Въведете ново собствено име:", userData.firstName);
-    const newLastName = prompt("Въведете ново фамилно:", userData.lastName);
-    const newEmail = prompt("Въведете нов имейл:", userData.email);
+    // Show popup and hide main card
+    const editBasicInfoPopup = document.getElementById("editBasicInfoPopup");
+    editBasicInfoPopup.style.display = "block";
+    const profileInfoCard = document.getElementById("profileInformationContainer");
+    profileInfoCard.style.display = "none";
 
-    // Validate input
-    if (newFirstName.trim() === "" || !isString(newFirstName)
-        || newLastName.trim() === "" || !isString(newLastName)
-        || newEmail.trim() === "" || !isValidEmail(newEmail)) {
-        alert("Моля попълнете всички полета!");
-        return;
-    }
+    // Add current data
+    document.getElementById("newFirstName").value = userData.firstName;
+    document.getElementById("newLastName").value = userData.lastName;
+    document.getElementById("newEmail").value = userData.email;
 
-    // Actual code that edits basic information
-    fetch("../src/myProfile.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `editBasicInfo=true&newFirstName=${newFirstName}&newLastName=${newLastName}&newEmail=${newEmail}`,
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log("Edit basic information response:", data);
-            if (data.success) {
-                location.reload();
-            } else {
-                alert("Грешка при опит за редактиране на информацията. Опитайте отново.");
-            }
+    // Add event listener for form submission
+    const editBasicInfoForm = document.getElementById("editBasicInfoForm");
+    editBasicInfoForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const newFirstName = document.getElementById("newFirstName").value;
+        const newLastName = document.getElementById("newLastName").value;
+        const newEmail = document.getElementById("newEmail").value;
+
+        // Validate input
+        if (newFirstName.trim() === "" || !isString(newFirstName)) {
+            alert("Невалидна стойност за собствено име. Моля, попълнете всички полета правилно!");
+            return;
+        }
+
+        if (newLastName.trim() === "" || !isString(newLastName)) {
+            alert("Невалидна стойност за фамилно име. Моля, попълнете всички полета правилно!");
+            return;
+        }
+
+        if (newEmail.trim() === "" || !isValidEmail(newEmail)) {
+            alert("Невалидна стойност за имейл. Моля, попълнете всички полета правилно!");
+            return;
+        }
+
+        // Actual code that edits basic information
+        fetch("../src/myProfile.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: `editBasicInfo=true&newFirstName=${newFirstName}&newLastName=${newLastName}&newEmail=${newEmail}`,
         })
-        .catch(error => {
-            console.error("Грешка при опит за редактиране на информацията:", error);
-        });
+            .then(response => response.json())
+            .then(data => {
+                console.log("Edit basic information response:", data);
+                if (data.success) {
+                    alert("Информацията е успешно редактирана.");
+                    location.reload();
+                } else {
+                    alert("Грешка при опит за редактиране на информацията. Опитайте отново.");
+                }
+            })
+            .catch(error => {
+                console.error("Грешка при опит за редактиране на информацията:", error);
+            });
 
-    location.reload();
+        // Hide popup after submission
+        editBasicInfoPopup.style.display = "none";
+        location.reload();
+    });
 }
 
 function handleEditAcademicInformation(userData) {
-    // Show form or modal 
-    const newMajor = prompt("Въведете нова специалност:", userData.major);
-    const newClass = prompt("Въведете нов випуск (година):", userData.class);
-    const newStream = prompt("Въведете нов поток (цяло положително число):", userData.stream);
-    const newAdministrativeGroup = prompt("Въведете нова група (цяло положително число):", userData.administrativeGroup);
+    // Show popup and hide main card
+    const editAcademicInfoPopup = document.getElementById("editAcademicInfoPopup");
+    editAcademicInfoPopup.style.display = "block";
+    const profileInfoCard = document.getElementById("profileInformationContainer");
+    profileInfoCard.style.display = "none";
 
-    if (newMajor.trim() === "" || !isString(newMajor)
-        || newClass.trim() === "" || !isValidNumber(newClass)
-        || newStream.trim() === "" || !isValidNumber(newStream)
-        || newAdministrativeGroup.trim() === "" || !isValidNumber(newAdministrativeGroup)) {
-        alert("Моля попълнете всички полета!");
-        return; // Stop further execution
-    }
-
-    // Actual code that edits academic information
-    fetch("../src/myProfile.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `editAcademicInfo=true&newMajor=${newMajor}&newClass=${newClass}&newStream=${newStream}&newAdministrativeGroup=${newAdministrativeGroup}`,
-    })
+    // Fetch majors
+    fetch("../src/getMajors.php")
         .then(response => response.json())
         .then(data => {
-            console.log("Edit academic information response:", data);
-            fetchProfileData();
+            const majors = data.majors;
+
+            const optionsHTML = majors.map(major => `<option value="${major.id}">${major.majorName}</option>`).join('');
+
+            // Add current data
+            document.getElementById("newMajor").innerHTML = optionsHTML;
+            document.getElementById("newClass").value = userData.class;
+            document.getElementById("newStream").value = userData.stream;
+            document.getElementById("newAdministrativeGroup").value = userData.administrativeGroup;
+
+            // Add event listener for form submission
+            const editAcademicInfoForm = document.getElementById("editAcademicInfoForm");
+            editAcademicInfoForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const newMajor = document.getElementById("newMajor").value;
+                const newClass = document.getElementById("newClass").value;
+                const newStream = document.getElementById("newStream").value;
+                const newAdministrativeGroup = document.getElementById("newAdministrativeGroup").value;
+
+                // Validate input
+                if (newClass.trim() === "" || !isValidNumber(newClass)) {
+                    alert("Невалидна стойност за випуск. Моля попълнете всички полета правилно!");
+                    return;
+                }
+
+                if (newStream.trim() === "" || !isValidNumber(newStream)) {
+                    alert("Невалидна стойност за поток. Моля попълнете всички полета правилно!");
+                    return;
+                }
+
+                if (newAdministrativeGroup.trim() === "" || !isValidNumber(newAdministrativeGroup)) {
+                    alert("Невалидна стойност за група. Моля попълнете всички полета правилно!");
+                    return;
+                }
+
+                // Actual code that edits academic information
+                fetch("../src/myProfile.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: `editAcademicInfo=true&newMajor=${newMajor}&newClass=${newClass}&newStream=${newStream}&newAdministrativeGroup=${newAdministrativeGroup}`,
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Edit academic information response:", data);
+                        if (data.success) {
+                            alert("Информацията е успешно редактирана.");
+                            location.reload();
+                        } else {
+                            alert("Грешка при опит за редактиране на информацията. Опитайте отново.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Грешка при опит за редактиране на информацията:", error);
+                    });
+
+                // Hide popup after submission
+                editAcademicInfoPopup.style.display = "none";
+                location.reload();
+            });
         })
         .catch(error => {
-            console.error("Грешка при опит за редактиране на академичната информация:", error);
+            console.error("Грешка при зареждане на специалностите:", error);
         });
-
-    location.reload();
 }
 
-// Call the fetchProfileData function when the page loads
+
+
+// Call fetchProfileData function on page load
 document.addEventListener("DOMContentLoaded", fetchProfileData);

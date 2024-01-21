@@ -32,6 +32,43 @@
                    
                 </div>
             </div>
+
+            <div id="editBasicInfoPopup" class="profileInfoCard" style="display: none;">
+                <h2>Редактиране на основна информация</h2>
+                <form id="editBasicInfoForm">
+                    <p class="cardField"><span class="bolded">Собствено име:</span></p>
+                    <input class="cardInputField" type="text" id="newFirstName" name="newFirstName" required>
+            
+                    <p class="cardField"><span class="bolded">Фамилно име:</span></p>
+                    <input class="cardInputField" type="text" id="newLastName" name="newLastName" required>
+            
+                    <p class="cardField"><span class="bolded">Имейл:</span></p>
+                    <input class="cardInputField" type="email" id="newEmail" name="newEmail" required>
+            
+                    <input class="cardSmallBtn" type="submit" value="Редактирай">
+                </form>
+            </div>
+
+            <div id="editAcademicInfoPopup" class="profileInfoCard" style="display:none;">
+                <h2>Редактиране на академична информация</h2>
+                <form id="editAcademicInfoForm">
+                    <p class="cardField"><span class="bolded">Специалност:</span></p>
+                    <select class="cardInputField" id="newMajor" name="newMajor" required>
+                    </select>
+            
+                    <p class="cardField"><span class="bolded">Випуск:</span></p>
+                    <input class="cardInputField" type="number" id="newClass" name="newClass" required>
+            
+                    <p class="cardField"><span class="bolded">Поток:</span></p>
+                    <input class="cardInputField" type="number" id="newStream" name="newStream" required>
+            
+                    <p class="cardField"><span class="bolded">Група:</span></p>
+                    <input class="cardInputField" type="number" id="newAdministrativeGroup" name="newAdministrativeGroup" required>
+            
+                    <input class="cardSmallBtn" type="submit" value="Редактирай">
+                </form>
+            </div>
+            
         </div>
     </div>
 
