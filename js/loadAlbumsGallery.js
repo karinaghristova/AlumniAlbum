@@ -1,17 +1,35 @@
+var imageArray = [];
+
 document.addEventListener("DOMContentLoaded", function () {
+    loadImages();
     loadAlbums();
 });
 
+function loadImages() {
+    getAllImages()
+            .then(images => {
+                var k = 0;
+                images.forEach(image => {
+                    var currentImage = [];
+                    const imgElement = document.createElement('img');
+                    imgElement.src = `data:image/jpeg;base64,${image.data}`;
+                    imgElement.alt = image.name;
+                    
+                    currentImage[0] = imgElement;
+                    currentImage[1] = image.albumId;
+                    currentImage[2] = image.name; 
+
+                    imageArray[k] = currentImage;
+                    k++; 
+                });
+            })
+            .catch(error => {
+                console.error("Error loading images:", error);
+            });
+}
+
 function loadAlbums() {
     const albumSelect = document.getElementById("galleryContainer1");
-    getAllImages()
-        .then(images => {
-            //TO DO
-        })
-        .catch(error => {
-            console.error("Error loading images:", error);
-        });
-
 
     getOwnerAlbums()
         .then(albums => {
@@ -33,6 +51,16 @@ function loadAlbums() {
 
                     tableRow.appendChild(albumRow);
                     table.appendChild(tableRow);
+
+                    for (var i = 0; i < imageArray.length; i++)
+                    {
+                        if (imageArray[i][1] == album.id)
+                        {
+                            const imageRow = document.createElement("div");
+                            albumRow.appendChild(imageRow);
+                            imageRow.appendChild(imageArray[i][0]);
+                        }
+                    }
                 }
 
             });
@@ -55,10 +83,11 @@ function loadAlbums() {
 
             tableHeadRow.appendChild(tableHead);
             table.appendChild(tableHeadRow);
-
+            
             albums.forEach(album => {
 
                 if (album.privacy == 1) {
+                    
                     const tableRow = document.createElement("tr");
                     const albumRow = document.createElement("td");
                     albumRow.value = album.id;
@@ -66,6 +95,16 @@ function loadAlbums() {
 
                     tableRow.appendChild(albumRow);
                     table.appendChild(tableRow);
+
+                    for (var i = 0; i < imageArray.length; i++)
+                    {
+                        if (imageArray[i][1] == album.id)
+                        {
+                            const imageRow = document.createElement("div");
+                            albumRow.appendChild(imageRow);
+                            imageRow.appendChild(imageArray[i][0]);
+                        }
+                    }
                 }
 
             });
@@ -76,7 +115,6 @@ function loadAlbums() {
         .catch(error => {
             console.error("Error loading albums:", error);
         });
-
 
 }
 
