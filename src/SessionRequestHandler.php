@@ -90,9 +90,10 @@ class SessionRequestHandler
             session_start();
         }
 
-        session_destroy();
-
+        session_unset();
         $_SESSION = [];
+
+        session_destroy();
     }
 
     public function getProfileData(string $username): ?array

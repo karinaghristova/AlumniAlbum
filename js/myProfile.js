@@ -93,7 +93,7 @@ function updateProfileContent(userData) {
 
     //Add event listener for editing basic profile information
     const editBttn = document.getElementById("editBtn");
-    editBttn.addEventListener("click", () => handleEditBasicInformation(userData));
+    editBttn.addEventListener("click", () => editBasicInformation(userData));
 
     // Create student academical information fields
     if (userData.role === 1) {
@@ -113,7 +113,7 @@ function updateProfileContent(userData) {
         //Add event listener for editing academic profile information
         if (userData.role === 1) {
             const editAcademicBtn = document.getElementById("editAcademicBtn");
-            editAcademicBtn.addEventListener("click", () => handleEditAcademicInformation(userData));
+            editAcademicBtn.addEventListener("click", () => editAcademicInformation(userData));
         }
     }
 }
@@ -154,7 +154,7 @@ function isValidEmail(email) {
     return emailRegex.test(email);
 }
 
-function handleEditBasicInformation(userData) {
+function editBasicInformation(userData) {
     // Show popup and hide main card
     const editBasicInfoPopup = document.getElementById("editBasicInfoPopup");
     editBasicInfoPopup.style.display = "block";
@@ -219,7 +219,7 @@ function handleEditBasicInformation(userData) {
     });
 }
 
-function handleEditAcademicInformation(userData) {
+function editAcademicInformation(userData) {
     // Show popup and hide main card
     const editAcademicInfoPopup = document.getElementById("editAcademicInfoPopup");
     editAcademicInfoPopup.style.display = "block";
