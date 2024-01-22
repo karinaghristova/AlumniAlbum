@@ -24,7 +24,6 @@ function login(event) {
                     } else if (roleResp.role === 2) {
                         window.location.href = '../views/homePagePhotographer.html';
                     } else {
-                        // Default redirection or error handling
                         window.location.href = '../views/homePageAdmin.html';
                     }
                 })
