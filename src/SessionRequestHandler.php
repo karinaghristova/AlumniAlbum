@@ -21,11 +21,22 @@ class SessionRequestHandler
 
      public function getUserDataByUsername(string $username): array
     {
+
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        
         $conn = (new Database())->getConnection();
         $selectStatement = $conn->prepare('SELECT username, firstName, lastName, email, role FROM users WHERE username = ?');
         $selectStatement->execute([$username]);
 
-        return $selectStatement->fetch(PDO::FETCH_ASSOC);
+        $userData = $selectStatement->fetch(PDO::FETCH_ASSOC);
+
+        if(!$userData){
+            return null; // No user data
+        }
+
+        return $userData;
     }
     public function login(string $username, string $password): bool
     {
@@ -439,7 +450,13 @@ class SessionRequestHandler
     
         $conn = (new Database())->getConnection();
     
-        $selectStatement = $conn->prepare('SELECT username, firstName, lastName, password, email, role FROM users WHERE role != 0');
+        $selectStatement = $conn->prepare('
+        SELECT u.username, u.firstName, u.lastName, u.password, u.email, u.role, s.majorId, s.class, s.stream, s.administrativeGroup, m.majorName
+        FROM users u
+        LEFT JOIN students s ON u.username = s.username
+        LEFT JOIN majors m ON s.majorId = m.id
+        WHERE u.role != 0
+    ');
         $selectStatement->execute();
     
         $regularUsers = $selectStatement->fetchAll(PDO::FETCH_ASSOC);

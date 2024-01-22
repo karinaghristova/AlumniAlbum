@@ -29,10 +29,26 @@
                     <table id="usersTable">
                     </table>
                 </div>
+
+            </div>
+
+            <div id="editUserForm" class="profileInfoCard popup" style="display:none;">
+                <h2>Редактиране на информация за потребител</h2>
+                <form id="editUserForm">
+                    <p class="cardField"><span class="bolded">Собствено име:</span></p>
+                    <input class="cardInputField" type="text" id="editFirstName" name="editFirstName" required>
+
+                    <p class="cardField"><span class="bolded">Фамилно име:</span></p>
+                    <input class="cardInputField" type="text" id="editLastName" name="editLastName" required>
+
+                    <p class="cardField"><span class="bolded">Имейл:</span></p>
+                    <input class="cardInputField" type="email" id="editEmail" name="editEmail" required>
+
+                    <input class="cardSmallBtn" type="submit" value="Запази промените">
+                </form>
             </div>
         </div>
     </div>
 </body>
 
 </html>
-
