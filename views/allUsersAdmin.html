@@ -34,7 +34,7 @@
 
             <div id="editUserForm" class="profileInfoCard popup" style="display:none;">
                 <h2>Редактиране на информация за потребител</h2>
-                <form id="editUserForm">
+                <form id="editUserFormPopup">
                     <p class="cardField"><span class="bolded">Собствено име:</span></p>
                     <input class="cardInputField" type="text" id="editFirstName" name="editFirstName" required>
 
@@ -45,6 +45,42 @@
                     <input class="cardInputField" type="email" id="editEmail" name="editEmail" required>
 
                     <input class="cardSmallBtn" type="submit" value="Запази промените">
+                </form>
+            </div>
+
+            <div id="studentAcademicInfo" class="profileInfoCard" style="display:none;">
+                <h2>Академична информация <span id="studentFullName"></span></h2>
+                <p class="cardField"><span class="bolded">Специалност:</span> <span id="majorName"
+                        name="majorName"></span></p>
+                <p class="cardField"><span class="bolded">Випуск:</span> <span id="class" name="class"></span></p>
+                <p class="cardField"><span class="bolded">Поток:</span> <span id="stream" name="stream"></span></p>
+                <p class="cardField"><span class="bolded">Група:</span> <span id="administrativeGroup"
+                        name="administrativeGroup"></span></p>
+                <button id="editAcademicBtn" class="cardSmallBtn" name="editAcademicBtn">Редактирай академична
+                    информация</button>
+
+            </div>
+
+            <div id="editAcademicInfo" class="profileInfoCard" style="display:none;">
+                <h2>Редактиране на академична информация</h2>
+                <form id="editAcademicInfoFormPopup">
+                    <p class="cardField"><span class="bolded">Специалност:</span></p>
+                    <select class="cardInputField" id="newMajor" name="newMajor" required>
+                    </select>
+
+                    <p class="cardField"><span class="bolded">Випуск:</span></p>
+                    <input class="cardInputField" type="number" id="newClass" name="newClass" min="2004" max="2028"
+                        required>
+
+                    <p class="cardField"><span class="bolded">Поток:</span></p>
+                    <input class="cardInputField" type="number" id="newStream" name="newStream" min="1" max="2"
+                        required>
+
+                    <p class="cardField"><span class="bolded">Група:</span></p>
+                    <input class="cardInputField" type="number" id="newAdministrativeGroup"
+                        name="newAdministrativeGroup" min="1" max="8" required>
+
+                    <input class="cardSmallBtn" type="submit" value="Редактирай">
                 </form>
             </div>
         </div>

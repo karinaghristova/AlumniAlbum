@@ -11,20 +11,22 @@ $result = ["success" => false];
 // Check if user is logged in
 if (isset($_SESSION["username"])) {
     $targetUsername = $_POST["targetUsername"] ?? null;
-    $newMajorId = $_POST["newFirstName"] ?? null;
-    $newClass = $_POST["newLastName"] ?? null;
-    $newStream = $_POST["newEmail"] ?? null;
+    $newMajorId = $_POST["newMajorId"] ?? null;
+    $newClass = $_POST["newClass"] ?? null;
+    $newStream = $_POST["newStream"] ?? null;
+    $newAdministrativeGroup = $_POST["newAdministrativeGroup"] ?? null;
+
 
     $username = $_SESSION["username"];
 
     $sessionHandler = new SessionRequestHandler();
 
-    $success = $sessionHandler->editBasicInformation($targetUsername, $newMajorId, $newClass, $newStream);
+    $success = $sessionHandler->editAcademicInformation($targetUsername, $newMajorId, $newClass, $newStream, $newAdministrativeGroup);
 
     if ($success) {
         $result["success"] = true;
     } else {
-        $result["error"] = "Error editing user data";
+        $result["error"] = "Error editing user academic data";
     }
 } else {
     $result["error"] = "User not logged in";

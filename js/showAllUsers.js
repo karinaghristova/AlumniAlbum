@@ -59,7 +59,7 @@ function createUsersTableContent(users) {
             const academicInfoBtn = document.createElement("button");
             academicInfoBtn.innerHTML = "<i class=\"fa-solid fa-graduation-cap\"></i>";
             academicInfoBtn.classList.add("cardSmallBtn");
-            academicInfoBtn.addEventListener("click", () => viewUserAcademicData(user['username']));
+            academicInfoBtn.addEventListener("click", () => viewUserAcademicData(user['username'], user['firstName'], user['lastName']));
             actionsCell.appendChild(academicInfoBtn);
         } else {
             const actionsCell = row.insertCell();
@@ -98,13 +98,13 @@ function isValidEmail(email) {
 
 function editUserData(username) {
     console.log(username)
-    // Show popup
+
     const editUserFormPopup = document.getElementById("editUserForm");
     editUserFormPopup.style.display = "block";
     const usersTable = document.getElementById("adminUsersContainer");
     usersTable.style.display = "none";
 
-    // Fetch user data for the selected user
+    // Fetch user data for selected user
     fetch(`../src/getUserData.php?targetUsername=${username}`)
         .then(response => response.json())
         .then(data => {
@@ -112,12 +112,12 @@ function editUserData(username) {
                 const userData = data.userData;
                 console.log("userData:", userData);
 
-                // Add current data to the form
+                // Add current data
                 document.getElementById("editFirstName").value = userData.firstName;
                 document.getElementById("editLastName").value = userData.lastName;
                 document.getElementById("editEmail").value = userData.email;
 
-                // Add event listener for form submission
+                // Add event listener for form submission (editing the data)
                 const editUserForm = document.getElementById("editUserFormPopup");
                 editUserForm.addEventListener("submit", function (event) {
                     event.preventDefault();
@@ -164,7 +164,7 @@ function editUserData(username) {
                             console.error("Грешка при опит за редактиране на информацията:", error);
                         });
 
-                    // Hide popup after submission
+                    // Hide popup
                     editUserFormPopup.style.display = "none";
                     location.reload();
                 });
@@ -177,7 +177,114 @@ function editUserData(username) {
         });
 }
 
-function viewUserAcademicData(username) {
-    // TODO: implement (pop-up maybe???)
-    console.log("Академична информация за:", username);
+function viewUserAcademicData(username, firstName, lastName) {
+    // Fetch user academic data for selected user
+    fetch(`../src/getUserAcademicData.php?targetUsername=${username}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.userData) {
+                const userAcademicData = data.userData;
+
+                // Add current data
+                document.getElementById("studentFullName").textContent = firstName + " " + lastName
+                document.getElementById("majorName").textContent = userAcademicData.majorName;
+                document.getElementById("class").textContent = userAcademicData.class;
+                document.getElementById("stream").textContent = userAcademicData.stream;
+                document.getElementById("administrativeGroup").textContent = userAcademicData.administrativeGroup;
+
+                // Show card
+                const studentAcademicInfoForm = document.getElementById("studentAcademicInfo");
+                studentAcademicInfoForm.style.display = "block";
+                const usersTable = document.getElementById("adminUsersContainer");
+                usersTable.style.display = "none";
+
+                // Add event listener for the editing button
+                const editAcademicBtn = document.getElementById("editAcademicBtn");
+                editAcademicBtn.addEventListener("click", () => editUserAcademicData(username, userAcademicData));
+            } else {
+                console.error("Error fetching user academic data:", data.error);
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching user academic data:", error);
+        });
+}
+
+function editUserAcademicData(username, userData) {
+    const studentAcademicInfoForm = document.getElementById("studentAcademicInfo");
+    studentAcademicInfoForm.style.display = "none";
+
+    const editAcademicInfoForm = document.getElementById("editAcademicInfo");
+    editAcademicInfoForm.style.display = "block";
+
+    // Fetch majors
+    fetch("../src/getMajors.php")
+        .then(response => response.json())
+        .then(data => {
+            const majors = data.majors;
+
+            const optionsHTML = majors.map(major => `<option value="${major.id}">${major.majorName}</option>`).join('');
+
+            // Add current data
+            document.getElementById("newMajor").innerHTML = optionsHTML;
+            document.getElementById("newClass").value = userData.class;
+            document.getElementById("newStream").value = userData.stream;
+            document.getElementById("newAdministrativeGroup").value = userData.administrativeGroup;
+
+            // Add event listener for form submission
+            const editAcademicInfoForm = document.getElementById("editAcademicInfoFormPopup");
+            editAcademicInfoForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const newMajorId = document.getElementById("newMajor").value;
+                const newClass = document.getElementById("newClass").value;
+                const newStream = document.getElementById("newStream").value;
+                const newAdministrativeGroup = document.getElementById("newAdministrativeGroup").value;
+
+                // Validate input
+                if (newClass.trim() === "" || !isValidNumber(newClass)) {
+                    alert("Невалидна стойност за випуск. Моля попълнете всички полета правилно!");
+                    return;
+                }
+
+                if (newStream.trim() === "" || !isValidNumber(newStream)) {
+                    alert("Невалидна стойност за поток. Моля попълнете всички полета правилно!");
+                    return;
+                }
+
+                if (newAdministrativeGroup.trim() === "" || !isValidNumber(newAdministrativeGroup)) {
+                    alert("Невалидна стойност за група. Моля попълнете всички полета правилно!");
+                    return;
+                }
+
+                // Actual code that edits user academic information
+                fetch("../src/editUserAcademicData.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: `targetUsername=${username}&newMajorId=${newMajorId}&newClass=${newClass}&newStream=${newStream}&newAdministrativeGroup=${newAdministrativeGroup}`,
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Edit user academic data response:", data);
+                        if (data.success) {
+                            alert("Академичната информация е успешно редактирана.");
+                            location.reload();
+                            studentAcademicInfoForm.style.display = "none";
+                            editAcademicInfoForm.style.display = "none";
+                            
+                            fetchAllUsers(); // Reload user data
+                        } else {
+                            alert("Грешка при опит за редактиране на академичната информация. Опитайте отново.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Грешка при опит за редактиране на академичната информация:", error);
+                    });
+            });
+        })
+        .catch(error => {
+            console.error("Грешка при зареждане на специалностите:", error);
+        });
 }

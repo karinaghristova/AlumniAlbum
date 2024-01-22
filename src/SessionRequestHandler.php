@@ -38,6 +38,31 @@ class SessionRequestHandler
 
         return $userData;
     }
+
+    public function getUserAcademicDataByUsername(string $username): array
+    {
+
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        
+        $conn = (new Database())->getConnection();
+        $selectStatement = $conn->prepare('SELECT s.username, s.majorId, s.class, s.stream, s.administrativeGroup, m.majorName
+        FROM students s
+        LEFT JOIN majors m ON s.majorId = m.id
+        WHERE s.username = ?');
+        $selectStatement->execute([$username]);
+
+        $userAcademicData = $selectStatement->fetch(PDO::FETCH_ASSOC);
+
+        if(!$userAcademicData){
+            return null; // No user data
+        }
+
+        return $userAcademicData;
+    }
+
+
     public function login(string $username, string $password): bool
     {
         if (!isset($_SESSION)) {
