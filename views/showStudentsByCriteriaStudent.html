@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../css/style.css">
     <script defer src="../js/login.js"></script>
     <script src="../js/logout.js"></script>
-    <script src="../js/myProfile.js"></script>
+    <script src="../js/loadStudentsByCriteria.js"></script>
 </head>
 
 <body>
@@ -28,17 +28,34 @@
 
     <div id="mainContainer">
         <div id="container">
-            <div id="homePageContainer">
-                <div id="profileInformationContainer" class="profileInfoCard">
-                    <div id="homePageCard">
-                        <h2>Добре дошли в алумни албума!</h2>
-                        <h3><span class="boldedHeading">Вашата роля е:</span> Студент</h3>
-                        <img class="cardPhoto" src="../img/graduateCap.png">
-                    </div>
-                </div>
+            <div id="selectUsersByCriteriaCard" class="profileInfoCard" >
+                <h2>Покажи потребители според: </h2>
+                <form id="showUsersByCriteriaForm">
+                    <p class="cardField"><span class="bolded">Специалност:</span></p>
+                    <select class="cardInputField" id="major" name="major" required>
+                    </select>
+
+                    <p class="cardField"><span class="bolded">Випуск:</span></p>
+                    <input class="cardInputField" type="number" id="class" name="class" min="0" max="2028"
+                        required>
+
+                    <p class="cardField"><span class="bolded">Поток:</span></p>
+                    <input class="cardInputField" type="number" id="stream" name="stream" min="0" max="2"
+                        required>
+
+                    <p class="cardField"><span class="bolded">Група:</span></p>
+                    <input class="cardInputField" type="number" id="administrativeGroup"
+                        name="administrativeGroup" min="0" max="8" required>
+
+                    <input class="cardSmallBtn" type="submit" value="Покажи">
+                </form>
+            </div>
+
+            <div id="studentsTableContainer" class="tableContainer">
+                <table id="studentsTable">
+                </table>
             </div>
         </div>
     </div>
 </body>
-
 </html>
