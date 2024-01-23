@@ -39,6 +39,11 @@ function fetchMajors() {
         .then(response => response.json())
         .then(data => {
             if (data.majors) {
+                const option = document.createElement("option");
+                option.value = 0;
+                option.text = "Всички";
+                majorDropdown.appendChild(option);
+
                 const majors = data.majors;
                 majors.forEach(major => {
                     const option = document.createElement("option");
