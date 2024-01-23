@@ -32,20 +32,39 @@
             <div id="albumsContainer">
                 <div id="privateAlbumsContainer" class="tableContainer">
                     <h2>Моите албуми</h2>
-                    <div id="galleryContainer1"> 
+                    <div id="privateAlbums"> 
                     </div>
-                    <div id="emptyContainer1" class="profileInfoCard">
+                    <div id="emptyPrivateAlbums" class="profileInfoCard">
                         <h3>Няма албуми за показване</h3>
                     </div>
                 </div>
                 <div id="publicAlbumsContainer" class="tableContainer">
                     <h2>Публични албуми</h2>
-                    <div id="galleryContainer2">
+                    <div id="publicAlbums">
                     </div>
-                    <div id="emptyContainer2" class="profileInfoCard">
+                    <div id="emptyPublicAlbums" class="profileInfoCard">
                         <h3>Няма албуми за показване</h3>
                     </div>
                 </div>
+            </div>
+
+            <div id="exportPhotoCard" class="profileInfoCard" style="display: none;">
+                <h2>Заяви отпечатване на снимка: </h2>
+                <form id="exportPhotoCardForm">
+                    <!-- <p class="cardField"><span class="bolded">Избери снимка:</span></p>
+                    <select class="cardInputField" id="photo" name="photo" required>
+                    </select> -->
+
+                    <p class="cardField"><span class="bolded">Избери фотограф:</span></p>
+                    <select class="cardInputField" id="photographer" name="photographer" required>
+                    </select>
+
+                    <p class="cardField"><span class="bolded">Избери услуга:</span></p>
+                    <select class="cardInputField" id="photoExportService" name="photoExportService" required>
+                    </select>
+
+                    <input class="cardSmallBtn" type="submit" value="Покажи">
+                </form>
             </div>
         </div>
     </div>
