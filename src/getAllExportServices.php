@@ -7,10 +7,10 @@ require_once "SessionRequestHandler.php";
 if (isset($_SESSION["username"])){
     $sessionHandler = new SessionRequestHandler();
 
-    $exportServices = $sessionHandler->getAllExportServices();
+    $photoExportInformation = $sessionHandler->getAllExportServices();
 
-    if ($exportServices) {
-        $response = ['exportServices' => $exportServices];
+    if ($photoExportInformation) {
+        $response = ['exportServices' => $photoExportInformation];
     } else {
         $response = ['error' => 'No export services found'];
     }

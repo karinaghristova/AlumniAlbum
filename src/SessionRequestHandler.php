@@ -597,5 +597,19 @@ class SessionRequestHandler
         return $exportServices;
     }
 
+    public function sendPhotoExportRequest($photoId, $exportServiceId, $requestReceiverUsername): bool
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    
+        $conn = (new Database())->getConnection();
+        $insertStatement = $conn->prepare("INSERT INTO photoExportRequests(photoId, exportServiceId, requestSenderUsername, requestReceiverUsername)
+        VALUES (?, ?, ?, ?)");
+        $insertStatement->execute([$photoId, $exportServiceId, $_SESSION['username'], $requestReceiverUsername]);
+    
+        return true;
+    }
+    
 
 }
