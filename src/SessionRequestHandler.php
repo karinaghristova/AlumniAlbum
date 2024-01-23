@@ -233,6 +233,26 @@ class SessionRequestHandler
         return $albums;
     }
 
+    public function getOnlyPublicAlbums(): ?array
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    
+        $conn = (new Database())->getConnection();
+    
+        $selectStatement = $conn->prepare('SELECT id, title, ownerUsername, privacy FROM albums WHERE privacy = 1');
+        $selectStatement->execute();
+    
+        $albums = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+    
+        if (!$albums) {
+            return null; // No albums
+        }
+    
+        return $albums;
+    }
+
     public function getOwnerAlbums($ownerUsername): ?array
     {
         if (!isset($_SESSION)) {
@@ -557,6 +577,25 @@ class SessionRequestHandler
         return $filteredStudents;
     }
 
+    public function getAllExportServices(): ?array
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
     
+        $conn = (new Database())->getConnection();
+    
+        $selectStatement = $conn->prepare('SELECT id, serviceName FROM exportServices');
+        $selectStatement->execute();
+    
+        $exportServices = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+    
+        if (!$exportServices) {
+            return null; // No export serices
+        }
+    
+        return $exportServices;
+    }
+
 
 }

@@ -6,7 +6,7 @@ require_once "SessionRequestHandler.php";
 
 $sessionHandler = new SessionRequestHandler();
 
-// Check if the user is authenticated, adjust this based on your authentication logic
+// Check if the user is logged in
 if (!$sessionHandler->checkLoginStatus()) {
     http_response_code(401); // Unauthorized
     echo json_encode(['error' => 'Unauthorized access']);

@@ -233,3 +233,33 @@ td, tr {
 .tableContainer{
    padding: 30px;
 }
+
+.albumPhoto{
+    width: 33%;
+    height: auto;
+    display: inline-block;
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+    border-color: #482673;
+    border: #482673 1px solid;
+}
+
+.photoElement{
+    display: block;
+    max-width: 90%;
+    max-height: 200px;
+    margin: auto;
+    padding: 10px;
+}
+
+.photoExportBtn{
+    display: block;
+    margin: auto;
+}
+
+.albumRow{
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+}
