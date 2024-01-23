@@ -16,7 +16,6 @@ if (isset($_SESSION["username"])) {
     $newStream = $_POST["newStream"] ?? null;
     $newAdministrativeGroup = $_POST["newAdministrativeGroup"] ?? null;
 
-
     $username = $_SESSION["username"];
 
     $sessionHandler = new SessionRequestHandler();
