@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Load majors on page load
     fetchMajors();
-    
+
     // Add event listener
     const showUsersByCriteriaForm = document.getElementById("showUsersByCriteriaForm");
     showUsersByCriteriaForm.addEventListener("submit", function (event) {
         event.preventDefault();
-        
+
         const majorId = document.getElementById("major").value;
         const classValue = document.getElementById("class").value;
         const stream = document.getElementById("stream").value;
@@ -22,9 +22,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     const studentsData = data.studentsData;
                     createStudentsTable(studentsData);
                 } else {
-                    window.alert("Няма студенти, които да отговарят на тези критерии. Опитайте отново.")
-                    //console.error("Error fetching students data:", data.error);
-                }
+                    const studentsTable = document.getElementById("studentsTableContainer");
+                    studentsTable.style.display = "none";
+                    window.alert("Няма студенти, които да отговарят на тези критерии. Опитайте отново.");
+               }
             })
             .catch(error => {
                 console.error("Error fetching students data:", error);
