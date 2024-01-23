@@ -493,4 +493,70 @@ class SessionRequestHandler
         return $regularUsers;
     }
 
+    public function getAllStudentsByCriteria($majorId, $class, $stream, $administrativeGroup): ?array
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    
+        $conn = (new Database())->getConnection();
+    
+        // Initial query without any conditions
+        $query = 'SELECT u.username, u.firstName, u.lastName, s.majorId, s.class, s.stream, s.administrativeGroup, m.majorName
+            FROM users u
+            LEFT JOIN students s ON u.username = s.username
+            LEFT JOIN majors m ON s.majorId = m.id
+            WHERE u.role = 1';
+    
+
+        $filters = [];
+    
+        // Filters should only be applied if value is not 0 
+        // If value of filter is 0 we should get all possible values of the filter
+        if ($majorId != 0) {
+            $filters[] = 's.majorId = ?';
+        }
+        if ($class != 0) {
+            $filters[] = 's.class = ?';
+        }
+        if ($stream != 0) {
+            $filters[] = 's.stream = ?';
+        }
+        if ($administrativeGroup != 0) {
+            $filters[] = 's.administrativeGroup = ?';
+        }
+    
+        if (!empty($filters)) {
+            $query .= ' AND ' . implode(' AND ', $filters);
+        }
+    
+        $selectStatement = $conn->prepare($query);
+    
+        // Filter students according to the given criteria
+        $params = [];
+        if ($majorId != 0) {
+            $params[] = $majorId;
+        }
+        if ($class != 0) {
+            $params[] = $class;
+        }
+        if ($stream != 0) {
+            $params[] = $stream;
+        }
+        if ($administrativeGroup != 0) {
+            $params[] = $administrativeGroup;
+        }
+    
+        $selectStatement->execute($params);
+    
+        $filteredStudents = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+    
+        if (!$filteredStudents) {
+            return null; // No students that meet the criteria
+        }
+    
+        return $filteredStudents;
+    }
+    
+
 }
