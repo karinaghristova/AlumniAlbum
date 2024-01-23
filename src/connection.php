@@ -103,6 +103,42 @@ try {
     )";
     $connection->exec($sql);
 
+    // Create export services table
+    $sql = "CREATE TABLE exportServices(
+        id INT NOT NULL AUTO_INCREMENT,
+        serviceName VARCHAR(30) NOT NULL,
+        PRIMARY KEY (id)
+    )";
+    $connection->exec($sql);
+
+    // Create photo export requests table
+    $sql = "CREATE TABLE photoExportRequests(
+        id INT NOT NULL AUTO_INCREMENT,
+        photoId INT NOT NULL,
+        exportServiceId INT NOT NULL,
+        requestSenderUsername VARCHAR(30) NOT NULL,
+        requestReceiverUsername VARCHAR(30) NOT NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY (photoId) REFERENCES photos(id) ON DELETE CASCADE,
+        FOREIGN KEY (exportServiceId) REFERENCES exportServices(id) ON DELETE CASCADE,
+        FOREIGN KEY (requestSenderUsername) REFERENCES users(username) ON DELETE CASCADE,
+        FOREIGN KEY (requestReceiverUsername) REFERENCES users(username) ON DELETE CASCADE
+    )";
+    $connection->exec($sql);
+
+    // Create album export requests table
+    $sql = "CREATE TABLE albumExportRequests(
+        id INT NOT NULL AUTO_INCREMENT,
+        albumId INT NOT NULL,
+        requestSenderUsername VARCHAR(30) NOT NULL,
+        requestReceiverUsername VARCHAR(30) NOT NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY (albumId) REFERENCES albums(id) ON DELETE CASCADE,
+        FOREIGN KEY (requestSenderUsername) REFERENCES users(username) ON DELETE CASCADE,
+        FOREIGN KEY (requestReceiverUsername) REFERENCES users(username) ON DELETE CASCADE
+    )";
+    $connection->exec($sql);
+
 
     // Some initial data
 
@@ -169,6 +205,20 @@ try {
     $connection->exec($sql);
     $sql = "INSERT INTO photosessions(title, studentUsername, photographerUsername, date, time, status) VALUES 
         ('TestPhotosession2', 'pesho', 'sasho', '2024-02-15', '14-08', 0)";
+    $connection->exec($sql);
+
+    // Export services
+    $sql = "INSERT INTO exportServices(id, serviceName) VALUES 
+    ('1', 'Снимка')";
+    $connection->exec($sql);
+    $sql = "INSERT INTO exportServices(id, serviceName) VALUES 
+    ('2', 'Картичка')";
+    $connection->exec($sql);
+    $sql = "INSERT INTO exportServices(id, serviceName) VALUES 
+    ('3', 'Календар')";
+    $connection->exec($sql);
+    $sql = "INSERT INTO exportServices(id, serviceName) VALUES 
+    ('4', 'Чаша')";
     $connection->exec($sql);
 
 } 
