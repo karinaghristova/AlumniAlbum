@@ -15,7 +15,6 @@ function register(event) {
         console.log("Fetch response:", resp);
 
         if (resp.result) {
-            //TODO: fix redirect according to user role
             window.location.href = '../views/login.html';
         }
         else {

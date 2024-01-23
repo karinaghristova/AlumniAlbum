@@ -1,5 +1,3 @@
-// myProfile.js
-
 function fetchProfileData() {
     fetch("../src/myProfile.php")
         .then(response => response.json())
@@ -9,7 +7,9 @@ function fetchProfileData() {
             if (data.userData) {
                 const userData = data.userData;
 
-                clearProfileContent();
+                const baseInfoContainer = document.getElementById("baseInfoContainer");
+                baseInfoContainer.innerHTML = "";
+
                 updateProfileContent(userData);
             } else {
                 console.error("Error fetching profile data:", data.error);
@@ -20,13 +20,7 @@ function fetchProfileData() {
         });
 }
 
-// Clear existing content
-function clearProfileContent() {
-    const baseInfoContainer = document.getElementById("baseInfoContainer");
-    baseInfoContainer.innerHTML = "";
-}
-
-// Create new elements for the container
+// Create new elements
 function updateProfileContent(userData) {
     const baseInfoContainer = document.getElementById("baseInfoContainer");
 
@@ -63,7 +57,6 @@ function updateProfileContent(userData) {
     } else if (userData.role === 2) {
         backImage.src = "../img/malePhotographer.png";
     } else {
-        // Set a default image or handle other roles as needed
         backImage.src = "../img/maleAdmin.jpg";
     }
     backImage.alt = "avatar back image";

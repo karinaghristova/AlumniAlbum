@@ -501,7 +501,6 @@ class SessionRequestHandler
     
         $conn = (new Database())->getConnection();
     
-        // Initial query without any conditions
         $query = 'SELECT u.username, u.firstName, u.lastName, s.majorId, s.class, s.stream, s.administrativeGroup, m.majorName
             FROM users u
             LEFT JOIN students s ON u.username = s.username
@@ -557,6 +556,7 @@ class SessionRequestHandler
     
         return $filteredStudents;
     }
+
     
 
 }

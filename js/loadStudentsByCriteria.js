@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function fetchMajors() {
-    // Fetch and populate the majors dropdown
+    // Fetch and fill dropdown
     const majorDropdown = document.getElementById("major");
     fetch("../src/getMajors.php")
         .then(response => response.json())
@@ -63,7 +63,7 @@ function fetchMajors() {
 
 function createStudentsTable(studentsData) {
     const studentsTable = document.getElementById("studentsTable");
-    studentsTable.innerHTML = ""; // Clear existing table content
+    studentsTable.innerHTML = "";
 
     // Create table header
     const headerRow = studentsTable.insertRow();
@@ -74,7 +74,7 @@ function createStudentsTable(studentsData) {
         headerRow.appendChild(th);
     });
 
-    // Populate table with student data
+    // Fill table with student data
     studentsData.forEach(student => {
         const row = studentsTable.insertRow();
         const values = [student.username, student.firstName, student.lastName, student.majorName, student.class, student.stream, student.administrativeGroup];
@@ -84,7 +84,6 @@ function createStudentsTable(studentsData) {
         });
     });
 
-    // Display the table container
     const studentsTableContainer = document.getElementById("studentsTableContainer");
     studentsTableContainer.style.display = "block";
 }
