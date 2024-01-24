@@ -634,10 +634,12 @@ class SessionRequestHandler
     
         $conn = (new Database())->getConnection();
     
-        $selectStatement = $conn->prepare('SELECT id, photoId, exportServiceId, requestSenderUsername, requestReceiverUsername 
-        FROM photoExportRequests
-        WHERE requestReceiverUsername = ?');
-        $selectStatement->execute();
+        $selectStatement = $conn->prepare('SELECT per.id, per.photoId, per.exportServiceId, per.requestSenderUsername, per.requestReceiverUsername, es.serviceName, u.firstName AS senderFirstName, u.lastName AS senderLastName
+        FROM photoExportRequests per
+        INNER JOIN exportServices es ON per.exportServiceId = es.id
+        INNER JOIN users u ON per.requestSenderUsername = u.username
+        WHERE per.requestReceiverUsername = ?');
+        $selectStatement->execute([$photographer]);
     
         $exportServices = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
     
@@ -656,10 +658,12 @@ class SessionRequestHandler
     
         $conn = (new Database())->getConnection();
     
-        $selectStatement = $conn->prepare('SELECT id, albumId, requestSenderUsername, requestReceiverUsername 
-        FROM albumExportRequests
-        WHERE requestReceiverUsername = ?');
-        $selectStatement->execute();
+        $selectStatement = $conn->prepare('SELECT aer.id, aer.albumId, aer.requestSenderUsername, aer.requestReceiverUsername, a.title AS albumTitle, u.firstName AS senderFirstName, u.lastName AS senderLastName
+        FROM albumExportRequests aer
+        INNER JOIN albums a ON aer.albumId = a.id
+        INNER JOIN users u ON aer.requestSenderUsername = u.username
+        WHERE aer.requestReceiverUsername = ?');
+        $selectStatement->execute([$photographer]);
     
         $exportServices = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
     
@@ -669,6 +673,7 @@ class SessionRequestHandler
     
         return $exportServices;
     }
+    
     
 
 }

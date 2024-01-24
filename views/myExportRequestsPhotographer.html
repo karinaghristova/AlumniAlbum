@@ -10,7 +10,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../css/style.css">
     <script src="../js/logout.js"></script>
-    <script src="../js/myProfile.js"></script>
+    <script src="../js/loadMyExportRequests.js"></script>
 </head>
 
 <body>
@@ -26,31 +26,19 @@
 
     <div id="mainContainer">
         <div id="container">
-            <div id="profileInformationContainer" class="profileInfoCard">
-                <div id="baseInfoContainer">
-
-                </div>
+            <div id="photoExportRequests" class="tableContainer">
+                <h2> Заявки за отпечатване на снимки </h2>
+                <table id="photoExportRequestsTable">
+                </table>
             </div>
 
-            <div id="editBasicInfoPopup" class="profileInfoCard" style="display: none;">
-                <h2>Редактиране на основна информация</h2>
-                <form id="editBasicInfoForm">
-                    <p class="cardField"><span class="bolded">Собствено име:</span></p>
-                    <input class="cardInputField" type="text" id="newFirstName" name="newFirstName" required>
-            
-                    <p class="cardField"><span class="bolded">Фамилно име:</span></p>
-                    <input class="cardInputField" type="text" id="newLastName" name="newLastName" required>
-            
-                    <p class="cardField"><span class="bolded">Имейл:</span></p>
-                    <input class="cardInputField" type="email" id="newEmail" name="newEmail" required>
-            
-                    <input class="cardSmallBtn" type="submit" value="Редактирай">
-                </form>
+            <div id="albumExportRequests" class="tableContainer">
+                <h2> Заявки за отпечатване на албуми </h2>
+                <table id="albumExportRequestsTable">
+                </table>
             </div>
         </div>
     </div>
-
-    
 </body>
 
 </html>
