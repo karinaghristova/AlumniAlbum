@@ -1,35 +1,27 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Fetch and display photo export requests
-    fetchPhotoExportRequests();
-
-    // Fetch and display album export requests
-    fetchAlbumExportRequests();
+    getAllPhotoExportRequests();
+    getAllAlbumExportRequests();
 });
 
-// Function to fetch and display photo export requests
-function fetchPhotoExportRequests() {
+function getAllPhotoExportRequests() {
     fetch("../src/getAllPhotoExportRequestsForPhotographer.php")
         .then(response => response.json())
         .then(data => {
             const photoExportRequests = data.photoExportInformation;
-
-            // Display photo export requests in the table
-            displayPhotoExportRequests(photoExportRequests);
+            showPhotoExportRequests(photoExportRequests);
         })
         .catch(error => {
             console.error("Error fetching photo export requests:", error.message);
         });
 }
 
-// Function to fetch and display album export requests
-function fetchAlbumExportRequests() {
+function getAllAlbumExportRequests() {
     fetch("../src/getAllAlbumExportRequestsForPhotographer.php")
         .then(response => response.json())
         .then(data => {
             const albumExportRequests = data.albumExportRequests;
 
-            // Display album export requests in the table
-            displayAlbumExportRequests(albumExportRequests);
+            showAlbumExportRequests(albumExportRequests);
         })
         .catch(error => {
             console.error("Error fetching album export requests:", error.message);
@@ -42,7 +34,7 @@ function createChildElement(parentElement, childElementType, textContentValue){
     parentElement.appendChild(childElement);
 }
 
-function displayPhotoExportRequests(photoExportRequests) {
+function showPhotoExportRequests(photoExportRequests) {
     const photoExportRequestsTable = document.getElementById("photoExportRequestsTable");
     photoExportRequestsTable.innerHTML = "";
 
@@ -66,7 +58,7 @@ function displayPhotoExportRequests(photoExportRequests) {
     });
 }
 
-function displayAlbumExportRequests(albumExportRequests) {
+function showAlbumExportRequests(albumExportRequests) {
     const albumExportRequestsTable = document.getElementById("albumExportRequestsTable");
     albumExportRequestsTable.innerHTML = "";
 
