@@ -69,6 +69,14 @@ function loadAlbums() {
                     albumTitleCell.value = album.id;
                     albumTitleCell.textContent = album.title;
 
+                    const exportAlbumBtn = document.createElement("button");
+                    exportAlbumBtn.innerHTML = "<i class=\"fa-solid fa-print\"></i>";
+
+                    // Add click event listener to button 
+                    exportAlbumBtn.addEventListener("click", () => sendAlbumExportRequest(album.id));
+
+                    albumTitleCell.appendChild(exportAlbumBtn);
+
                     const albumRow = document.createElement("td");
                     albumRow.classList += "albumRow";
 
@@ -121,6 +129,14 @@ function loadAlbums() {
                     const albumTitleCell = document.createElement("td");
                     albumTitleCell.value = album.id;
                     albumTitleCell.textContent = album.title;
+
+                    const exportAlbumBtn = document.createElement("button");
+                    exportAlbumBtn.innerHTML = "<i class=\"fa-solid fa-print\"></i>";
+
+                    // Add click event listener to button 
+                    exportAlbumBtn.addEventListener("click", () => sendAlbumExportRequest(album.id));
+
+                    albumTitleCell.appendChild(exportAlbumBtn);
 
                     const albumRow = document.createElement("td");
                     albumRow.classList += "albumRow";
@@ -197,7 +213,7 @@ function getAllImages() {
 }
 
 function sendPhotoExportRequest(photoId) {
-    alert(`Експортиране на снимка`);
+    //alert(`Експортиране на снимка`);
     console.log(`Експортиране на снимка`);
 
     // Show request form 
@@ -232,13 +248,13 @@ function sendPhotoExportRequest(photoId) {
                 event.preventDefault();
 
                 const requestReceiverUsername = document.getElementById('photographer').value;
-                const exportServiceId  = document.getElementById('photoExportService').value;
+                const exportServiceId = document.getElementById('photoExportService').value;
 
                 console.log(photoId);
                 console.log(requestReceiverUsername,);
                 console.log(exportServiceId);
 
-                sendExportRequestToServer(photoId,  exportServiceId, requestReceiverUsername, );
+                sendPhotoExportRequestToServer(photoId, exportServiceId, requestReceiverUsername,);
             });
         })
         .catch(error => {
@@ -247,6 +263,7 @@ function sendPhotoExportRequest(photoId) {
 }
 
 function populateSelectOptionsInExportForm(selectId, optionsData) {
+    console.log(optionsData)
     const selectElement = document.getElementById(selectId);
     selectElement.innerHTML = '';
 
@@ -267,7 +284,7 @@ function populateSelectOptionsInExportForm(selectId, optionsData) {
     }
 }
 
-function sendExportRequestToServer(photoId, exportServiceId, requestReceiverUsername) {
+function sendPhotoExportRequestToServer(photoId, exportServiceId, requestReceiverUsername) {
     const formData = new FormData();
     formData.append('photoId', photoId);
     formData.append('exportServiceId', exportServiceId);
@@ -279,11 +296,90 @@ function sendExportRequestToServer(photoId, exportServiceId, requestReceiverUser
         method: 'POST',
         body: formData,
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Server response:", data);
+        .then(response => response.json())
+        .then(data => {
+            console.log("Server response:", data);
+            //TODO: Redirect to other page
+        })
+        .catch(error => {
+            console.error("Error sending export request:", error);
+        });
+}
+
+function sendAlbumExportRequest(albumId) {
+    console.log(albumId);
+
+    // Show request form 
+    const exportAlbumCard = document.getElementById('exportAlbumCard');
+    exportAlbumCard.style.display = 'block';
+
+    // Hide tables
+    const albumsContainer = document.getElementById("albumsContainer");
+    albumsContainer.style.display = "none";
+    // Fetch information about photographers and export services
+    fetch("../src/getAllPhotographers.php")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const photographersData = data.photographers;
+
+            console.log(photographersData)
+
+            console.log("Photographers Data:", photographersData);
+
+            //
+            const selectElement = document.getElementById('photographerAlbumSelect');
+            selectElement.innerHTML = '';
+
+            photographersData.forEach(optionData => {
+                const option = document.createElement('option');
+                option.value = optionData.username;
+                option.textContent = `${optionData.firstName} ${optionData.lastName}`;
+                selectElement.appendChild(option);
+            });
+
+
+            // Add submit event listener
+            const exportAlbumCardForm = document.getElementById('exportAlbumCardForm');
+            exportAlbumCardForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                const requestReceiverUsername = document.getElementById('photographerAlbumSelect').value;
+
+                console.log(albumId);
+                console.log(requestReceiverUsername,);
+
+                sendAlbumExportRequestToServer(albumId, requestReceiverUsername,);
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching photo export information:", error.message);
+        });
+}
+
+function sendAlbumExportRequestToServer(albumId, requestReceiverUsername,) {
+    const formData = new FormData();
+    formData.append('albumId', albumId);
+    formData.append('requestReceiverUsername', requestReceiverUsername);
+
+    console.log("Sending FormData:", formData);
+    console.log(albumId);
+    console.log(requestReceiverUsername)
+
+    fetch("../src/sendAlbumExportRequest.php", {
+        method: 'POST',
+        body: formData,
     })
-    .catch(error => {
-        console.error("Error sending export request:", error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            console.log("Server response:", data);
+            //TODO: Redirect to other page
+        })
+        .catch(error => {
+            console.error("Error sending export request:", error);
+        });
 }

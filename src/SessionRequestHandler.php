@@ -610,6 +610,65 @@ class SessionRequestHandler
     
         return true;
     }
+
+    public function sendAlbumExportRequest($albumId, $requestReceiverUsername): bool
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    
+        $conn = (new Database())->getConnection();
+        $insertStatement = $conn->prepare("INSERT INTO albumExportRequests(albumId, requestSenderUsername, requestReceiverUsername)
+        VALUES (?, ?, ?)");
+        $insertStatement->execute([$albumId, $_SESSION['username'], $requestReceiverUsername]);
+    
+        return true;
+    }
+
+
+    public function getAllPhotoExportRequestsForPhotographer($photographer): ?array
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    
+        $conn = (new Database())->getConnection();
+    
+        $selectStatement = $conn->prepare('SELECT id, photoId, exportServiceId, requestSenderUsername, requestReceiverUsername 
+        FROM photoExportRequests
+        WHERE requestReceiverUsername = ?');
+        $selectStatement->execute();
+    
+        $exportServices = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+    
+        if (!$exportServices) {
+            return null; // No photo export requests for photographer
+        }
+    
+        return $exportServices;
+    }
+
+    public function getAllAlbumExportRequestsForPhotographer($photographer): ?array
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    
+        $conn = (new Database())->getConnection();
+    
+        $selectStatement = $conn->prepare('SELECT id, albumId, requestSenderUsername, requestReceiverUsername 
+        FROM albumExportRequests
+        WHERE requestReceiverUsername = ?');
+        $selectStatement->execute();
+    
+        $exportServices = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+    
+        if (!$exportServices) {
+            return null; // No album export requests for photographer
+        }
+    
+        return $exportServices;
+    }
     
 
 }
