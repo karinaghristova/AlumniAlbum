@@ -332,7 +332,8 @@ function sendPhotoExportRequestToServer(photoId, exportServiceId, requestReceive
         .then(response => response.json())
         .then(data => {
             console.log("Server response:", data);
-            //TODO: Redirect to other page
+            // Redirect to export requests page
+            window.location.href = '../views/myExportRequestsStudent.html';
         })
         .catch(error => {
             console.error("Error sending export request:", error);
@@ -410,7 +411,8 @@ function sendAlbumExportRequestToServer(albumId, requestReceiverUsername,) {
         .then(response => response.json())
         .then(data => {
             console.log("Server response:", data);
-            //TODO: Redirect to other page
+            // Redirect to export requests page
+            window.location.href = '../views/myExportRequestsStudent.html';
         })
         .catch(error => {
             console.error("Error sending export request:", error);
