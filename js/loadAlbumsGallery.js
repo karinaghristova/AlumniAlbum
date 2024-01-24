@@ -1,11 +1,32 @@
 var imageArray = [];
 
 document.addEventListener("DOMContentLoaded", function () {
-    loadImages();
-    loadAlbums();
+    getUserRole()
+        .then(role => {
+            loadImages(role);
+            loadAlbums(role);
+        })
+        .catch(error => {
+            console.error("Error getting user role:", error);
+        });
 });
 
-function loadImages() {
+function getUserRole() {
+    return fetch("../src/getUserRole.php")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error fetching user role");
+            }
+            return response.json();
+        })
+        .then(data => data.role)
+        .catch(error => {
+            console.error("Error fetching user role:", error);
+            throw error;
+        });
+}
+
+function loadImages(role) {
     getAllImages()
         .then(images => {
             var k = 0;
@@ -15,19 +36,27 @@ function loadImages() {
                 imgElement.src = `data:image/jpeg;base64,${image.data}`;
                 imgElement.alt = image.name;
 
-                // Create button element
-                const exportBtn = document.createElement('button');
-                exportBtn.textContent = 'Заяви експорт';
 
-                // Add click event listener to button 
-                exportBtn.addEventListener("click", () => sendPhotoExportRequest(image.id));
+
 
                 const imgBtnContainer = document.createElement('div');
                 imgBtnContainer.classList += "albumPhoto";
                 imgElement.classList += "photoElement";
-                exportBtn.classList += "photoExportBtn cardSmallBtn"
                 imgBtnContainer.appendChild(imgElement);
-                imgBtnContainer.appendChild(exportBtn);
+
+                if (role == 1) {
+                    // Create button element
+                    const exportBtn = document.createElement('button');
+                    exportBtn.textContent = 'Заяви експорт';
+
+                    // Add click event listener to button 
+                    exportBtn.addEventListener("click", () => sendPhotoExportRequest(image.id));
+                    exportBtn.classList += "photoExportBtn cardSmallBtn"
+
+
+                    imgBtnContainer.appendChild(exportBtn);
+                }
+
 
                 currentImage[0] = imgBtnContainer;
                 currentImage[1] = image.albumId;
@@ -44,7 +73,7 @@ function loadImages() {
         });
 }
 
-function loadAlbums() {
+function loadAlbums(role) {
     const albumSelect = document.getElementById("privateAlbums");
 
     getOwnerAlbums()
@@ -69,13 +98,15 @@ function loadAlbums() {
                     albumTitleCell.value = album.id;
                     albumTitleCell.textContent = album.title;
 
-                    const exportAlbumBtn = document.createElement("button");
-                    exportAlbumBtn.innerHTML = "<i class=\"fa-solid fa-print\"></i>";
+                    if (role == 1) {
+                        const exportAlbumBtn = document.createElement("button");
+                        exportAlbumBtn.innerHTML = "<i class=\"fa-solid fa-print\"></i>";
 
-                    // Add click event listener to button 
-                    exportAlbumBtn.addEventListener("click", () => sendAlbumExportRequest(album.id));
+                        // Add click event listener to button 
+                        exportAlbumBtn.addEventListener("click", () => sendAlbumExportRequest(album.id));
 
-                    albumTitleCell.appendChild(exportAlbumBtn);
+                        albumTitleCell.appendChild(exportAlbumBtn);
+                    }
 
                     const albumRow = document.createElement("td");
                     albumRow.classList += "albumRow";
@@ -130,13 +161,15 @@ function loadAlbums() {
                     albumTitleCell.value = album.id;
                     albumTitleCell.textContent = album.title;
 
-                    const exportAlbumBtn = document.createElement("button");
-                    exportAlbumBtn.innerHTML = "<i class=\"fa-solid fa-print\"></i>";
+                    if (role == 1) {
+                        const exportAlbumBtn = document.createElement("button");
+                        exportAlbumBtn.innerHTML = "<i class=\"fa-solid fa-print\"></i>";
 
-                    // Add click event listener to button 
-                    exportAlbumBtn.addEventListener("click", () => sendAlbumExportRequest(album.id));
+                        // Add click event listener to button 
+                        exportAlbumBtn.addEventListener("click", () => sendAlbumExportRequest(album.id));
 
-                    albumTitleCell.appendChild(exportAlbumBtn);
+                        albumTitleCell.appendChild(exportAlbumBtn);
+                    }
 
                     const albumRow = document.createElement("td");
                     albumRow.classList += "albumRow";
