@@ -17,10 +17,24 @@
     <div id="navbar" class="nav-menu">
         <a class="icon" href="homePagePhotographer.html"><i class="fa-solid fa-house"></i> Начало</a>
         <a class="icon" href="photographerProfileBasic.html"><i class="fa-solid fa-user"></i> Моят профил</a>
-        <a class="icon" href="uploadPicturesPhotographer.html"><i class="fa-solid fa-camera"></i> Качи снимки</a>
-        <a class="icon" href="approvePhotosessionPhotographer.html"><i class="fa-solid fa-thumbs-up"></i> Одобри фотосесия</a>
-        <a class="icon" href="galleryPhotographer.html"><i class="fa-solid fa-image"></i> Галерия</a>
-        <a class="icon" href="myExportRequestsPhotographer.html"><i class="fa-solid fa-list"></i> Заявки</a>
+        <div class="dropdown">
+            <button class="dropbtn"><i class="fa-solid fa-image"></i> Снимки
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="uploadPicturesPhotographer.html">Качи снимки</a>
+                <a href="galleryPhotographer.html">Галерия</a>
+                <a href="myExportRequestsPhotographer.html">Заявки</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn"><i class="fa-solid fa-camera"></i> Фотосесии
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="approvePhotosessionPhotographer.html">Заявки за фотосесии</a>
+            </div>
+        </div>
         <a class="icon logoutIcon" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i>Изход</a>
     </div>
 
