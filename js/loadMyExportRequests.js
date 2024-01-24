@@ -4,10 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function getAllPhotoExportRequests() {
-    fetch("../src/getAllPhotoExportRequestsForPhotographer.php")
+    fetch("../src/getAllPhotoExportRequests.php")
         .then(response => response.json())
         .then(data => {
-            const photoExportRequests = data.photoExportInformation;
+            const photoExportRequests = data.photoExportRequests;
             showPhotoExportRequests(photoExportRequests);
         })
         .catch(error => {
@@ -16,7 +16,7 @@ function getAllPhotoExportRequests() {
 }
 
 function getAllAlbumExportRequests() {
-    fetch("../src/getAllAlbumExportRequestsForPhotographer.php")
+    fetch("../src/getAllAlbumExportRequests.php")
         .then(response => response.json())
         .then(data => {
             const albumExportRequests = data.albumExportRequests;
@@ -42,8 +42,8 @@ function showPhotoExportRequests(photoExportRequests) {
     const tableHeaderRow = document.createElement("tr");
     createChildElement(tableHeaderRow, "th", "ID на снимка");
     createChildElement(tableHeaderRow, "th", "Вид на услугата");
-    createChildElement(tableHeaderRow, "th", "Потребителско име на заявителя");
-    createChildElement(tableHeaderRow, "th", "Имена на заявителя");
+    createChildElement(tableHeaderRow, "th", "Потребителско име");
+    createChildElement(tableHeaderRow, "th", "Имена");
 
     photoExportRequestsTable.appendChild(tableHeaderRow)
 
@@ -66,8 +66,8 @@ function showAlbumExportRequests(albumExportRequests) {
     const tableHeaderRow = document.createElement("tr");
     createChildElement(tableHeaderRow, "th", "ID на албума");
     createChildElement(tableHeaderRow, "th", "Име на албума");
-    createChildElement(tableHeaderRow, "th", "Потребителско име на заявителя");
-    createChildElement(tableHeaderRow, "th", "Имена на заявителя");
+    createChildElement(tableHeaderRow, "th", "Потребителско");
+    createChildElement(tableHeaderRow, "th", "Имена");
 
     albumExportRequestsTable.appendChild(tableHeaderRow)
 

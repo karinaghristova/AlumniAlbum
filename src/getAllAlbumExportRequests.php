@@ -8,10 +8,14 @@ if (isset($_SESSION["username"])){
 
     $sessionHandler = new SessionRequestHandler();
 
-    $albumExportRequests = $sessionHandler->getAllPhotoExportRequestsForPhotographer($_SESSION["username"]);
+    if($_SESSION["role"] == 1){
+        $photoExportRequests = $sessionHandler->getAllAlbumExportRequestsForStudent($_SESSION["username"]);
+    }else{
+        $photoExportRequests = $sessionHandler->getAllAlbumExportRequestsForPhotographer($_SESSION["username"]);
+    }
 
-    if ($albumExportRequests) {
-        $response = ['photoExportInformation' => $albumExportRequests];
+    if ($photoExportRequests) {
+        $response = ['albumExportRequests' => $photoExportRequests];
     } else {
         $response = ['error' => 'No photo export requests found'];
     }

@@ -625,7 +625,6 @@ class SessionRequestHandler
         return true;
     }
 
-
     public function getAllPhotoExportRequestsForPhotographer($photographer): ?array
     {
         if (!isset($_SESSION)) {
@@ -674,6 +673,52 @@ class SessionRequestHandler
         return $exportServices;
     }
     
+    public function getAllPhotoExportRequestsForStudent($student): ?array
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
     
+        $conn = (new Database())->getConnection();
+    
+        $selectStatement = $conn->prepare('SELECT per.id, per.photoId, per.exportServiceId, per.requestSenderUsername, per.requestReceiverUsername, es.serviceName, u.firstName AS senderFirstName, u.lastName AS senderLastName
+        FROM photoExportRequests per
+        INNER JOIN exportServices es ON per.exportServiceId = es.id
+        INNER JOIN users u ON per.requestReceiverUsername = u.username
+        WHERE per.requestSenderUsername = ?');
+        $selectStatement->execute([$student]);
+    
+        $exportServices = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+    
+        if (!$exportServices) {
+            return null; // No photo export requests for student
+        }
+    
+        return $exportServices;
+    }
+
+    public function getAllAlbumExportRequestsForStudent($student): ?array
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    
+        $conn = (new Database())->getConnection();
+    
+        $selectStatement = $conn->prepare('SELECT aer.id, aer.albumId, aer.requestSenderUsername, aer.requestReceiverUsername, a.title AS albumTitle, u.firstName AS senderFirstName, u.lastName AS senderLastName
+        FROM albumExportRequests aer
+        INNER JOIN albums a ON aer.albumId = a.id
+        INNER JOIN users u ON aer.requestReceiverUsername = u.username
+        WHERE aer.requestSenderUsername = ?');
+        $selectStatement->execute([$student]);
+    
+        $exportServices = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+    
+        if (!$exportServices) {
+            return null; // No album export requests for student
+        }
+    
+        return $exportServices;
+    }
 
 }
