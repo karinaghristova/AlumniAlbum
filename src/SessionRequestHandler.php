@@ -633,10 +633,11 @@ class SessionRequestHandler
     
         $conn = (new Database())->getConnection();
     
-        $selectStatement = $conn->prepare('SELECT per.id, per.photoId, per.exportServiceId, per.requestSenderUsername, per.requestReceiverUsername, es.serviceName, u.firstName AS senderFirstName, u.lastName AS senderLastName
+        $selectStatement = $conn->prepare('SELECT per.id, per.photoId, p.Name AS photoName, per.exportServiceId, per.requestSenderUsername, per.requestReceiverUsername, es.serviceName, u.firstName AS senderFirstName, u.lastName AS senderLastName
         FROM photoExportRequests per
         INNER JOIN exportServices es ON per.exportServiceId = es.id
         INNER JOIN users u ON per.requestSenderUsername = u.username
+        INNER JOIN photos p ON per.photoId = p.id
         WHERE per.requestReceiverUsername = ?');
         $selectStatement->execute([$photographer]);
     
@@ -681,10 +682,11 @@ class SessionRequestHandler
     
         $conn = (new Database())->getConnection();
     
-        $selectStatement = $conn->prepare('SELECT per.id, per.photoId, per.exportServiceId, per.requestSenderUsername, per.requestReceiverUsername, es.serviceName, u.firstName AS senderFirstName, u.lastName AS senderLastName
+        $selectStatement = $conn->prepare('SELECT per.id, per.photoId, p.Name AS photoName, per.exportServiceId, per.requestSenderUsername, per.requestReceiverUsername, es.serviceName, u.firstName AS senderFirstName, u.lastName AS senderLastName
         FROM photoExportRequests per
         INNER JOIN exportServices es ON per.exportServiceId = es.id
         INNER JOIN users u ON per.requestReceiverUsername = u.username
+        INNER JOIN photos p ON per.photoId = p.id
         WHERE per.requestSenderUsername = ?');
         $selectStatement->execute([$student]);
     

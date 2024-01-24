@@ -41,6 +41,7 @@ function showPhotoExportRequests(photoExportRequests) {
     // Create table header
     const tableHeaderRow = document.createElement("tr");
     createChildElement(tableHeaderRow, "th", "ID на снимка");
+    createChildElement(tableHeaderRow, "th", "Име на снимка");
     createChildElement(tableHeaderRow, "th", "Вид на услугата");
     createChildElement(tableHeaderRow, "th", "Потребителско име");
     createChildElement(tableHeaderRow, "th", "Имена");
@@ -51,6 +52,7 @@ function showPhotoExportRequests(photoExportRequests) {
     photoExportRequests.forEach(request => {
         const currentRow = document.createElement("tr");
         createChildElement(currentRow, "td", request.photoId);
+        createChildElement(currentRow, "td", request.photoName);
         createChildElement(currentRow, "td", request.serviceName);
         createChildElement(currentRow, "td", request.requestSenderUsername);
         createChildElement(currentRow, "td", request.senderFirstName + " " + request.senderLastName);
