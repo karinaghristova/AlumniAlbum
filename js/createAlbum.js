@@ -15,7 +15,8 @@ function create(event) {
         console.log("Fetch response:", resp);
 
         if (resp.result) {
-            location.reload();
+            //location.reload();
+            window.alert('Успешно създаден албум');
         }
         else {
             window.alert('Error! Something went wrong');
