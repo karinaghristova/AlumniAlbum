@@ -12,13 +12,14 @@ $result = ["success" => false];
 if (isset($_SESSION["username"])) {
     $albumId = $_POST["albumId"] ?? null;
     $requestReceiverUsername = $_POST["requestReceiverUsername"] ?? null;
+    $albumExportCount = $_POST["albumExportCount"] ?? null;
 
     $username = $_SESSION["username"];
 
     if($albumId && $requestReceiverUsername){
         $sessionHandler = new SessionRequestHandler();
 
-        $success = $sessionHandler->sendAlbumExportRequest($albumId, $requestReceiverUsername);
+        $success = $sessionHandler->sendAlbumExportRequest($albumId, $requestReceiverUsername, $albumExportCount);
     
         if ($success) {
             $result["success"] = true;

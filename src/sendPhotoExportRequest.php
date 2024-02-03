@@ -13,13 +13,14 @@ if (isset($_SESSION["username"])) {
     $photoId = $_POST["photoId"] ?? null;
     $exportServiceId = $_POST["exportServiceId"] ?? null;
     $requestReceiverUsername = $_POST["requestReceiverUsername"] ?? null;
+    $photoExportCount = $_POST['photoExportCount'] ?? null;
 
     $username = $_SESSION["username"];
 
     if($photoId && $exportServiceId && $requestReceiverUsername){
         $sessionHandler = new SessionRequestHandler();
 
-        $success = $sessionHandler->sendPhotoExportRequest($photoId, $exportServiceId, $requestReceiverUsername);
+        $success = $sessionHandler->sendPhotoExportRequest($photoId, $exportServiceId, $requestReceiverUsername, $photoExportCount);
     
         if ($success) {
             $result["success"] = true;

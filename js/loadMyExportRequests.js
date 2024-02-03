@@ -43,6 +43,7 @@ function showPhotoExportRequests(photoExportRequests) {
     createChildElement(tableHeaderRow, "th", "ID на снимка");
     createChildElement(tableHeaderRow, "th", "Име на снимка");
     createChildElement(tableHeaderRow, "th", "Вид на услугата");
+    createChildElement(tableHeaderRow, "th", "Брой");
     createChildElement(tableHeaderRow, "th", "Потребителско име");
     createChildElement(tableHeaderRow, "th", "Имена");
 
@@ -54,6 +55,7 @@ function showPhotoExportRequests(photoExportRequests) {
         createChildElement(currentRow, "td", request.photoId);
         createChildElement(currentRow, "td", request.photoName);
         createChildElement(currentRow, "td", request.serviceName);
+        createChildElement(currentRow, "td", request.count);
         createChildElement(currentRow, "td", request.requestSenderUsername);
         createChildElement(currentRow, "td", request.senderFirstName + " " + request.senderLastName);
         photoExportRequestsTable.appendChild(currentRow);
@@ -68,6 +70,7 @@ function showAlbumExportRequests(albumExportRequests) {
     const tableHeaderRow = document.createElement("tr");
     createChildElement(tableHeaderRow, "th", "ID на албума");
     createChildElement(tableHeaderRow, "th", "Име на албума");
+    createChildElement(tableHeaderRow, "th", "Брой");
     createChildElement(tableHeaderRow, "th", "Потребителско");
     createChildElement(tableHeaderRow, "th", "Имена");
 
@@ -79,6 +82,7 @@ function showAlbumExportRequests(albumExportRequests) {
         const currentRow = document.createElement("tr");
         createChildElement(currentRow, "td", request.albumId);
         createChildElement(currentRow, "td", request.albumTitle);
+        createChildElement(currentRow, "td", request.count);
         createChildElement(currentRow, "td", request.requestSenderUsername);
         createChildElement(currentRow, "td", request.senderFirstName + " " + request.senderLastName);
         albumExportRequestsTable.appendChild(currentRow);

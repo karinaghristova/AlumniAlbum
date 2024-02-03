@@ -597,30 +597,30 @@ class SessionRequestHandler
         return $exportServices;
     }
 
-    public function sendPhotoExportRequest($photoId, $exportServiceId, $requestReceiverUsername): bool
+    public function sendPhotoExportRequest($photoId, $exportServiceId, $requestReceiverUsername, $photoExportCount): bool
     {
         if (!isset($_SESSION)) {
             session_start();
         }
     
         $conn = (new Database())->getConnection();
-        $insertStatement = $conn->prepare("INSERT INTO photoExportRequests(photoId, exportServiceId, requestSenderUsername, requestReceiverUsername)
-        VALUES (?, ?, ?, ?)");
-        $insertStatement->execute([$photoId, $exportServiceId, $_SESSION['username'], $requestReceiverUsername]);
+        $insertStatement = $conn->prepare("INSERT INTO photoExportRequests(photoId, exportServiceId, count, requestSenderUsername, requestReceiverUsername)
+        VALUES (?, ?, ?, ?, ?)");
+        $insertStatement->execute([$photoId, $exportServiceId, $photoExportCount, $_SESSION['username'], $requestReceiverUsername]);
     
         return true;
     }
 
-    public function sendAlbumExportRequest($albumId, $requestReceiverUsername): bool
+    public function sendAlbumExportRequest($albumId, $requestReceiverUsername, $albumExportCount): bool
     {
         if (!isset($_SESSION)) {
             session_start();
         }
     
         $conn = (new Database())->getConnection();
-        $insertStatement = $conn->prepare("INSERT INTO albumExportRequests(albumId, requestSenderUsername, requestReceiverUsername)
-        VALUES (?, ?, ?)");
-        $insertStatement->execute([$albumId, $_SESSION['username'], $requestReceiverUsername]);
+        $insertStatement = $conn->prepare("INSERT INTO albumExportRequests(albumId, count, requestSenderUsername, requestReceiverUsername)
+        VALUES (?, ?, ?, ?)");
+        $insertStatement->execute([$albumId, $albumExportCount, $_SESSION['username'], $requestReceiverUsername]);
     
         return true;
     }
@@ -633,7 +633,7 @@ class SessionRequestHandler
     
         $conn = (new Database())->getConnection();
     
-        $selectStatement = $conn->prepare('SELECT per.id, per.photoId, p.Name AS photoName, per.exportServiceId, per.requestSenderUsername, per.requestReceiverUsername, es.serviceName, u.firstName AS senderFirstName, u.lastName AS senderLastName
+        $selectStatement = $conn->prepare('SELECT per.id, per.photoId, p.Name AS photoName, per.exportServiceId, per.count, per.requestSenderUsername, per.requestReceiverUsername, es.serviceName, u.firstName AS senderFirstName, u.lastName AS senderLastName
         FROM photoExportRequests per
         INNER JOIN exportServices es ON per.exportServiceId = es.id
         INNER JOIN users u ON per.requestSenderUsername = u.username
@@ -658,7 +658,7 @@ class SessionRequestHandler
     
         $conn = (new Database())->getConnection();
     
-        $selectStatement = $conn->prepare('SELECT aer.id, aer.albumId, aer.requestSenderUsername, aer.requestReceiverUsername, a.title AS albumTitle, u.firstName AS senderFirstName, u.lastName AS senderLastName
+        $selectStatement = $conn->prepare('SELECT aer.id, aer.albumId, aer.count, aer.requestSenderUsername, aer.requestReceiverUsername, a.title AS albumTitle, u.firstName AS senderFirstName, u.lastName AS senderLastName
         FROM albumExportRequests aer
         INNER JOIN albums a ON aer.albumId = a.id
         INNER JOIN users u ON aer.requestSenderUsername = u.username
@@ -682,7 +682,7 @@ class SessionRequestHandler
     
         $conn = (new Database())->getConnection();
     
-        $selectStatement = $conn->prepare('SELECT per.id, per.photoId, p.Name AS photoName, per.exportServiceId, per.requestSenderUsername, per.requestReceiverUsername, es.serviceName, u.firstName AS senderFirstName, u.lastName AS senderLastName
+        $selectStatement = $conn->prepare('SELECT per.id, per.photoId, p.Name AS photoName, per.exportServiceId, per.count, per.requestSenderUsername, per.requestReceiverUsername, es.serviceName, u.firstName AS senderFirstName, u.lastName AS senderLastName
         FROM photoExportRequests per
         INNER JOIN exportServices es ON per.exportServiceId = es.id
         INNER JOIN users u ON per.requestReceiverUsername = u.username
@@ -707,7 +707,7 @@ class SessionRequestHandler
     
         $conn = (new Database())->getConnection();
     
-        $selectStatement = $conn->prepare('SELECT aer.id, aer.albumId, aer.requestSenderUsername, aer.requestReceiverUsername, a.title AS albumTitle, u.firstName AS senderFirstName, u.lastName AS senderLastName
+        $selectStatement = $conn->prepare('SELECT aer.id, aer.albumId, aer.count, aer.requestSenderUsername, aer.requestReceiverUsername, a.title AS albumTitle, u.firstName AS senderFirstName, u.lastName AS senderLastName
         FROM albumExportRequests aer
         INNER JOIN albums a ON aer.albumId = a.id
         INNER JOIN users u ON aer.requestReceiverUsername = u.username

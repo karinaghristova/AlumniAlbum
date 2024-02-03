@@ -36,9 +36,6 @@ function loadImages(role) {
                 imgElement.src = `data:image/jpeg;base64,${image.data}`;
                 imgElement.alt = image.name;
 
-
-
-
                 const imgBtnContainer = document.createElement('div');
                 imgBtnContainer.classList += "albumPhoto";
                 imgElement.classList += "photoElement";
@@ -282,12 +279,14 @@ function sendPhotoExportRequest(photoId) {
 
                 const requestReceiverUsername = document.getElementById('photographer').value;
                 const exportServiceId = document.getElementById('photoExportService').value;
+                const photoExportCount = document.getElementById('photoExportCount').value;
 
                 console.log(photoId);
                 console.log(requestReceiverUsername,);
                 console.log(exportServiceId);
+                console.log(photoExportCount);
 
-                sendPhotoExportRequestToServer(photoId, exportServiceId, requestReceiverUsername,);
+                sendPhotoExportRequestToServer(photoId, exportServiceId, requestReceiverUsername, photoExportCount);
             });
         })
         .catch(error => {
@@ -317,11 +316,12 @@ function populateSelectOptionsInExportForm(selectId, optionsData) {
     }
 }
 
-function sendPhotoExportRequestToServer(photoId, exportServiceId, requestReceiverUsername) {
+function sendPhotoExportRequestToServer(photoId, exportServiceId, requestReceiverUsername, photoExportCount) {
     const formData = new FormData();
     formData.append('photoId', photoId);
     formData.append('exportServiceId', exportServiceId);
     formData.append('requestReceiverUsername', requestReceiverUsername);
+    formData.append('photoExportCount', photoExportCount);
 
     console.log("Sending FormData:", formData);
 
@@ -383,11 +383,13 @@ function sendAlbumExportRequest(albumId) {
                 event.preventDefault();
 
                 const requestReceiverUsername = document.getElementById('photographerAlbumSelect').value;
+                const albumExportCount = document.getElementById('albumExportCount').value;
 
                 console.log(albumId);
-                console.log(requestReceiverUsername,);
+                console.log(requestReceiverUsername);
+                console.log(albumExportCount)
 
-                sendAlbumExportRequestToServer(albumId, requestReceiverUsername,);
+                sendAlbumExportRequestToServer(albumId, requestReceiverUsername, albumExportCount);
             });
         })
         .catch(error => {
@@ -395,10 +397,11 @@ function sendAlbumExportRequest(albumId) {
         });
 }
 
-function sendAlbumExportRequestToServer(albumId, requestReceiverUsername,) {
+function sendAlbumExportRequestToServer(albumId, requestReceiverUsername, albumExportCount) {
     const formData = new FormData();
     formData.append('albumId', albumId);
     formData.append('requestReceiverUsername', requestReceiverUsername);
+    formData.append('albumExportCount', albumExportCount);
 
     console.log("Sending FormData:", formData);
     console.log(albumId);

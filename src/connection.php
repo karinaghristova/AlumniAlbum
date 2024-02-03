@@ -116,6 +116,7 @@ try {
         id INT NOT NULL AUTO_INCREMENT,
         photoId INT NOT NULL,
         exportServiceId INT NOT NULL,
+        count INT NOT NULL,
         requestSenderUsername VARCHAR(30) NOT NULL,
         requestReceiverUsername VARCHAR(30) NOT NULL,
         PRIMARY KEY (id),
@@ -130,6 +131,7 @@ try {
     $sql = "CREATE TABLE albumExportRequests(
         id INT NOT NULL AUTO_INCREMENT,
         albumId INT NOT NULL,
+        count INT NOT NULL,
         requestSenderUsername VARCHAR(30) NOT NULL,
         requestReceiverUsername VARCHAR(30) NOT NULL,
         PRIMARY KEY (id),
