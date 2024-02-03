@@ -1,25 +1,13 @@
 <?php
 
-// $dbhost = "127.0.0.1";
-// $username = "root";
-// $pass = "";
-// $dbname = "alumni_album";
-
-// $connection = mysqli_connect($dbhost,$username,$pass,$dbname);
-// $sql = "CREATE DATABASE IF NOT EXISTS $dbname";
-// //     $connection->exec($sql);
-
-// if(mysqli_connect_errno())
-// {
-// 	die("failed to connect!");
-// }
+require_once "constants.php";
 
 try {
-	$dbhost = "127.0.0.1";
-	$username = "root";
-	$pass = "";
-	$dbname = "alumni_album";
-
+	$dbhost = DBHOST;
+    $username = USERNAME;
+    $pass = PASS;
+    $dbname = DBNAME;
+    
     // Create database
     $connection = new PDO("mysql:host=$dbhost", $username, $pass);
 
