@@ -630,7 +630,7 @@ class SessionRequestHandler
     
         $conn = (new Database())->getConnection();
     
-        $selectStatement = $conn->prepare('SELECT per.id, per.photoId, p.Name AS photoName, per.exportServiceId, per.count, per.requestSenderUsername, per.requestReceiverUsername, es.serviceName, u.firstName AS senderFirstName, u.lastName AS senderLastName
+        $selectStatement = $conn->prepare('SELECT per.id, per.photoId, p.Name AS photoName, p.data AS photoData, per.exportServiceId, per.count, per.requestSenderUsername, per.requestReceiverUsername, es.serviceName, u.firstName AS senderFirstName, u.lastName AS senderLastName
         FROM photoExportRequests per
         INNER JOIN exportServices es ON per.exportServiceId = es.id
         INNER JOIN users u ON per.requestSenderUsername = u.username
@@ -638,13 +638,17 @@ class SessionRequestHandler
         WHERE per.requestReceiverUsername = ?');
         $selectStatement->execute([$photographer]);
     
-        $exportServices = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+        $photoExportRequests = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
     
-        if (!$exportServices) {
+        if (!$photoExportRequests) {
             return null; // No photo export requests for photographer
         }
+
+        foreach ($photoExportRequests as &$photoExporRequest) {
+            $photoExporRequest['photoData'] = base64_encode($photoExporRequest['photoData']);
+        }
     
-        return $exportServices;
+        return $photoExportRequests;
     }
 
     public function getAllAlbumExportRequestsForPhotographer($photographer): ?array
@@ -662,13 +666,13 @@ class SessionRequestHandler
         WHERE aer.requestReceiverUsername = ?');
         $selectStatement->execute([$photographer]);
     
-        $exportServices = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+        $albumExportRequests = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
     
-        if (!$exportServices) {
+        if (!$albumExportRequests) {
             return null; // No album export requests for photographer
         }
     
-        return $exportServices;
+        return $albumExportRequests;
     }
     
     public function getAllPhotoExportRequestsForStudent($student): ?array
@@ -679,7 +683,7 @@ class SessionRequestHandler
     
         $conn = (new Database())->getConnection();
     
-        $selectStatement = $conn->prepare('SELECT per.id, per.photoId, p.Name AS photoName, per.exportServiceId, per.count, per.requestSenderUsername, per.requestReceiverUsername, es.serviceName, u.firstName AS senderFirstName, u.lastName AS senderLastName
+        $selectStatement = $conn->prepare('SELECT per.id, per.photoId, p.Name AS photoName, p.data AS photoData, per.exportServiceId, per.count, per.requestSenderUsername, per.requestReceiverUsername, es.serviceName, u.firstName AS senderFirstName, u.lastName AS senderLastName
         FROM photoExportRequests per
         INNER JOIN exportServices es ON per.exportServiceId = es.id
         INNER JOIN users u ON per.requestReceiverUsername = u.username
@@ -687,13 +691,17 @@ class SessionRequestHandler
         WHERE per.requestSenderUsername = ?');
         $selectStatement->execute([$student]);
     
-        $exportServices = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+        $photoExportRequests = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
     
-        if (!$exportServices) {
+        if (!$photoExportRequests) {
             return null; // No photo export requests for student
         }
+
+        foreach ($photoExportRequests as &$photoExporRequest) {
+            $photoExporRequest['photoData'] = base64_encode($photoExporRequest['photoData']);
+        }
     
-        return $exportServices;
+        return $photoExportRequests;
     }
 
     public function getAllAlbumExportRequestsForStudent($student): ?array
@@ -711,13 +719,13 @@ class SessionRequestHandler
         WHERE aer.requestSenderUsername = ?');
         $selectStatement->execute([$student]);
     
-        $exportServices = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+        $albumExportRequests = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
     
-        if (!$exportServices) {
+        if (!$albumExportRequests) {
             return null; // No album export requests for student
         }
     
-        return $exportServices;
+        return $albumExportRequests;
     }
 
 }
