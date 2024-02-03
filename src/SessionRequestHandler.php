@@ -62,7 +62,6 @@ class SessionRequestHandler
         return $userAcademicData;
     }
 
-
     public function login(string $username, string $password): bool
     {
         if (!isset($_SESSION)) {
@@ -89,7 +88,6 @@ class SessionRequestHandler
     
         return $loginSuccessful;
     }
-    
     
     public function register(string $username, string $firstName, string $lastName, string $password, string $email, $role): bool
     {
@@ -191,7 +189,6 @@ class SessionRequestHandler
 
         return true;
     }
-
 
     public function getAllMajors(): ?array
     {
