@@ -683,7 +683,7 @@ class SessionRequestHandler
     
         $conn = (new Database())->getConnection();
     
-        $selectStatement = $conn->prepare('SELECT per.id, per.photoId, p.Name AS photoName, p.data AS photoData, per.exportServiceId, per.count, per.requestSenderUsername, per.requestReceiverUsername, es.serviceName, u.firstName AS senderFirstName, u.lastName AS senderLastName
+        $selectStatement = $conn->prepare('SELECT per.id, per.photoId, p.Name AS photoName, p.data AS photoData, per.exportServiceId, per.count, per.requestSenderUsername, per.requestReceiverUsername, es.serviceName, u.firstName AS receiverFirstName, u.lastName AS receiverLastName
         FROM photoExportRequests per
         INNER JOIN exportServices es ON per.exportServiceId = es.id
         INNER JOIN users u ON per.requestReceiverUsername = u.username
@@ -712,7 +712,7 @@ class SessionRequestHandler
     
         $conn = (new Database())->getConnection();
     
-        $selectStatement = $conn->prepare('SELECT aer.id, aer.albumId, aer.count, aer.requestSenderUsername, aer.requestReceiverUsername, a.title AS albumTitle, u.firstName AS senderFirstName, u.lastName AS senderLastName
+        $selectStatement = $conn->prepare('SELECT aer.id, aer.albumId, aer.count, aer.requestSenderUsername, aer.requestReceiverUsername, a.title AS albumTitle, u.firstName AS receiverFirstName, u.lastName AS receiverLastName
         FROM albumExportRequests aer
         INNER JOIN albums a ON aer.albumId = a.id
         INNER JOIN users u ON aer.requestReceiverUsername = u.username
