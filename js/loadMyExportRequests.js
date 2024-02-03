@@ -1,6 +1,18 @@
 document.addEventListener("DOMContentLoaded", function () {
     getAllPhotoExportRequests();
     getAllAlbumExportRequests();
+
+    // Add event listener for the button click
+    document.getElementById("photoExportRequestsDownloadBtn").addEventListener("click", function () {
+        fetch("../src/getAllPhotoExportRequests.php")
+            .then(response => response.json())
+            .then(data => {
+                console.log("Data from response:");
+                console.log(data);
+                downloadPhotoExportRequestsAsCSV(data);
+            })
+            .catch(error => console.error("Error fetching photo export requests:", error.message));
+    });
 });
 
 function getAllPhotoExportRequests() {
@@ -29,20 +41,20 @@ function getAllAlbumExportRequests() {
         });
 }
 
-function createChildElement(parentElement, childElementType, textContentValue){
+function createChildElement(parentElement, childElementType, textContentValue) {
     const childElement = document.createElement(childElementType);
     childElement.textContent = textContentValue;
     parentElement.appendChild(childElement);
 }
 
-function createPhotoInfoElement(parentElement, childElementType, photoId, photoName){
+function createPhotoInfoElement(parentElement, childElementType, photoId, photoName) {
     const childElement = document.createElement(childElementType);
     createChildElement(childElement, "p", `ID: ${photoId}`);
     createChildElement(childElement, "p", `Име: ${photoName}`)
     parentElement.appendChild(childElement);
 }
 
-function createPhotoColumn(parentElement, photoData, photoName){
+function createPhotoColumn(parentElement, photoData, photoName) {
     const imageTd = document.createElement("td");
     const imgElement = document.createElement('img');
     imgElement.src = `data:image/jpeg;base64,${photoData}`
@@ -77,12 +89,12 @@ function showPhotoExportRequests(photoExportRequests) {
         const currentRow = document.createElement("tr");
 
         createPhotoColumn(currentRow, request.photoData, request.photoName);
-        createPhotoInfoElement(currentRow, "td", request.photoId,request.photoName);
+        createPhotoInfoElement(currentRow, "td", request.photoId, request.photoName);
         createChildElement(currentRow, "td", request.serviceName);
         createChildElement(currentRow, "td", request.count);
         createChildElement(currentRow, "td", request.requestSenderUsername);
         createChildElement(currentRow, "td", request.senderFirstName + " " + request.senderLastName);
-        
+
         photoExportRequestsTable.appendChild(currentRow);
     });
 }
@@ -113,3 +125,53 @@ function showAlbumExportRequests(albumExportRequests) {
         albumExportRequestsTable.appendChild(currentRow);
     });
 }
+
+function downloadCSV(content, filename) {
+    const csvBlob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), content], { type: 'text/csv; charset=utf-8' });
+
+    // Create link and trigger download
+    const a = document.createElement('a');
+    a.href = window.URL.createObjectURL(csvBlob);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+
+function downloadPhotoExportRequestsAsCSV(data) {
+    if (!data || !Array.isArray(data.photoExportRequests)) {
+        console.error("Data is not in correct format. Array is expected");
+        return;
+    }
+
+    const csvData = data.photoExportRequests.map(request => {
+        if (!request.photoId ||
+            !request.photoName ||
+            !request.serviceName ||
+            !request.requestSenderUsername ||
+            !request.senderFirstName ||
+            !request.senderLastName
+        ) {
+            console.error("Missing export requests data");
+            return "";
+        }
+
+        const rowContent = [
+            request.photoId, 
+            request.photoName,
+            request.serviceName,
+            request.requestSenderUsername,
+            `${request.senderFirstName} ${request.senderLastName}`
+        ].join(";");
+        return rowContent;
+    });
+
+    // Combine header and data
+    const csvContent = ["ID на снимка;Име на снимка;Вид на услугата;Потребителско име на заявителя;Имена на заявителя"].concat(csvData).join("\n");
+
+    // Trigger the download
+    downloadCSV(csvContent, 'photo_export_requests.csv');
+}
+
+
+
