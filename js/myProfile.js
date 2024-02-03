@@ -43,7 +43,7 @@ function updateProfileContent(userData) {
     } else if (userData.role === 2) {
         frontImage.src = "../img/femalePhotographer.png";
     } else {
-        frontImage.src = "../img/femaleAdmin.jpg";
+        frontImage.src = "../img/femaleAdmin.png";
     }
     frontImage.alt = "avatar front image";
     frontImage.className = "cardPhoto";
@@ -57,7 +57,7 @@ function updateProfileContent(userData) {
     } else if (userData.role === 2) {
         backImage.src = "../img/malePhotographer.png";
     } else {
-        backImage.src = "../img/maleAdmin.jpg";
+        backImage.src = "../img/maleAdmin.png";
     }
     backImage.alt = "avatar back image";
     backImage.className = "cardPhoto";
