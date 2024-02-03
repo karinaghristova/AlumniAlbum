@@ -40,20 +40,30 @@
 
     <div id="mainContainer">
         <div id="container">
-            <div id="photoExportRequests" class="tableContainer">
-                <h2> Заявки за отпечатване на снимки 
-                    <button class="cardSmallBtn" id="photoExportRequestsDownloadBtn" name="photoExportRequestsDownloadBtn">Свали данни CSV</button>
-                </h2>
-                <table id="photoExportRequestsTable">
-                </table>
-            </div>
-
-            <div id="albumExportRequests" class="tableContainer">
-                <h2> Заявки за отпечатване на албуми 
-                    <button class="cardSmallBtn" id="albumExportRequestsDownloadBtn" name="albumExportRequestsDownloadBtn">Свали данни CSV</button>
-                </h2>
-                <table id="albumExportRequestsTable">
-                </table>
+            <div id="exportRequestsContainer">
+                <div id="photoExportRequests" class="tableContainer">
+                    <h2> Заявки за отпечатване на снимки 
+                        <button class="cardSmallBtn" id="photoExportRequestsDownloadBtn" name="photoExportRequestsDownloadBtn">Свали данни CSV</button>
+                    </h2>
+                    <table id="photoExportRequestsTable">
+                    </table>
+                </div>
+    
+                <div id="emptyPhotoExportRequests" class="profileInfoCard" style="display: none;">
+                    <h2>Няма заявки за експорт на снимки</h2>
+                </div>
+    
+                <div id="albumExportRequests" class="tableContainer">
+                    <h2> Заявки за отпечатване на албуми 
+                        <button class="cardSmallBtn" id="albumExportRequestsDownloadBtn" name="albumExportRequestsDownloadBtn">Свали данни CSV</button>
+                    </h2>
+                    <table id="albumExportRequestsTable">
+                    </table>
+                </div>
+    
+                <div id="emptyAlbumExportRequests" class="profileInfoCard" style="display: none;">
+                    <h2>Няма заявки за експорт на албуми</h2>
+                </div>
             </div>
         </div>
     </div>

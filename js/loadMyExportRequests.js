@@ -1,55 +1,84 @@
 document.addEventListener("DOMContentLoaded", function () {
-    getAllPhotoExportRequests();
-    getAllAlbumExportRequests();
+    getUserRole()
+        .then(role => {
+            getAllPhotoExportRequests(role);
+            getAllAlbumExportRequests(role);
 
-    // Add event listener for photo export requests button
-    document.getElementById("photoExportRequestsDownloadBtn").addEventListener("click", function () {
-        fetch("../src/getAllPhotoExportRequests.php")
-            .then(response => response.json())
-            .then(data => {
-                console.log("Data from response:");
-                console.log(data);
-                downloadPhotoExportRequestsAsCSV(data);
-            })
-            .catch(error => console.error("Error fetching photo export requests:", error.message));
-    });
+            // Add event listener for photo export requests button
+            document.getElementById("photoExportRequestsDownloadBtn").addEventListener("click", function () {
+                fetch("../src/getAllPhotoExportRequests.php")
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Data from response:");
+                        console.log(data);
+                        downloadPhotoExportRequestsAsCSV(data);
+                    })
+                    .catch(error => console.error("Error fetching photo export requests:", error.message));
+            });
 
 
-    // Add event listener for album export requests button
-    document.getElementById("albumExportRequestsDownloadBtn").addEventListener("click", function () {
-      fetch("../src/getAllAlbumExportRequests.php")
-          .then(response => response.json())
-          .then(data => {
-              console.log("Data from response:");
-              console.log(data);
-              downloadAlbumExportRequestsAsCSV(data);
-          })
-          .catch(error => console.error("Error fetching photo export requests:", error.message));
-    });
+            // Add event listener for album export requests button
+            document.getElementById("albumExportRequestsDownloadBtn").addEventListener("click", function () {
+                fetch("../src/getAllAlbumExportRequests.php")
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Data from response:");
+                        console.log(data);
+                        downloadAlbumExportRequestsAsCSV(data);
+                    })
+                    .catch(error => console.error("Error fetching photo export requests:", error.message));
+            });
+        })
+        .catch(error => {
+            console.error("Error getting user role:", error);
+        });
+
+
 });
 
-function getAllPhotoExportRequests() {
+function getUserRole() {
+    return fetch("../src/getUserRole.php")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error fetching user role");
+            }
+            return response.json();
+        })
+        .then(data => data.role)
+        .catch(error => {
+            console.error("Error fetching user role:", error);
+            throw error;
+        });
+}
+
+function getAllPhotoExportRequests(role) {
     fetch("../src/getAllPhotoExportRequests.php")
         .then(response => response.json())
         .then(data => {
             const photoExportRequests = data.photoExportRequests;
             console.log(photoExportRequests)
-            showPhotoExportRequests(photoExportRequests);
+            showPhotoExportRequests(role, photoExportRequests);
         })
         .catch(error => {
+            document.getElementById("emptyPhotoExportRequests").style.display = "block";
+            document.getElementById("photoExportRequests").style.display = "none";
+            document.getElementById("photoExportRequestsDownloadBtn").style.display = "none";
             console.error("Error fetching photo export requests:", error.message);
         });
 }
 
-function getAllAlbumExportRequests() {
+function getAllAlbumExportRequests(role) {
     fetch("../src/getAllAlbumExportRequests.php")
         .then(response => response.json())
         .then(data => {
             const albumExportRequests = data.albumExportRequests;
 
-            showAlbumExportRequests(albumExportRequests);
+            showAlbumExportRequests(role,albumExportRequests);
         })
         .catch(error => {
+            document.getElementById("emptyAlbumExportRequests").style.display = "block";
+            document.getElementById("albumExportRequests").style.display = "none";
+            document.getElementById('albumExportRequestsDownloadBtn').style.display = "none";
             console.error("Error fetching album export requests:", error.message);
         });
 }
@@ -82,7 +111,7 @@ function createPhotoColumn(parentElement, photoData, photoName) {
 }
 
 
-function showPhotoExportRequests(photoExportRequests) {
+function showPhotoExportRequests(role,photoExportRequests) {
     const photoExportRequestsTable = document.getElementById("photoExportRequestsTable");
     photoExportRequestsTable.innerHTML = "";
 
@@ -92,8 +121,16 @@ function showPhotoExportRequests(photoExportRequests) {
     createChildElement(tableHeaderRow, "th", "Информация за снимка");
     createChildElement(tableHeaderRow, "th", "Вид на услугата");
     createChildElement(tableHeaderRow, "th", "Брой");
-    createChildElement(tableHeaderRow, "th", "Потребителско име");
-    createChildElement(tableHeaderRow, "th", "Имена");
+    if (role == 1 ) { //student
+        createChildElement(tableHeaderRow, "th", "Потребителско име на фотографа");
+        createChildElement(tableHeaderRow, "th", "Имена на фотографа");
+    }
+
+    if(role == 2){ //photographer
+        createChildElement(tableHeaderRow, "th", "Потребителско име на заявителя");
+        createChildElement(tableHeaderRow, "th", "Имена на заявителя");
+    }
+    
 
     photoExportRequestsTable.appendChild(tableHeaderRow)
 
@@ -105,14 +142,21 @@ function showPhotoExportRequests(photoExportRequests) {
         createPhotoInfoElement(currentRow, "td", request.photoId, request.photoName);
         createChildElement(currentRow, "td", request.serviceName);
         createChildElement(currentRow, "td", request.count);
-        createChildElement(currentRow, "td", request.requestSenderUsername);
-        createChildElement(currentRow, "td", request.senderFirstName + " " + request.senderLastName);
+        if (role == 1) {
+            createChildElement(currentRow, "td", request.requestReceiverUsername);
+            createChildElement(currentRow, "td", request.receiverFirstName + " " + request.receiverLastName);
+        }
 
+        if (role == 2) {
+            createChildElement(currentRow, "td", request.requestSenderUsername);
+            createChildElement(currentRow, "td", request.senderFirstName + " " + request.senderLastName);
+        }
+        
         photoExportRequestsTable.appendChild(currentRow);
     });
 }
 
-function showAlbumExportRequests(albumExportRequests) {
+function showAlbumExportRequests(role, albumExportRequests) {
     const albumExportRequestsTable = document.getElementById("albumExportRequestsTable");
     albumExportRequestsTable.innerHTML = "";
 
@@ -121,8 +165,15 @@ function showAlbumExportRequests(albumExportRequests) {
     createChildElement(tableHeaderRow, "th", "ID на албума");
     createChildElement(tableHeaderRow, "th", "Име на албума");
     createChildElement(tableHeaderRow, "th", "Брой");
-    createChildElement(tableHeaderRow, "th", "Потребителско име");
-    createChildElement(tableHeaderRow, "th", "Имена");
+    if (role == 1 ) { //student
+        createChildElement(tableHeaderRow, "th", "Потребителско име на фотографа");
+        createChildElement(tableHeaderRow, "th", "Имена на фотографа");
+    }
+
+    if(role == 2){ //photographer
+        createChildElement(tableHeaderRow, "th", "Потребителско име на заявителя");
+        createChildElement(tableHeaderRow, "th", "Имена на заявителя");
+    }
 
     albumExportRequestsTable.appendChild(tableHeaderRow)
 
@@ -133,8 +184,15 @@ function showAlbumExportRequests(albumExportRequests) {
         createChildElement(currentRow, "td", request.albumId);
         createChildElement(currentRow, "td", request.albumTitle);
         createChildElement(currentRow, "td", request.count);
-        createChildElement(currentRow, "td", request.requestSenderUsername);
-        createChildElement(currentRow, "td", request.senderFirstName + " " + request.senderLastName);
+        if (role == 1) {
+            createChildElement(currentRow, "td", request.requestReceiverUsername);
+            createChildElement(currentRow, "td", request.receiverFirstName + " " + request.receiverLastName);
+        }
+
+        if (role == 2) {
+            createChildElement(currentRow, "td", request.requestSenderUsername);
+            createChildElement(currentRow, "td", request.senderFirstName + " " + request.senderLastName);
+        }
         albumExportRequestsTable.appendChild(currentRow);
     });
 }
@@ -171,7 +229,7 @@ function downloadPhotoExportRequestsAsCSV(data) {
         }
 
         const rowContent = [
-            request.photoId, 
+            request.photoId,
             request.photoName,
             request.serviceName,
             request.count,
@@ -187,7 +245,7 @@ function downloadPhotoExportRequestsAsCSV(data) {
     downloadCSV(csvContent, 'photo_export_requests.csv');
 }
 
-function downloadAlbumExportRequestsAsCSV(data){
+function downloadAlbumExportRequestsAsCSV(data) {
     if (!data || !Array.isArray(data.albumExportRequests)) {
         console.error("Data is not in correct format. Array is expected");
         return;
@@ -206,7 +264,7 @@ function downloadAlbumExportRequestsAsCSV(data){
         }
 
         const rowContent = [
-            request.albumId, 
+            request.albumId,
             request.albumTitle,
             request.count,
             request.requestSenderUsername,
