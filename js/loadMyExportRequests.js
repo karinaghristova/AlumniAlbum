@@ -26,9 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
           })
           .catch(error => console.error("Error fetching photo export requests:", error.message));
     });
-
-
-
 });
 
 function getAllPhotoExportRequests() {
@@ -184,10 +181,9 @@ function downloadPhotoExportRequestsAsCSV(data) {
         return rowContent;
     });
 
-    // Combine header and data
     const csvContent = ["ID на снимка;Име на снимка;Вид на услугата;Брой;Потребителско име на заявителя;Имена на заявителя"].concat(csvData).join("\n");
 
-    // Trigger the download
+    // Trigger  download
     downloadCSV(csvContent, 'photo_export_requests.csv');
 }
 
@@ -219,10 +215,9 @@ function downloadAlbumExportRequestsAsCSV(data){
         return rowContent;
     });
 
-    // Combine header and data
     const csvContent = ["ID на албум;Име на албум;Брой;Потребителско име на заявителя;Имена на заявителя"].concat(csvData).join("\n");
 
-    // Trigger the download
+    // Trigger download
     downloadCSV(csvContent, 'album_export_requests.csv');
 }
 
